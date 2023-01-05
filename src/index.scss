@@ -1,0 +1,22 @@
+:root {
+    --polished-pine: #5EA99D;
+    --linen: #F9EFE2;
+    --apricot: #FBCBAC;
+    --crystal-blue: #5EAFBC;
+    --deep-pink: #F32A93
+}
+
+
+body {
+    background-color: var(--linen);
+}
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+li {
+    list-style-type: none;
+}
+
