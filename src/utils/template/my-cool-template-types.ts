@@ -36,7 +36,13 @@ export type TVirtualDomNode =
   | IVirtualDomComponent;
 
 export interface IVirtualDomAttributes {
-  [key: string]: string | boolean | number | Function;
+  [key: string]:
+    | string
+    | boolean
+    | number
+    | Function
+    | Array<any>
+    | Record<string, any>;
 }
 
 export interface IVirtualDomProps extends IVirtualDomAttributes {
