@@ -1,59 +1,32 @@
-import './form-input-field.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { IValidation } from '../../utils/const-variables/field-validation';
+import { IInputProps, Input } from '../input/input';
+import { Dropdown, IDropdownProps } from '../dropdown/dropdown';
 
-export interface IFormInputFieldProps {
-  label: string;
-  type: string;
-  placeholder: string;
-  required: boolean;
+export interface IFormInput {
+  htmlType: 'input' | 'select';
   value: string;
-  validation: IValidation;
-  checkError: (hasError: boolean) => void;
-  clearError: () => void;
+  label: string;
+  onChange: (e: Event) => void;
 }
 
-export interface IFormInputFieldState {
-  hasError: boolean;
+export function instanceOfIFormInputFieldProps(
+  object: IInputProps | IDropdownProps
+): object is IInputProps {
+  return object.htmlType === 'input';
 }
 
 export class FormInputField extends MyCoolComponent<
-  IFormInputFieldProps,
-  IFormInputFieldState
+  IInputProps | IDropdownProps,
+  null
 > {
-  state: IFormInputFieldState = { hasError: false };
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
-      'label',
-      { key: this.props.label, class: 'form__input' },
-      MyCoolTemplate.createTextElement(this.props.label),
-      MyCoolTemplate.createElement('input', {
-        key: 'input',
-        class: 'form__input_input_field',
-        type: this.props.type,
-        placeholder: this.props.placeholder,
-        required: this.props.required,
-        onFocus: () => {
-          this.setState(() => ({ hasError: false }));
-          this.props.clearError();
-        },
-        onBlur: (e: Event) => {
-          this.props.value = (<HTMLInputElement>e.target).value;
-          this.setState(() => ({
-            hasError: !this.props.validation.rule.test(this.props.value),
-          }));
-          this.props.checkError(this.state.hasError);
-        },
-      }),
-      MyCoolTemplate.createElement(
-        'span',
-        { key: 'error-text', class: 'form__input_error_text' },
-        MyCoolTemplate.createTextElement(
-          this.state.hasError ? this.props.validation.errorText : ''
-        )
-      )
-    );
+    return instanceOfIFormInputFieldProps(this.props)
+      ? MyCoolTemplate.createComponent(Input, { key: 'input', ...this.props })
+      : MyCoolTemplate.createComponent(Dropdown, {
+          key: 'dropdown',
+          ...this.props,
+        });
   }
 }

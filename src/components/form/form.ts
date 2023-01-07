@@ -1,16 +1,18 @@
 import './form.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import {
-  FormInputField,
-  IFormInputFieldProps,
-} from '../form-input-field/form-input-field';
+import { FormInputField } from '../form-input-field/form-input-field';
 import { Button, IButtonProps } from '../button/button';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { IInputProps } from '../input/input';
+import { IDropdownProps } from '../dropdown/dropdown';
+import { InputBlock } from '../input-block/input-block';
 
 interface IProps {
   title: string;
-  inputs: Array<IFormInputFieldProps>;
+  inputs: Array<
+    IInputProps | IDropdownProps | Array<IInputProps | IDropdownProps>
+  >;
   buttons: Array<IButtonProps>;
   submit: () => void;
   reset?: () => void;
@@ -39,11 +41,13 @@ export class Form extends MyCoolComponent<IProps, any> {
       MyCoolTemplate.createElement(
         'div',
         { key: 'form-inputs', class: 'form_inputs' },
-        ...this.props.inputs.map(input =>
-          MyCoolTemplate.createComponent(FormInputField, {
-            key: input.label,
-            ...input,
-          })
+        ...this.props.inputs.map((input, idx) =>
+          Array.isArray(input)
+            ? MyCoolTemplate.createComponent(InputBlock, { key: idx, ...input })
+            : MyCoolTemplate.createComponent(FormInputField, {
+                key: input.label,
+                ...input,
+              })
         )
       ),
       MyCoolTemplate.createElement(

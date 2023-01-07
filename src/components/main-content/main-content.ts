@@ -6,6 +6,7 @@ import { ROUTES } from '../../utils/const-variables/pages';
 import { HomePage } from '../../pages/home-page/home-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { LoginPage } from '../../pages/login-page/login-page';
+import { RegisterPage } from '../../pages/register-page/register-page';
 
 interface IState {
   path: string;
@@ -32,6 +33,8 @@ export class MainContent extends MyCoolComponent<null, IState> {
         ? MyCoolTemplate.createComponent(HomePage, { key: 'home' })
         : this.state.path === ROUTES.login.path
         ? MyCoolTemplate.createComponent(LoginPage, { key: 'login' })
+        : this.state.path === ROUTES.register.path
+        ? MyCoolTemplate.createComponent(RegisterPage, { key: 'register' })
         : MyCoolTemplate.createComponent(NotFoundPage, { key: 'not-found' })
     );
   }

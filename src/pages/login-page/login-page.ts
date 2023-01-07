@@ -2,14 +2,15 @@ import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { Form, IFormState } from '../../components/form/form';
-import { IFormInputFieldProps } from '../../components/form-input-field/form-input-field';
 import { IButtonProps } from '../../components/button/button';
 import {
   LOGIN_VALIDATION,
   PASSWORD_VALIDATION,
+  saveAndTestValue,
 } from '../../utils/const-variables/field-validation';
 import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
+import { IInputProps } from '../../components/input/input';
 
 export class LoginPage extends MyCoolComponent<null, IFormState> {
   state: IFormState = { isValid: true };
@@ -20,30 +21,29 @@ export class LoginPage extends MyCoolComponent<null, IFormState> {
         this.setState(() => ({ isValid: true }));
       }
     };
-    const login: IFormInputFieldProps = {
+    const login: IInputProps = {
+      htmlType: 'input',
       label: 'Login',
       type: 'text',
       placeholder: 'Ivan Ivanov',
       required: true,
       value: '',
       validation: LOGIN_VALIDATION,
-      checkError: (hasError: boolean) =>
-        hasError ? errorInputs.add('login') : errorInputs.delete('login'),
+      onChange: (e: Event) => saveAndTestValue(e, login, errorInputs),
       clearError,
     };
-    login.required = false;
-    const password: IFormInputFieldProps = {
+    const password: IInputProps = {
+      htmlType: 'input',
       label: 'Password',
       type: 'password',
       placeholder: 'Password',
       required: true,
       value: '',
       validation: PASSWORD_VALIDATION,
-      checkError: (hasError: boolean) =>
-        hasError ? errorInputs.add('password') : errorInputs.delete('password'),
+      onChange: (e: Event) => saveAndTestValue(e, password, errorInputs),
       clearError,
     };
-    const inputs: Array<IFormInputFieldProps> = [login, password];
+    const inputs: Array<IInputProps> = [login, password];
     const buttons: Array<IButtonProps> = [
       { title: 'Enter', type: 'primary', htmlType: 'submit' },
       { title: 'Create account', type: 'secondary', htmlType: 'reset' },
