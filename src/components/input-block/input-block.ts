@@ -5,9 +5,10 @@ import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { FormInputField } from '../form-input-field/form-input-field';
 import { IInputProps } from '../input/input';
 import { IDropdownProps } from '../dropdown/dropdown';
+import { IIconProps } from '../icon/icon';
 
 export class InputBlock extends MyCoolComponent<
-  Array<IInputProps | IDropdownProps>,
+  Array<IInputProps | IDropdownProps | IIconProps>,
   null
 > {
   render(): TVirtualDomNode {

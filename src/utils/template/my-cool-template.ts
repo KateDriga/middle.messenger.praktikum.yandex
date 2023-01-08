@@ -18,7 +18,7 @@ const checkKey = (
   props: IVirtualDomProps,
   elementName: string
 ): IVirtualDomProps => {
-  if (!props?.key) {
+  if (props.key === undefined) {
     console.warn(`Key for ${elementName} element is not defined`);
     props = { ...props, key: 'key' };
   }
@@ -253,6 +253,8 @@ function addProps(
       if (nodeType === ElementTypes.ELEMENT) {
         element.className = props[prop].toString();
       }
+    } else if (prop === 'value') {
+      element.setAttribute('value', props[prop].toString());
     } else {
       element[prop] = props[prop];
     }

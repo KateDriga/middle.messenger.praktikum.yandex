@@ -1,14 +1,6 @@
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import {
-  EMAIL_VALIDATION,
-  FIRST_NAME_VALIDATION,
-  LAST_NAME_VALIDATION,
-  LOGIN_VALIDATION,
-  PASSWORD_REGISTER_VALIDATION,
-  PHONE_NUMBER_VALIDATION,
-  saveAndTestValue,
-} from '../../utils/const-variables/field-validation';
+import { saveAndTestValue } from '../../utils/const-variables/field-validation';
 import { IButtonProps } from '../../components/button/button';
 import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
@@ -16,7 +8,16 @@ import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { Form, IFormState } from '../../components/form/form';
 import { IInputProps } from '../../components/input/input';
 import { IDropdownProps } from '../../components/dropdown/dropdown';
-import { PHONE_COUNTRY_CODES } from '../../utils/const-variables/field-inputs';
+import {
+  EMAIL_INPUT,
+  FIRST_NAME_INPUT,
+  LAST_NAME_INPUT,
+  LOGIN_INPUT,
+  PASSWORD_INPUT,
+  PHONE_CODE_INPUT,
+  PHONE_COUNTRY_CODES,
+  PHONE_NUMBER_INPUT,
+} from '../../utils/const-variables/field-inputs';
 
 interface IState extends IFormState {
   errorText: string | null;
@@ -32,86 +33,51 @@ export class RegisterPage extends MyCoolComponent<null, IState> {
       }
     };
     const email: IInputProps = {
-      htmlType: 'input',
-      label: 'Email',
-      type: 'email',
-      placeholder: 'user-email@yandex.ru',
-      required: true,
+      ...EMAIL_INPUT,
       value: '',
-      validation: EMAIL_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, email, errorInputs),
       clearError,
     };
     const login: IInputProps = {
-      htmlType: 'input',
-      label: 'Login',
-      type: 'text',
-      placeholder: 'ivanivanov',
-      required: true,
+      ...LOGIN_INPUT,
       value: '',
-      validation: LOGIN_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, login, errorInputs),
       clearError,
     };
     const firstName: IInputProps = {
-      htmlType: 'input',
-      label: 'First Name',
-      type: 'text',
-      placeholder: 'Ivan',
-      required: true,
+      ...FIRST_NAME_INPUT,
       value: '',
-      validation: FIRST_NAME_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, firstName, errorInputs),
       clearError,
     };
     const lastName: IInputProps = {
-      htmlType: 'input',
-      label: 'Last Name',
-      type: 'text',
-      placeholder: 'Ivanov',
-      required: true,
+      ...LAST_NAME_INPUT,
       value: '',
-      validation: LAST_NAME_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, lastName, errorInputs),
       clearError,
     };
     const phoneCode: IDropdownProps = {
-      htmlType: 'select',
-      label: 'Code',
-      options: PHONE_COUNTRY_CODES,
+      ...PHONE_CODE_INPUT,
       value: PHONE_COUNTRY_CODES[0],
       onChange: (e: Event) => saveAndTestValue(e, phoneCode, errorInputs),
     };
     const phoneNumber: IInputProps = {
-      htmlType: 'input',
-      label: 'Phone number',
-      type: 'tel',
-      placeholder: '(999) 123-45-67',
-      required: true,
+      ...PHONE_NUMBER_INPUT,
       value: '',
-      validation: PHONE_NUMBER_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, phoneNumber, errorInputs),
       clearError,
     };
     const passwordCreate: IInputProps = {
-      htmlType: 'input',
+      ...PASSWORD_INPUT,
       label: 'Create Password',
-      type: 'password',
-      placeholder: 'Password',
-      required: true,
       value: '',
-      validation: PASSWORD_REGISTER_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, passwordCreate, errorInputs),
       clearError,
     };
     const passwordConfirm: IInputProps = {
-      htmlType: 'input',
+      ...PASSWORD_INPUT,
       label: 'Confirm Password',
-      type: 'password',
-      placeholder: 'Password',
-      required: true,
       value: '',
-      validation: PASSWORD_REGISTER_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, passwordConfirm, errorInputs),
       clearError,
     };
@@ -132,19 +98,12 @@ export class RegisterPage extends MyCoolComponent<null, IState> {
     ];
     const onSubmit = (e: Event) => {
       e.preventDefault();
-      console.log(
-        'state',
-        this.state,
-        passwordCreate.value === passwordConfirm.value,
-        errorInputs
-      );
       if (errorInputs.size === 0) {
         if (passwordCreate.value !== passwordConfirm.value) {
           this.setState(() => ({
             isValid: false,
             errorText: `'${passwordCreate.label}' and '${passwordConfirm.label}' must be equal`,
           }));
-          console.log('state error', this.state);
         } else {
           // TODO: send request, check response
           navigate(ROUTES.chat.path);

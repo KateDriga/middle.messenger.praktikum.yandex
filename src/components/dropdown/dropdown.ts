@@ -7,6 +7,7 @@ import { IFormInput } from '../form-input-field/form-input-field';
 export interface IDropdownProps extends IFormInput {
   options: Array<string>;
   htmlType: 'select';
+  disabled?: boolean;
 }
 
 export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
@@ -24,6 +25,7 @@ export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
         {
           key: 'select',
           class: 'form__input_select',
+          disabled: this.props.disabled ?? false,
           onChange: this.props.onChange,
         },
         ...this.props.options.map(option =>

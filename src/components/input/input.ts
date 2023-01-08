@@ -12,6 +12,7 @@ export interface IInputProps extends IFormInput {
   validation: IValidation;
   clearError: () => void;
   htmlType: 'input';
+  disabled?: boolean;
 }
 
 export interface IFormInputState {
@@ -31,6 +32,8 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
         type: this.props.type,
         placeholder: this.props.placeholder,
         required: this.props.required,
+        disabled: this.props.disabled || false,
+        value: this.props.value,
         onFocus: () => {
           this.setState(() => ({ hasError: false }));
           this.props.clearError();

@@ -4,13 +4,16 @@ import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { Form, IFormState } from '../../components/form/form';
 import { IButtonProps } from '../../components/button/button';
 import {
-  LOGIN_VALIDATION,
   PASSWORD_VALIDATION,
   saveAndTestValue,
 } from '../../utils/const-variables/field-validation';
 import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { IInputProps } from '../../components/input/input';
+import {
+  LOGIN_INPUT,
+  PASSWORD_INPUT,
+} from '../../utils/const-variables/field-inputs';
 
 export class LoginPage extends MyCoolComponent<null, IFormState> {
   state: IFormState = { isValid: true };
@@ -22,22 +25,13 @@ export class LoginPage extends MyCoolComponent<null, IFormState> {
       }
     };
     const login: IInputProps = {
-      htmlType: 'input',
-      label: 'Login',
-      type: 'text',
-      placeholder: 'Ivan Ivanov',
-      required: true,
+      ...LOGIN_INPUT,
       value: '',
-      validation: LOGIN_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, login, errorInputs),
       clearError,
     };
     const password: IInputProps = {
-      htmlType: 'input',
-      label: 'Password',
-      type: 'password',
-      placeholder: 'Password',
-      required: true,
+      ...PASSWORD_INPUT,
       value: '',
       validation: PASSWORD_VALIDATION,
       onChange: (e: Event) => saveAndTestValue(e, password, errorInputs),
