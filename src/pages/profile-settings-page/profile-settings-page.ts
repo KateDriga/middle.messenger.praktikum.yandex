@@ -47,7 +47,7 @@ export class ProfileSettingsPage extends MyCoolComponent<null, IState> {
   allowInputEdit(prop: IInputProps | IDropdownProps) {
     const updatedInputs = this.state.inputs.map(inputBlock =>
       inputBlock.map(input => {
-        if (!instanceOfIIconProps(input)) {
+        if (!instanceOfIIconProps(input) && input === prop) {
           input.disabled = false;
         }
         return input;
@@ -159,6 +159,7 @@ export class ProfileSettingsPage extends MyCoolComponent<null, IState> {
       ...PASSWORD_INPUT,
       value: '',
       disabled: true,
+      required: false,
       onChange: (e: Event) =>
         saveAndTestValue(e, password, this.state.errorInputs),
       clearError: this.clearError,

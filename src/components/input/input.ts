@@ -41,7 +41,9 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
         onBlur: (e: Event) => {
           this.props.value = (<HTMLInputElement>e.target).value;
           this.setState(() => ({
-            hasError: !this.props.validation.rule.test(this.props.value),
+            hasError: this.props.disabled
+              ? false
+              : !this.props.validation.rule.test(this.props.value),
           }));
           this.props.onChange(e);
         },
