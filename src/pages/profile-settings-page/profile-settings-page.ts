@@ -1,3 +1,4 @@
+import './profile-settings.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -14,7 +15,7 @@ import {
   PHONE_COUNTRY_CODES,
   PHONE_NUMBER_INPUT,
 } from '../../utils/const-variables/field-inputs';
-import { IIconProps } from '../../components/icon/icon';
+import { Icon, IIconProps } from '../../components/icon/icon';
 import { USER } from '../../utils/fake-test-variables/fake-user';
 import { IDropdownProps } from '../../components/dropdown/dropdown';
 import {
@@ -22,6 +23,7 @@ import {
   instanceOfIIconProps,
 } from '../../components/form-input-field/form-input-field';
 import { IButtonProps } from '../../components/button/button';
+import { ProfileAvatar } from '../../components/prifile-avatar/profile-avatar';
 
 interface IState {
   isValid: boolean;
@@ -213,18 +215,35 @@ export class ProfileSettingsPage extends MyCoolComponent<null, IState> {
       { title: 'Save Changes', type: 'primary', htmlType: 'submit' },
       { title: 'Cancel', type: 'secondary', htmlType: 'reset' },
     ];
-    return MyCoolTemplate.createComponent(Form, {
-      key: 'settings-page',
-      title: 'Profile Settings',
-      inputs: this.state.inputs,
-      buttons,
-      // TODO add submit function
-      submit: e => {
-        e.preventDefault();
-        console.log('submit');
-      },
-      reset: this.reset,
-      errorText: !this.state.isValid ? 'Something went wrong...' : '',
-    });
+    return MyCoolTemplate.createElement(
+      'div',
+      { key: 'settings', class: 'profile_settings' },
+      MyCoolTemplate.createElement(
+        'div',
+        { key: 'profile-header', class: 'profile_settings_header' },
+        MyCoolTemplate.createComponent(ProfileAvatar, {
+          key: 'avatar',
+          imageName: 'avatar',
+        }),
+        MyCoolTemplate.createComponent(Icon, {
+          key: 'edit-icon',
+          imageName: 'edit',
+          // TODO: edit profile avatar (display input with type=file)
+          onClick: () => null,
+        })
+      ),
+      MyCoolTemplate.createComponent(Form, {
+        key: 'settings-page',
+        title: 'Profile Settings',
+        inputs: this.state.inputs,
+        buttons,
+        // TODO add submit function
+        submit: e => {
+          e.preventDefault();
+        },
+        reset: this.reset,
+        errorText: !this.state.isValid ? 'Something went wrong...' : '',
+      })
+    );
   }
 }
