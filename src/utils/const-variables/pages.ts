@@ -4,6 +4,7 @@ import { LoginPage } from '../../pages/login-page/login-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { ProfileSettingsPage } from '../../pages/profile-settings-page/profile-settings-page';
+import { ServerErrorPage } from '../../pages/server-error/server-error-page';
 
 export interface IRoute {
   title: string;
@@ -49,6 +50,6 @@ export const ROUTES: IRoutes = {
   error: {
     title: 'Server Error',
     path: '/error',
-    component: NotFoundPage,
+    component: ServerErrorPage,
   },
 };

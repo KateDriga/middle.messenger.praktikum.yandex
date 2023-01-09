@@ -22,7 +22,7 @@ import {
   instanceOfIFormInputFieldProps,
   instanceOfIIconProps,
 } from '../../components/form-input-field/form-input-field';
-import { IButtonProps } from '../../components/button/button';
+import { Button, IButtonProps } from '../../components/button/button';
 import { ProfileAvatar } from '../../components/prifile-avatar/profile-avatar';
 
 interface IState {
@@ -228,8 +228,16 @@ export class ProfileSettingsPage extends MyCoolComponent<null, IState> {
         MyCoolTemplate.createComponent(Icon, {
           key: 'edit-icon',
           imageName: 'edit',
+          style: 'margin: 0',
           // TODO: edit profile avatar (display input with type=file)
           onClick: () => null,
+        }),
+        // TODO: add click event
+        MyCoolTemplate.createComponent(Button, {
+          key: 'logout',
+          title: 'Logout',
+          type: 'secondary',
+          htmlType: 'button',
         })
       ),
       MyCoolTemplate.createComponent(Form, {
