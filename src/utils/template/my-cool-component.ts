@@ -12,7 +12,7 @@ export abstract class MyCoolComponent<P, S> {
   private currentRootNode: TVirtualDomNode;
   private mountedElement: HTMLElement | Text;
 
-  // called when mounted element receives should set state
+  // called when mounted element should receive new state
   protected setState(updater: (s: S) => S) {
     if (!this.mountedElement) {
       throw new Error('Setting state on unmounted component');
@@ -67,7 +67,9 @@ export abstract class MyCoolComponent<P, S> {
     return state;
   }
   public componentDidUpdate() {}
-  public componentWillUnmount() {}
+  public componentWillUnmount() {
+    MyCoolTemplate.unmountChildNodes(this.currentRootNode);
+  }
 
   public abstract render(): TVirtualDomNode;
 }

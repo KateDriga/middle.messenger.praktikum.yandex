@@ -4,6 +4,10 @@ import { Button } from '../button/button';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { navigate } from '../../utils/util-functions/router';
+import {
+  getPathWithoutTrailingSlash,
+  ROUTES,
+} from '../../utils/const-variables/pages';
 
 interface IProps {
   title: string;
@@ -26,23 +30,28 @@ export class Link extends MyCoolComponent<IProps, IState> {
     window.addEventListener('popstate', this.handlePathChange);
   }
 
-  public componentWillReceiveProps(props: IProps, state: IState): IState {
-    this.state.isActive = this.props.href === window.location.pathname;
-    return state;
-  }
-
   handlePathChange() {
     this.setState(() => ({
-      isActive: this.props.href === window.location.pathname,
+      isActive: Object.values(ROUTES).some(
+        route =>
+          route.pathRegExp.test(getPathWithoutTrailingSlash(this.props.href)) &&
+          route.pathRegExp.test(
+            getPathWithoutTrailingSlash(window.location.pathname)
+          )
+      ),
     }));
   }
 
   navigate = (e: Event) => {
     e.preventDefault();
-    if (this.props.href !== window.location.pathname) {
-      navigate(this.props.href);
-    }
+    navigate(this.props.href);
   };
+
+  componentWillUnmount() {
+    window.removeEventListener('load', this.handlePathChange);
+    window.removeEventListener('popstate', this.handlePathChange);
+    super.componentWillUnmount();
+  }
 
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(

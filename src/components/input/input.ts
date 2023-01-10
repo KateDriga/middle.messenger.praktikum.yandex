@@ -13,6 +13,8 @@ export interface IInputProps extends IFormInput {
   clearError: () => void;
   htmlType: 'input';
   disabled?: boolean;
+  style?: string;
+  inputStyle?: string;
 }
 
 export interface IFormInputState {
@@ -24,7 +26,7 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'label',
-      { key: this.props.label, class: 'form__input' },
+      { key: this.props.label, class: 'form__input', style: this.props.style },
       MyCoolTemplate.createTextElement(this.props.label),
       MyCoolTemplate.createElement('input', {
         key: 'input',
@@ -34,6 +36,7 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
         required: this.props.required,
         disabled: this.props.disabled || false,
         value: this.props.value,
+        style: this.props.inputStyle,
         onFocus: () => {
           this.setState(() => ({ hasError: false }));
           this.props.clearError();

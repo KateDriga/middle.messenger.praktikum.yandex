@@ -15,6 +15,7 @@
   width: 100%;
   color: var(--polished-pine);
   text-indent: 10px;
+  box-sizing: border-box;
   &:focus {
     outline-color: var(--deep-pink);
   }

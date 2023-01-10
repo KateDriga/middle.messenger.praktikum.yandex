@@ -9,7 +9,8 @@ $content-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px
+  gap: 40px;
+  height: fit-content;
 }
 
 .form__title {

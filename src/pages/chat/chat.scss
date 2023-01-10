@@ -1,0 +1,20 @@
+.chat_page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding-right: 30px;
+  padding-left: 30px;
+  max-height: 75vh;
+}
+
+.chats_list, .chats_text_area {
+  max-height: 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .chat_page {
+    flex-direction: row;
+    gap: 0;
+  }
+}

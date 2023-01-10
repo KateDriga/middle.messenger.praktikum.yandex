@@ -106,7 +106,7 @@ export class RegisterPage extends MyCoolComponent<null, IState> {
           }));
         } else {
           // TODO: send request, check response
-          navigate(ROUTES.chat.path);
+          navigate(ROUTES.chats.path);
         }
         // TODO: set invalid state on error
         // this.setState(() => ({ isValid: false }));

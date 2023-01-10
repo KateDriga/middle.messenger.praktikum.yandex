@@ -46,7 +46,7 @@ export class LoginPage extends MyCoolComponent<null, IFormState> {
       e.preventDefault();
       if (errorInputs.size === 0) {
         // TODO: send request, check login and password
-        navigate(ROUTES.chat.path);
+        navigate(ROUTES.chats.path);
         // TODO: set invalid state if login/password pair is not correct
         // this.setState(() => ({ isValid: false }));
       }

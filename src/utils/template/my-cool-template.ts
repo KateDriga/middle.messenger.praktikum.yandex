@@ -211,6 +211,18 @@ function insertBeforeKey(
   }
 }
 
+function unmountChildNodes(node: TVirtualDomNode) {
+  if (node.type === ElementTypes.ELEMENT) {
+    node.children
+      .filter(child => child.type !== ElementTypes.TEXT)
+      .forEach(child =>
+        child.type === ElementTypes.COMPONENT
+          ? child.instance.unmount()
+          : unmountChildNodes(child)
+      );
+  }
+}
+
 function renderElement(node: TVirtualDomNode): HTMLElement | Text {
   // render text
   if (node.type === ElementTypes.TEXT) {
@@ -333,4 +345,5 @@ export const MyCoolTemplate = {
   createElement,
   createTextElement,
   renderDom,
+  unmountChildNodes,
 };
