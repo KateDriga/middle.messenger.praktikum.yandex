@@ -1,5 +1,5 @@
 import './not-found-page.scss';
-import '../common-styles/page.scss';
+import '../../common-styles/_page.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';

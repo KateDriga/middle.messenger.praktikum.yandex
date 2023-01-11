@@ -1,7 +1,7 @@
 .chat_text_area {
   display: flex;
   flex: 1;
-  background-color: var(--apricot);
+  max-height: 100%;
 }
 
 .chat_text_area.chat_text_area_hidden_mobile {
@@ -11,7 +11,7 @@
 .chat_text_area_empty {
   display: flex;
   flex-direction: column;
-  color: var(--polished-pine);
+  color: var(--linen);
   justify-content: center;
 }
 
@@ -26,7 +26,6 @@
   .chat_text_area {
     display: flex;
     justify-content: center;
-    border-radius: 0 20px 20px 0;
   }
   .chat_text_area.chat_text_area_hidden_mobile {
     display: flex;

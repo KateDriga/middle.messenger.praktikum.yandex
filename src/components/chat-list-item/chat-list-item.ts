@@ -34,9 +34,7 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
 
   componentDidMount() {
     if (this.state.isActive) {
-      document
-        .getElementById(`chat_item_${this.props.id}`)
-        .scrollIntoView({ behavior: 'smooth' });
+      this.scrollToElement({ behavior: 'smooth' });
     }
     super.componentDidMount();
   }
@@ -48,59 +46,69 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
 
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
-      'div',
+      'li',
       {
-        key: 'chart-list-item',
-        id: `chat_item_${this.props.id}`,
-        class: this.state.isActive
-          ? 'chat_list_item chat_list_item_active'
-          : 'chat_list_item',
-        onClick: () =>
-          navigate(ROUTES.chat.path.replace(':id', this.props.id.toString())),
+        key: 'chat-item',
       },
-      //TODO: replace image name with info from props
-      MyCoolTemplate.createComponent(ProfileAvatar, {
-        key: 'avatar',
-        imageName: 'avatar',
-        style: 'width: 50px; height: 50px; align-self: center;',
-      }),
       MyCoolTemplate.createElement(
         'div',
-        { key: 'content', class: 'chat_list_content' },
+        {
+          key: 'chat-list-item',
+          class: this.state.isActive
+            ? 'chat_list_item chat_list_item_active'
+            : 'chat_list_item',
+          onClick: () =>
+            navigate(ROUTES.chat.path.replace(':id', this.props.id.toString())),
+        },
+        //TODO: replace image name with info from props
+        MyCoolTemplate.createComponent(ProfileAvatar, {
+          key: 'avatar',
+          imageName: 'avatar',
+          style:
+            'width: 50px; height: 50px; align-self: center; margin-left: 5px;',
+        }),
         MyCoolTemplate.createElement(
-          'h3',
-          { key: 'chat-title', class: 'chat_list_title' },
-          MyCoolTemplate.createTextElement(this.props.title)
+          'div',
+          { key: 'content', class: 'chat_list_content' },
+          MyCoolTemplate.createElement(
+            'h3',
+            { key: 'chat-title', class: 'chat_list_title' },
+            MyCoolTemplate.createTextElement(this.props.title)
+          ),
+          MyCoolTemplate.createElement(
+            'p',
+            { key: 'chat-last-message', class: 'chat_list_last_message' },
+            MyCoolTemplate.createTextElement(this.props.last_message.content)
+          )
         ),
         MyCoolTemplate.createElement(
-          'p',
-          { key: 'chat-last-message', class: 'chat_list_last_message' },
-          MyCoolTemplate.createTextElement(this.props.last_message.content)
+          'div',
+          { key: 'chat-extra', class: 'chat_list_extra' },
+          MyCoolTemplate.createElement(
+            'span',
+            { key: 'chat-time', class: 'chat_list_time' },
+            MyCoolTemplate.createTextElement(
+              formatMessageDate(this.props.last_message.time)
+            )
+          ),
+          MyCoolTemplate.createElement(
+            'span',
+            {
+              key: 'chat-unread',
+              class: `${
+                this.props.unread_count > 0 ? 'chat_list_unread_count' : ''
+              }`,
+            },
+            MyCoolTemplate.createTextElement(
+              this.props.unread_count > 0 ? this.props.unread_count : ''
+            )
+          )
         )
       ),
-      MyCoolTemplate.createElement(
-        'div',
-        { key: 'chat-extra', class: 'chat_list_extra' },
-        MyCoolTemplate.createElement(
-          'span',
-          { key: 'chat-time', class: 'chat_list_time' },
-          MyCoolTemplate.createTextElement(
-            formatMessageDate(this.props.last_message.time)
-          )
-        ),
-        MyCoolTemplate.createElement(
-          'span',
-          {
-            key: 'chat-unread',
-            class: `${
-              this.props.unread_count > 0 ? 'chat_list_unread_count' : ''
-            }`,
-          },
-          MyCoolTemplate.createTextElement(
-            this.props.unread_count > 0 ? this.props.unread_count : ''
-          )
-        )
-      )
+      MyCoolTemplate.createElement('hr', {
+        key: 'line-separator',
+        class: 'line',
+      })
     );
   }
 }

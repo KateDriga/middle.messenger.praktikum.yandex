@@ -67,20 +67,16 @@ export class ChatsList extends MyCoolComponent<null, IState> {
         key: 'chats-header',
         onInput: this.handleSearchQueryInput,
       }),
+      MyCoolTemplate.createElement('hr', { key: 'line', class: 'line' }),
       MyCoolTemplate.createElement(
-        'div',
-        { key: 'chat-listing', class: 'chat_listing' },
-        MyCoolTemplate.createElement('hr', { key: 'line', class: 'line' }),
-        ...this.state.chatsToDisplay.flatMap(chat => [
+        'ul',
+        { key: 'chat-listing', class: 'chat_listing custom_scroll' },
+        ...this.state.chatsToDisplay.map(chat =>
           MyCoolTemplate.createComponent(ChatListItem, {
             key: chat.id,
             ...chat,
-          }),
-          MyCoolTemplate.createElement('hr', {
-            key: `line${chat.id}`,
-            class: 'line',
-          }),
-        ])
+          })
+        )
       )
     );
   }

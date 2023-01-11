@@ -3,7 +3,8 @@
     --linen: #F9EFE2;
     --apricot: #FBCBAC;
     --crystal-blue: #5EAFBC;
-    --deep-pink: #F32A93
+    --deep-pink: #F32A93;
+    --white-smoke: #EFEFEF;
 }
 
 
@@ -18,7 +19,18 @@ a, a:hover, a:focus, a:active {
     color: inherit;
 }
 
+ul {
+    padding: 0;
+}
+
 li {
     list-style-type: none;
 }
+
+p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
 

@@ -61,6 +61,16 @@ export abstract class MyCoolComponent<P, S> {
     return diff;
   }
 
+  public scrollToElement(arg?: boolean | ScrollIntoViewOptions) {
+    if (!this.mountedElement) {
+      throw new Error('Scrolling to unmounted component');
+    }
+    if (this.mountedElement instanceof Text) {
+      throw new Error('Text Element does not support scrollIntoView');
+    }
+    this.mountedElement.scrollIntoView(arg);
+  }
+
   // Lifecycle Methods
   public componentDidMount() {}
   public componentWillReceiveProps(props: P, state: S): S {

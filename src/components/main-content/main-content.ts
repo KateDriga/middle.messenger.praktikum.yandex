@@ -40,7 +40,7 @@ export class MainContent extends MyCoolComponent<null, IState> {
       this.state.path.match(route.pathRegExp)
     );
     return MyCoolTemplate.createElement(
-      'div',
+      'main',
       { key: 'page', class: 'main_content_page' },
       MyCoolTemplate.createComponent(route?.component ?? NotFoundPage, {
         key: 'page-content',

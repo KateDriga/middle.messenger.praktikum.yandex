@@ -11,6 +11,7 @@ export interface IIconProps {
 
 const ICON_PATHS = {
   edit: require('../../images/icons/edit.svg'),
+  insertFile: require('../../images/icons/insert-file.svg'),
 };
 
 export class Icon extends MyCoolComponent<IIconProps, null> {

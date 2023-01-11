@@ -1,0 +1,25 @@
+@import "src/common-styles/align";
+
+.chat_message {
+  width: fit-content;
+  max-width: 70%;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.chat_message.chat_message_received {
+  background-color: var(--white-smoke);
+  color: var(--crystal-blue);
+}
+
+.chat_message.chat_message_sent {
+  @include align-right();
+  background-color: var(--crystal-blue);
+  color: var(--linen);
+}
+
+.chat_message_date {
+  @include align-right();
+  font-size: 10px;
+  width: fit-content;
+}

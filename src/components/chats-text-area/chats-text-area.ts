@@ -50,7 +50,7 @@ export class ChatsTextArea extends MyCoolComponent<null, IChatSelectedState> {
       },
       this.state.chatSelected
         ? MyCoolTemplate.createComponent(ChatContent, {
-            key: 'chat-content',
+            key: getChatIdFromPath(),
             id: getChatIdFromPath(),
           })
         : MyCoolTemplate.createElement(

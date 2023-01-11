@@ -1,11 +1,10 @@
 .chat_page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   width: 100%;
-  padding-right: 30px;
-  padding-left: 30px;
   max-height: 75vh;
+  background-color: var(--polished-pine);
+  border-radius: 20px;
 }
 
 .chats_list, .chats_text_area {

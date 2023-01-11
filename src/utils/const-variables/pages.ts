@@ -5,7 +5,7 @@ import { RegisterPage } from '../../pages/register-page/register-page';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 import { ProfileSettingsPage } from '../../pages/profile-settings-page/profile-settings-page';
 import { ServerErrorPage } from '../../pages/server-error/server-error-page';
-import { ChatPage } from '../../pages/chat/chat-page';
+import { ChatPage } from '../../pages/chat-page/chat-page';
 
 export interface IRoute {
   title: string;

@@ -1,9 +1,12 @@
 @mixin active-style() {
-  background-color: var(--linen);
+  background-clip: content-box;
+  background-color: var(--white-smoke);
+  border-radius: 40px;
   .chat_list_title {
     color: var(--crystal-blue);
   }
   .chat_list_last_message {
+    margin-bottom: 5px;
     color: var(--polished-pine);
   }
   .chat_list_time {
@@ -15,7 +18,7 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
-  padding-left: 20px;
+  padding: 0 10px;
   cursor: pointer;
   &:hover {
     @include active-style();
@@ -27,8 +30,18 @@
   transition: 0.4s;
 }
 
+.line {
+  color: var(--linen);
+  width: 90%;
+}
+
 .chat_list_content {
   flex: 1;
+}
+
+.chat_list_item_content {
+  display: flex;
+  flex-direction: column;
 }
 
 .chat_list_extra {

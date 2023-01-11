@@ -1,0 +1,22 @@
+@import "src/common-styles/scroll";
+
+.chat_content {
+  display: flex;
+  flex-direction: column;
+  @include custom-scroll(var(--poilised-pine));
+}
+
+.separator {
+  width: 95%;
+}
+
+.messages_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: 10px;
+}
