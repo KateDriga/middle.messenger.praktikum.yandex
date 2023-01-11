@@ -3,7 +3,7 @@
   height: 15px;
   cursor: pointer;
   color: var(--deep-pink);
-  padding: 5px 5px 10px 5px;
+  padding: 8px;
   margin-top: 20px;
   background-color: var(--linen);
   border: 2px solid var(--apricot);
@@ -11,4 +11,10 @@
   &:hover, &:focus {
     border-color: var(--deep-pink);
   }
+}
+
+.img_pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }

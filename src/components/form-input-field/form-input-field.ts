@@ -3,7 +3,8 @@ import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { IInputProps, Input } from '../input/input';
 import { Dropdown, IDropdownProps } from '../dropdown/dropdown';
-import { Icon, IIconProps } from '../icon/icon';
+import { Picture, IPictureProps } from '../picture/picture';
+import { IInputFileProps, InputFile } from '../input-file/input-file';
 
 export interface IFormInput {
   htmlType: 'input' | 'select';
@@ -13,32 +14,42 @@ export interface IFormInput {
 }
 
 export function instanceOfIFormInputFieldProps(
-  object: IInputProps | IDropdownProps
+  object: IInputProps | any
 ): object is IInputProps {
   return object.htmlType === 'input';
 }
 
-export function instanceOfIIconProps(
-  object: IIconProps | any
-): object is IIconProps {
-  return 'imageName' in object;
+export function instanceOfIDropdownProps(
+  object: IDropdownProps | any
+): object is IInputProps {
+  return object.htmlType === 'select';
+}
+
+export function instanceOfIPictureProps(
+  object: IPictureProps | any
+): object is IPictureProps {
+  return 'picName' in object;
 }
 
 export class FormInputField extends MyCoolComponent<
-  IInputProps | IDropdownProps | IIconProps,
+  IInputProps | IDropdownProps | IPictureProps | IInputFileProps,
   null
 > {
   render(): TVirtualDomNode {
-    return instanceOfIIconProps(this.props)
-      ? MyCoolTemplate.createComponent(Icon, {
-          key: 'icon',
+    return instanceOfIPictureProps(this.props)
+      ? MyCoolTemplate.createComponent(Picture, {
+          key: 'image',
           ...this.props,
-          style: 'margin-left: 10px',
         })
       : instanceOfIFormInputFieldProps(this.props)
       ? MyCoolTemplate.createComponent(Input, { key: 'input', ...this.props })
-      : MyCoolTemplate.createComponent(Dropdown, {
+      : instanceOfIDropdownProps(this.props)
+      ? MyCoolTemplate.createComponent(Dropdown, {
           key: 'dropdown',
+          ...this.props,
+        })
+      : MyCoolTemplate.createComponent(InputFile, {
+          key: 'input-file',
           ...this.props,
         });
   }

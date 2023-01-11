@@ -7,11 +7,15 @@ import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { IInputProps } from '../input/input';
 import { IDropdownProps } from '../dropdown/dropdown';
 import { InputBlock } from '../input-block/input-block';
+import { IInputFileProps } from '../input-file/input-file';
 
 interface IProps {
   title: string;
   inputs: Array<
-    IInputProps | IDropdownProps | Array<IInputProps | IDropdownProps>
+    | IInputProps
+    | IDropdownProps
+    | IInputFileProps
+    | Array<IInputProps | IDropdownProps>
   >;
   buttons: Array<IButtonProps>;
   submit: () => void;

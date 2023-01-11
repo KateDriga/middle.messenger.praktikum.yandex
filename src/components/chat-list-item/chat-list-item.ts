@@ -2,11 +2,11 @@ import './chat-list-item.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { ProfileAvatar } from '../prifile-avatar/profile-avatar';
 import { IChat } from '../../utils/ts-types/chat-types';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 import { navigate } from '../../utils/util-functions/router';
 import { getChatIdFromPath, ROUTES } from '../../utils/const-variables/pages';
+import { Picture } from '../picture/picture';
 
 interface IState {
   isActive: boolean;
@@ -61,9 +61,10 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
             navigate(ROUTES.chat.path.replace(':id', this.props.id.toString())),
         },
         //TODO: replace image name with info from props
-        MyCoolTemplate.createComponent(ProfileAvatar, {
+        MyCoolTemplate.createComponent(Picture, {
           key: 'avatar',
-          imageName: 'avatar',
+          picName: 'avatar',
+          type: 'image',
           style:
             'width: 50px; height: 50px; align-self: center; margin-left: 5px;',
         }),

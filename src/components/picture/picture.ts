@@ -1,27 +1,29 @@
-import './icon.scss';
+import './picture.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 
-export interface IIconProps {
-  imageName: string;
-  onClick: (e: Event) => void;
+export interface IPictureProps {
+  picName: string;
+  onClick?: (e: Event) => void;
+  type: 'icon' | 'image';
   style?: string;
 }
 
-const ICON_PATHS = {
+const PIC_PATHS = {
   edit: require('../../images/icons/edit.svg'),
   insertFile: require('../../images/icons/insert-file.svg'),
+  avatar: require('../../images/fake-test-images/superman.png'),
 };
 
-export class Icon extends MyCoolComponent<IIconProps, null> {
+export class Picture extends MyCoolComponent<IPictureProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement('img', {
       key: 'img',
-      class: 'img_icon',
-      src: ICON_PATHS[this.props.imageName],
+      class: `${this.props.type === 'icon' ? 'img_icon' : 'img_pic'}`,
+      src: PIC_PATHS[this.props.picName],
+      alt: 'image',
       style: this.props.style ?? '',
-      alt: 'edit-icon',
       onClick: this.props.onClick,
     });
   }
