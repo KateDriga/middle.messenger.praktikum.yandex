@@ -13,7 +13,7 @@ export interface IPictureProps {
 const PIC_PATHS = {
   edit: require('../../images/icons/edit.svg'),
   insertFile: require('../../images/icons/insert-file.svg'),
-  avatar: require('../../images/fake-test-images/superman.png'),
+  avatar: require('../../images/fake-test-images/superman.webp'),
 };
 
 export class Picture extends MyCoolComponent<IPictureProps, null> {

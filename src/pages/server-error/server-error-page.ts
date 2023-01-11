@@ -10,7 +10,7 @@ export class ServerErrorPage extends MyCoolComponent<null, null> {
       { key: 'error-page', class: 'error_page' },
       MyCoolTemplate.createElement('img', {
         key: 'img',
-        src: require('../../images/technical-error.png'),
+        src: require('../../images/technical-error.webp'),
         alt: 'error image',
         style: 'max-width: 400px',
       }),

@@ -13,7 +13,7 @@ export class NotFoundPage extends MyCoolComponent<null, null> {
       { key: 'not-found-page', class: 'not_found_page' },
       MyCoolTemplate.createElement('img', {
         key: 'img',
-        src: require('../../images/404-error.png'),
+        src: require('../../images/404-error.webp'),
         alt: '404 image',
       }),
       MyCoolTemplate.createElement(

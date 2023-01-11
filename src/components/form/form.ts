@@ -8,6 +8,7 @@ import { IInputProps } from '../input/input';
 import { IDropdownProps } from '../dropdown/dropdown';
 import { InputBlock } from '../input-block/input-block';
 import { IInputFileProps } from '../input-file/input-file';
+import { IPictureProps } from '../picture/picture';
 
 interface IProps {
   title: string;
@@ -15,7 +16,8 @@ interface IProps {
     | IInputProps
     | IDropdownProps
     | IInputFileProps
-    | Array<IInputProps | IDropdownProps>
+    | IPictureProps
+    | Array<IInputProps | IDropdownProps | IInputFileProps | IPictureProps>
   >;
   buttons: Array<IButtonProps>;
   submit: () => void;
@@ -49,7 +51,7 @@ export class Form extends MyCoolComponent<IProps, any> {
           Array.isArray(input)
             ? MyCoolTemplate.createComponent(InputBlock, { key: idx, ...input })
             : MyCoolTemplate.createComponent(FormInputField, {
-                key: input.label,
+                key: 'label' in input ? input.label : input.picName,
                 ...input,
               })
         )

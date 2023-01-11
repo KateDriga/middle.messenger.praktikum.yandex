@@ -71,7 +71,6 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
   }
 
   componentWillUnmount() {
-    console.log('unmount');
     window.clearInterval(this.testInterval);
     super.componentWillUnmount();
   }

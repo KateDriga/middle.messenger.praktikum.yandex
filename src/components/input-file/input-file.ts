@@ -12,7 +12,6 @@ export interface IInputFileProps {
 
 export class InputFile extends MyCoolComponent<IInputFileProps, null> {
   render(): TVirtualDomNode {
-    console.log('render', this.props);
     return MyCoolTemplate.createElement(
       'label',
       {
