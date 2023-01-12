@@ -8,6 +8,9 @@
   },
   "author": "Kate Driga",
   "license": "ISC",
+  "engines" : {
+    "node" : ">=14.0"
+  },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.2",
     "@types/node": "^18.11.18",
