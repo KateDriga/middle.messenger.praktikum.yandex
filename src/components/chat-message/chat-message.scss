@@ -5,6 +5,9 @@
   max-width: 70%;
   border-radius: 20px;
   padding: 10px;
+  p {
+    word-break: break-word;
+  }
 }
 
 .chat_message.chat_message_received {
