@@ -2,56 +2,25 @@ import './chat-text-area.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import {
-  getChatIdFromPath,
-  getRegExpForPath,
-  ROUTES,
-} from '../../utils/const-variables/pages';
 import { ChatContent } from '../chat-content/chat-content';
 
-export interface IChatSelectedState {
-  chatSelected: boolean;
-}
-
-export class ChatsTextArea extends MyCoolComponent<null, IChatSelectedState> {
-  state: IChatSelectedState = {
-    chatSelected: getRegExpForPath(ROUTES.chat.path).test(
-      window.location.pathname
-    ),
-  };
-
-  constructor() {
-    super();
-    this.handlePathChange = this.handlePathChange.bind(this);
-    window.addEventListener('popstate', this.handlePathChange);
-  }
-
-  handlePathChange() {
-    this.setState(() => ({
-      chatSelected: getRegExpForPath(ROUTES.chat.path).test(
-        window.location.pathname
-      ),
-    }));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', this.handlePathChange);
-    super.componentWillUnmount();
-  }
-
+export class ChatsTextArea extends MyCoolComponent<
+  { id: string | null },
+  null
+> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
       {
         key: 'chat-text-area',
-        class: this.state.chatSelected
+        class: this.props.id
           ? 'chat_text_area'
           : 'chat_text_area chat_text_area_hidden_mobile',
       },
-      this.state.chatSelected
+      this.props.id
         ? MyCoolTemplate.createComponent(ChatContent, {
-            key: getChatIdFromPath(),
-            id: getChatIdFromPath(),
+            key: this.props.id,
+            id: this.props.id,
           })
         : MyCoolTemplate.createElement(
             'div',
