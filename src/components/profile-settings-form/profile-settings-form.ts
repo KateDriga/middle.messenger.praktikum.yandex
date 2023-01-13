@@ -134,6 +134,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
       ...FIRST_NAME_INPUT,
       label: 'Chat Name',
       placeholder: 'Ivan Mega',
+      name: 'display_name',
       value: USER.chatName,
       disabled: true,
       onChange: (e: Event) =>
@@ -173,6 +174,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const password: IInputProps = {
       ...PASSWORD_INPUT,
       value: '',
+      name: 'oldPassword',
       disabled: true,
       required: false,
       onChange: (e: Event) =>
@@ -188,6 +190,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
           ...PASSWORD_INPUT,
           label: 'Confirm Password',
           value: '',
+          name: 'newPassword',
           disabled: false,
           onChange: (e: Event) =>
             saveAndTestValue(e, password, this.state.errorInputs),

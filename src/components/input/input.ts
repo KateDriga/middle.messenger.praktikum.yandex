@@ -8,6 +8,7 @@ import { IFormInput } from '../form-input-field/form-input-field';
 export interface IInputProps extends IFormInput {
   type: string;
   placeholder: string;
+  name: string;
   required: boolean;
   validation: IValidation;
   clearError: () => void;
@@ -33,6 +34,7 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
         class: 'form__input_input_field',
         type: this.props.type,
         placeholder: this.props.placeholder,
+        name: this.props.name,
         required: this.props.required,
         disabled: this.props.disabled || false,
         value: this.props.value,

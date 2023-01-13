@@ -17,7 +17,12 @@ export class ProfileSettingsFormAvatar extends MyCoolComponent<null, IState> {
     isValid: true,
     inputs: [
       { picName: 'avatar', type: 'image' },
-      { label: 'Change Avatar', value: '', style: 'text-align: center;' },
+      {
+        label: 'Change Avatar',
+        value: '',
+        name: 'avatar',
+        style: 'text-align: center;',
+      },
     ],
     errorInputs: new Set<string>(),
   };

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "chat",
   "scripts": {
-    "start": "parcel index.html -p 3000 --open",
+    "start": "parcel index.html -p 3000 --open --no-cache",
     "build": "parcel build index.html"
   },
   "author": "Kate Driga",
@@ -12,11 +12,11 @@
     "node" : ">=14.0"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.8.2",
-    "@types/node": "^18.11.18",
-    "express": "^4.18.2",
-    "parcel": "^2.8.2",
-    "prettier": "^2.8.1",
-    "sass": "^1.57.1"
+    "@parcel/transformer-sass": "2.8.2",
+    "@types/node": "18.11.18",
+    "express": "4.18.2",
+    "parcel": "2.8.2",
+    "prettier": "2.8.1",
+    "sass": "1.57.1"
   }
 }

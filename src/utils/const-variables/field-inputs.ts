@@ -24,6 +24,7 @@ export const EMAIL_INPUT: IUserInput = {
   label: 'Email',
   type: 'email',
   placeholder: 'user-email@yandex.ru',
+  name: 'email',
   required: true,
   validation: EMAIL_VALIDATION,
 };
@@ -33,6 +34,7 @@ export const LOGIN_INPUT: IUserInput = {
   label: 'Login',
   type: 'text',
   placeholder: 'inanivanov',
+  name: 'login',
   required: true,
   validation: LOGIN_VALIDATION,
 };
@@ -42,6 +44,7 @@ export const FIRST_NAME_INPUT: IUserInput = {
   label: 'First Name',
   type: 'text',
   placeholder: 'Ivan',
+  name: 'first_name',
   required: true,
   validation: FIRST_NAME_VALIDATION,
 };
@@ -51,6 +54,7 @@ export const LAST_NAME_INPUT: IUserInput = {
   label: 'Last Name',
   type: 'text',
   placeholder: 'Ivanov',
+  name: 'second_name',
   required: true,
   validation: LAST_NAME_VALIDATION,
 };
@@ -58,6 +62,7 @@ export const LAST_NAME_INPUT: IUserInput = {
 export const PHONE_CODE_INPUT: Omit<IDropdownProps, 'value' | 'onChange'> = {
   htmlType: 'select',
   label: 'Code',
+  name: 'phone_code',
   options: PHONE_COUNTRY_CODES,
 };
 
@@ -66,6 +71,7 @@ export const PHONE_NUMBER_INPUT: IUserInput = {
   label: 'Phone number',
   type: 'tel',
   placeholder: '(999) 123-4567',
+  name: 'phone',
   required: true,
   validation: PHONE_NUMBER_VALIDATION,
 };
@@ -75,6 +81,7 @@ export const PASSWORD_INPUT: IUserInput = {
   label: 'Password',
   type: 'password',
   placeholder: 'Password',
+  name: 'password',
   required: true,
   validation: PASSWORD_REGISTER_VALIDATION,
 };

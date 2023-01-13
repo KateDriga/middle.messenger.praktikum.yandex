@@ -6,6 +6,7 @@ import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 export interface IInputFileProps {
   label: string;
   value: string;
+  name: string;
   style?: string;
   //TODO: add onChange event handler
 }
@@ -23,6 +24,7 @@ export class InputFile extends MyCoolComponent<IInputFileProps, null> {
       MyCoolTemplate.createElement('input', {
         key: 'file-input',
         type: 'file',
+        name: this.props.name,
       })
     );
   }

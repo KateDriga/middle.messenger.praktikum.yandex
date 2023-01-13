@@ -23,6 +23,7 @@ export class ChatContentFooter extends MyCoolComponent<
       }),
       MyCoolTemplate.createComponent(InputChatMessage, {
         key: 'chat-message-send',
+        name: 'message',
         onKeyDown: this.props.onKeyDown,
       })
     );
