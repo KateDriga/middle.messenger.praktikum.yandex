@@ -1,4 +1,4 @@
-import '../../common-styles/_page.scss';
+import * as styles from './server-error-page.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -7,7 +7,7 @@ export class ServerErrorPage extends MyCoolComponent<null, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'error-page', class: 'error_page' },
+      { key: 'error-page', class: styles.server_error_page },
       MyCoolTemplate.createElement('img', {
         key: 'img',
         src: require('../../images/technical-error.webp'),

@@ -1,4 +1,4 @@
-import './chat-message.scss';
+import * as styles from './chat-message.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -24,10 +24,10 @@ export class ChatMessage extends MyCoolComponent<IProps, null> {
       'li',
       {
         key: this.props.id,
-        class: `chat_message ${
+        class: `${styles.chat_message} ${
           this.props.type === 'received'
-            ? 'chat_message_received'
-            : 'chat_message_sent'
+            ? styles.chat_message_received
+            : styles.chat_message_sent
         }`,
       },
       MyCoolTemplate.createElement(
@@ -37,7 +37,7 @@ export class ChatMessage extends MyCoolComponent<IProps, null> {
       ),
       MyCoolTemplate.createElement(
         'p',
-        { key: 'message-date', class: 'chat_message_date' },
+        { key: 'message-date', class: styles.chat_message_date },
         MyCoolTemplate.createTextElement(formatMessageDate(this.props.time))
       )
     );

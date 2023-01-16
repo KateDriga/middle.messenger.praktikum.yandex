@@ -1,0 +1,10 @@
+@import "src/common-styles/media-screen";
+
+.profile_settings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include media-screen-large {
+    flex-direction: row;
+  }
+}

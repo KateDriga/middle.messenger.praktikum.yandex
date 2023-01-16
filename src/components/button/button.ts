@@ -1,13 +1,14 @@
-import './button.scss';
+import * as styles from './button.module.scss';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 
 export interface IButtonProps {
   title: string;
-  type: 'secondary' | 'primary';
+  type: 'primary' | 'secondary';
   htmlType: 'submit' | 'reset' | 'button';
   disabled?: boolean;
+  isActive?: boolean;
 }
 
 export class Button extends MyCoolComponent<IButtonProps, null> {
@@ -16,7 +17,9 @@ export class Button extends MyCoolComponent<IButtonProps, null> {
       'button',
       {
         key: this.props.title,
-        class: `btn ${this.props.type}`,
+        class: `${styles.btn} ${
+          this.props.type === 'primary' ? styles.primary : styles.secondary
+        } ${this.props.isActive ? styles.active : ''}`,
         type: this.props.htmlType,
         disabled: this.props.disabled ?? false,
       },

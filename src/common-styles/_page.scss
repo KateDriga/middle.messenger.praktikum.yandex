@@ -1,4 +1,4 @@
-.not_found_page, .error_page {
+@mixin error_page {
   display: flex;
   flex-direction: column;
   align-items: center;

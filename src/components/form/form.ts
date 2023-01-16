@@ -1,4 +1,4 @@
-import './form.scss';
+import * as styles from './form.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { FormInputField } from '../form-input-field/form-input-field';
@@ -35,18 +35,18 @@ export class Form extends MyCoolComponent<IProps, any> {
       'form',
       {
         key: 'login-form',
-        class: 'form',
+        class: styles.form,
         onSubmit: this.props.submit,
         onReset: this.props.reset,
       },
       MyCoolTemplate.createElement(
         'h2',
-        { key: this.props.title, class: 'form__title' },
+        { key: this.props.title, class: styles.form__title },
         MyCoolTemplate.createTextElement(this.props.title)
       ),
       MyCoolTemplate.createElement(
         'div',
-        { key: 'form-inputs', class: 'form_inputs' },
+        { key: 'form-inputs', class: styles.form_inputs },
         ...this.props.inputs.map((input, idx) =>
           Array.isArray(input)
             ? MyCoolTemplate.createComponent(InputBlock, { key: idx, ...input })
@@ -58,10 +58,10 @@ export class Form extends MyCoolComponent<IProps, any> {
       ),
       MyCoolTemplate.createElement(
         'div',
-        { key: 'form-buttons', class: 'form_buttons' },
+        { key: 'form-buttons', class: styles.form_buttons },
         MyCoolTemplate.createElement(
           'span',
-          { key: 'error-text', class: 'form__error_text' },
+          { key: 'error-text', class: styles.form__error_text },
           MyCoolTemplate.createTextElement(this.props.errorText)
         ),
         ...this.props.buttons.map(btn =>

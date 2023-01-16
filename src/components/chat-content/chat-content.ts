@@ -1,4 +1,4 @@
-import './chat-content.scss';
+import * as styles from './chat-content.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
@@ -78,18 +78,21 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'messages', class: 'chat_content' },
+      { key: 'messages', class: styles.chat_content },
       MyCoolTemplate.createComponent(ChatContentHeader, {
         key: 'chat-content-header',
         id: this.props.id,
       }),
       MyCoolTemplate.createElement('hr', {
         key: 'separator-header',
-        class: 'separator',
+        class: styles.separator,
       }),
       MyCoolTemplate.createElement(
         'ul',
-        { key: 'messages-list', class: 'messages_list custom_scroll' },
+        {
+          key: 'messages-list',
+          class: `${styles.messages_list} custom_scroll`,
+        },
         ...this.state.messages.map((ms, idx) =>
           MyCoolTemplate.createComponent(ChatMessage, {
             key: this.props.id,
@@ -102,7 +105,7 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
       ),
       MyCoolTemplate.createElement('hr', {
         key: 'separator-footer',
-        class: 'separator',
+        class: styles.separator,
       }),
       MyCoolTemplate.createComponent(ChatContentFooter, {
         key: 'chat-content-footer',

@@ -1,4 +1,4 @@
-import './chat-content-header.scss';
+import * as styles from './chat-content-header.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
@@ -10,7 +10,7 @@ export class ChatContentHeader extends MyCoolComponent<{ id: string }, null> {
     // TODO: replace with info from server
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'header-title', class: 'chat_text_area_title' },
+      { key: 'header-title', class: styles.chat_text_area_title },
       MyCoolTemplate.createComponent(Picture, {
         key: 'avatar',
         picName: 'avatar',

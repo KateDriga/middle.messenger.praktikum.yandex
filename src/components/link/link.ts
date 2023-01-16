@@ -1,4 +1,4 @@
-import './link.scss';
+import * as styles from './link.module.scss';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { Button } from '../button/button';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
@@ -57,7 +57,9 @@ export class Link extends MyCoolComponent<IProps, IState> {
     return MyCoolTemplate.createElement(
       'a',
       {
-        class: `link${this.state.isActive ? ' link_active' : ''}`,
+        class: `${styles.link} ${
+          this.state.isActive ? styles.link_active : ''
+        }`,
         href: this.props.href,
         onClick: this.navigate,
         key: 'link',
@@ -68,6 +70,7 @@ export class Link extends MyCoolComponent<IProps, IState> {
             type: 'secondary',
             htmlType: 'button',
             key: this.props.title,
+            isActive: this.state.isActive,
           })
         : MyCoolTemplate.createTextElement(this.props.title)
     );

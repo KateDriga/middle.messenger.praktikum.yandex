@@ -1,4 +1,4 @@
-import './main-content.scss';
+import * as styles from './main-content.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -41,7 +41,7 @@ export class MainContent extends MyCoolComponent<null, IState> {
     );
     return MyCoolTemplate.createElement(
       'main',
-      { key: 'page', class: 'main_content_page' },
+      { key: 'page', class: styles.main_content_page },
       MyCoolTemplate.createComponent(route?.component ?? NotFoundPage, {
         key: 'page-content',
       })

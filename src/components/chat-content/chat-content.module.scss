@@ -3,7 +3,7 @@
 .chat_content {
   display: flex;
   flex-direction: column;
-  @include custom-scroll(var(--poilised-pine));
+  @include custom-scroll(var(--polished-pine));
 }
 
 .separator {

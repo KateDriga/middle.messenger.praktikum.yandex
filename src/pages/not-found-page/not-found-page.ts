@@ -1,4 +1,4 @@
-import './not-found-page.scss';
+import * as styles from './not-found-page.module.scss';
 import '../../common-styles/_page.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
@@ -10,7 +10,7 @@ export class NotFoundPage extends MyCoolComponent<null, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'not-found-page', class: 'not_found_page' },
+      { key: 'not-found-page', class: styles.not_found_page },
       MyCoolTemplate.createElement('img', {
         key: 'img',
         src: require('../../images/404-error.webp'),
@@ -30,7 +30,7 @@ export class NotFoundPage extends MyCoolComponent<null, null> {
         'h3',
         {
           key: 'redirect',
-          class: 'redirect',
+          class: styles.redirect,
           onClick: () => navigate(ROUTES.home.path),
         },
         MyCoolTemplate.createTextElement('Go to main')

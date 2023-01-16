@@ -1,8 +1,9 @@
+@import "src/common-styles/media-screen";
 $content-width: 250px;
 
 .form {
   box-sizing: border-box;
-  min-width: 250px;
+  min-width: 300px;
   background-color: var(--polished-pine);
   border-radius: 20px;
   padding: 40px;
@@ -11,6 +12,9 @@ $content-width: 250px;
   align-items: center;
   gap: 40px;
   height: fit-content;
+  @include media-screen-large {
+    width: 500px;
+  }
 }
 
 .form__title {
@@ -40,10 +44,4 @@ $content-width: 250px;
 .form__error_text {
   color: var(--deep-pink);
   font-weight: bold;
-}
-
-@media screen and (min-width: 1000px) {
-  .form {
-    width: 500px;
-  }
 }

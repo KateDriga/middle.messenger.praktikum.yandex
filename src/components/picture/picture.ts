@@ -1,4 +1,4 @@
-import './picture.scss';
+import * as styles from './picture.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -20,7 +20,7 @@ export class Picture extends MyCoolComponent<IPictureProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement('img', {
       key: 'img',
-      class: `${this.props.type === 'icon' ? 'img_icon' : 'img_pic'}`,
+      class: `${this.props.type === 'icon' ? styles.img_icon : styles.img_pic}`,
       src: PIC_PATHS[this.props.picName],
       alt: 'image',
       style: this.props.style ?? '',

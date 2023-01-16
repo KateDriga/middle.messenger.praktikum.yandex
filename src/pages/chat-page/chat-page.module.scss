@@ -1,3 +1,5 @@
+@import "src/common-styles/media-screen";
+
 .chat_page {
   display: flex;
   flex-direction: column;
@@ -5,15 +7,12 @@
   max-height: 75vh;
   background-color: var(--polished-pine);
   border-radius: 20px;
+  @include media-screen-medium {
+    flex-direction: row;
+    gap: 0;
+  }
 }
 
 .chats_list, .chats_text_area {
   max-height: 100%;
-}
-
-@media screen and (min-width: 600px) {
-  .chat_page {
-    flex-direction: row;
-    gap: 0;
-  }
 }

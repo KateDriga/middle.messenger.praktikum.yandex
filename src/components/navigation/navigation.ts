@@ -1,4 +1,4 @@
-import './navigation.scss';
+import * as styles from './navigation.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -23,7 +23,7 @@ export class Navigation extends MyCoolComponent<null, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'ul',
-      { class: 'navigation', key: 'nav' },
+      { class: styles.navigation, key: 'nav' },
       ...this.listItems
     );
   }

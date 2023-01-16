@@ -1,3 +1,9 @@
+@import "src/common-styles/page";
+
+.not_found_page {
+  @include error_page;
+}
+
 .redirect {
   cursor: pointer;
   color: var(--deep-pink);

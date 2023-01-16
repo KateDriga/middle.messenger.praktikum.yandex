@@ -1,4 +1,4 @@
-import './input-block.scss';
+import * as styles from './input-block.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -14,7 +14,7 @@ export class InputBlock extends MyCoolComponent<
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'input-block', class: 'input_block' },
+      { key: 'input-block', class: styles.input_block },
       ...Object.values(this.props).map(input =>
         MyCoolTemplate.createComponent(FormInputField, {
           key: 'input-field',

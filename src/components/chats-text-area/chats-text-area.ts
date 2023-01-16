@@ -1,4 +1,4 @@
-import './chat-text-area.scss';
+import * as styles from './chat-text-area.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -13,9 +13,9 @@ export class ChatsTextArea extends MyCoolComponent<
       'div',
       {
         key: 'chat-text-area',
-        class: this.props.id
-          ? 'chat_text_area'
-          : 'chat_text_area chat_text_area_hidden_mobile',
+        class: `${styles.chat_text_area} ${
+          !this.props.id ? styles.chat_text_area_hidden_mobile : ''
+        }`,
       },
       this.props.id
         ? MyCoolTemplate.createComponent(ChatContent, {
@@ -24,10 +24,10 @@ export class ChatsTextArea extends MyCoolComponent<
           })
         : MyCoolTemplate.createElement(
             'div',
-            { key: 'chat-content', class: 'chat_text_area_empty' },
+            { key: 'chat-content', class: styles.chat_text_area_empty },
             MyCoolTemplate.createElement('img', {
               key: 'img',
-              class: 'chat_text_area_img',
+              class: styles.chat_text_area_img,
               src: require('../../images/chat.png'),
               alt: 'chat image',
             }),

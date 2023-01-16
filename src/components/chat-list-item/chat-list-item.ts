@@ -1,4 +1,4 @@
-import './chat-list-item.scss';
+import * as styles from './chat-list-item.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -54,9 +54,9 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
         'div',
         {
           key: 'chat-list-item',
-          class: this.state.isActive
-            ? 'chat_list_item chat_list_item_active'
-            : 'chat_list_item',
+          class: `${styles.chat_list_item} ${
+            this.state.isActive ? styles.chat_list_item_active : ''
+          }`,
           onClick: () =>
             navigate(ROUTES.chat.path.replace(':id', this.props.id.toString())),
         },
@@ -70,24 +70,24 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
         }),
         MyCoolTemplate.createElement(
           'div',
-          { key: 'content', class: 'chat_list_content' },
+          { key: 'content', class: styles.chat_list_content },
           MyCoolTemplate.createElement(
             'h3',
-            { key: 'chat-title', class: 'chat_list_title' },
+            { key: 'chat-title', class: styles.chat_list_title },
             MyCoolTemplate.createTextElement(this.props.title)
           ),
           MyCoolTemplate.createElement(
             'p',
-            { key: 'chat-last-message', class: 'chat_list_last_message' },
+            { key: 'chat-last-message', class: styles.chat_list_last_message },
             MyCoolTemplate.createTextElement(this.props.last_message.content)
           )
         ),
         MyCoolTemplate.createElement(
           'div',
-          { key: 'chat-extra', class: 'chat_list_extra' },
+          { key: 'chat-extra', class: styles.chat_list_extra },
           MyCoolTemplate.createElement(
             'span',
-            { key: 'chat-time', class: 'chat_list_time' },
+            { key: 'chat-time', class: styles.chat_list_time },
             MyCoolTemplate.createTextElement(
               formatMessageDate(this.props.last_message.time)
             )
@@ -97,7 +97,7 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
             {
               key: 'chat-unread',
               class: `${
-                this.props.unread_count > 0 ? 'chat_list_unread_count' : ''
+                this.props.unread_count > 0 ? styles.chat_list_unread_count : ''
               }`,
             },
             MyCoolTemplate.createTextElement(
@@ -108,7 +108,7 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
       ),
       MyCoolTemplate.createElement('hr', {
         key: 'line-separator',
-        class: 'line',
+        class: styles.separator,
       })
     );
   }

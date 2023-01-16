@@ -1,4 +1,4 @@
-import './profile-settings.scss';
+import * as styles from './profile-settings-page.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -11,7 +11,7 @@ export class ProfileSettingsPage extends MyCoolComponent<null, null> {
       'div',
       {
         key: 'settings',
-        class: 'profile_settings',
+        class: styles.profile_settings,
       },
       MyCoolTemplate.createComponent(ProfileSettingsForm, {
         key: 'profile-settings-form',

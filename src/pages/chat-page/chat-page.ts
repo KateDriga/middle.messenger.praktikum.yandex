@@ -1,4 +1,4 @@
-import './chat-page.scss';
+import * as styles from './chat-page.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -45,16 +45,16 @@ export class ChatPage extends MyCoolComponent<null, IChatSelectedState> {
       'div',
       {
         key: 'chat-page',
-        class: 'chat_page',
+        class: styles.chat_page,
       },
       MyCoolTemplate.createComponent(ChatsList, {
         key: 'chats-list',
-        class: 'chats_list',
+        class: styles.chats_list,
         id: this.state.chatId,
       }),
       MyCoolTemplate.createComponent(ChatsTextArea, {
         key: 'chats-text-area',
-        class: 'chats_text_area',
+        class: styles.chats_text_area,
         id: this.state.chatId,
       })
     );

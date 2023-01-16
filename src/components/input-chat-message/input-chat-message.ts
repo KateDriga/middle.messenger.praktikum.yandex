@@ -1,4 +1,4 @@
-import './input-chat-message.scss';
+import * as styles from './input-chat-message.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -12,7 +12,7 @@ export class InputChatMessage extends MyCoolComponent<IProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement('textarea', {
       key: 'input',
-      class: 'input_chat_message custom_scroll',
+      class: `${styles.input_chat_message} custom_scroll`,
       name: this.props.name,
       placeholder: 'Message',
       rows: 3,

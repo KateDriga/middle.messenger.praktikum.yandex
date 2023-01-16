@@ -1,4 +1,4 @@
-import './header.scss';
+import * as styles from './header.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -8,7 +8,7 @@ export class Header extends MyCoolComponent<null, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'nav',
-      { key: 'nav', class: 'header' },
+      { key: 'nav', class: styles.header },
       MyCoolTemplate.createComponent(Navigation, { key: 'nav' })
     );
   }

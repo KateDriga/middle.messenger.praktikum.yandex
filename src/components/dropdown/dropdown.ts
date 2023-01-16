@@ -1,4 +1,4 @@
-import './dropdown.scss';
+import * as styles from './dropdown.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
@@ -15,17 +15,17 @@ export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'dropdown', class: 'dropdown' },
+      { key: 'dropdown', class: styles.dropdown },
       MyCoolTemplate.createElement(
         'label',
-        { key: this.props.label, class: 'dropdown_label' },
+        { key: this.props.label, class: styles.dropdown_label },
         MyCoolTemplate.createTextElement(this.props.label)
       ),
       MyCoolTemplate.createElement(
         'select',
         {
           key: 'select',
-          class: 'form__input_select',
+          class: styles.form__input_select,
           name: this.props.name,
           disabled: this.props.disabled ?? false,
           onChange: this.props.onChange,

@@ -1,4 +1,4 @@
-import './chat-content-footer.scss';
+import * as styles from './chat-content-footer.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -12,7 +12,7 @@ export class ChatContentFooter extends MyCoolComponent<
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'div',
-      { key: 'chat-content-footer', class: 'chat_content_footer' },
+      { key: 'chat-content-footer', class: styles.chat_content_footer },
       MyCoolTemplate.createComponent(Picture, {
         key: 'chat-message-media',
         picName: 'insertFile',

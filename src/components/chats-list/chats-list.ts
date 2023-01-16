@@ -1,4 +1,4 @@
-import './chats-list.scss';
+import * as styles from './chats-list.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -38,18 +38,24 @@ export class ChatsList extends MyCoolComponent<{ id: string | null }, IState> {
       'div',
       {
         key: 'chats-list',
-        class: this.props.id
-          ? 'chats_list chats_list_hidden_mobile'
-          : 'chats_list',
+        class: `${styles.chats_list} ${
+          this.props.id ? styles.chats_list_hidden_mobile : ''
+        }`,
       },
       MyCoolTemplate.createComponent(ChatsListHeader, {
         key: 'chats-header',
         onInput: this.handleSearchQueryInput,
       }),
-      MyCoolTemplate.createElement('hr', { key: 'line', class: 'line' }),
+      MyCoolTemplate.createElement('hr', {
+        key: 'line',
+        class: styles.separator,
+      }),
       MyCoolTemplate.createElement(
         'ul',
-        { key: 'chat-listing', class: 'chat_listing custom_scroll' },
+        {
+          key: 'chat-listing',
+          class: `${styles.chat_listing} custom_scroll`,
+        },
         ...this.state.chatsToDisplay.map(chat =>
           MyCoolTemplate.createComponent(ChatListItem, {
             key: chat.id,

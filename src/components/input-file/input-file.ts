@@ -1,4 +1,4 @@
-import './input-file.scss';
+import * as styles from './input-file.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
 import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
@@ -17,7 +17,7 @@ export class InputFile extends MyCoolComponent<IInputFileProps, null> {
       'label',
       {
         key: 'file-input',
-        class: 'form__input_file',
+        class: styles.form__input_file,
         style: this.props.style,
       },
       MyCoolTemplate.createTextElement(this.props.label),
