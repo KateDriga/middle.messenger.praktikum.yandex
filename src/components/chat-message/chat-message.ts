@@ -1,6 +1,9 @@
 import * as styles from './chat-message.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import {
+  IRef,
+  TVirtualDomNode,
+} from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { IMessage } from '../../utils/fake-test-variables/fake-messages';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
@@ -12,9 +15,15 @@ interface IProps extends IMessage {
 }
 
 export class ChatMessage extends MyCoolComponent<IProps, null> {
+  ref: IRef;
+  constructor() {
+    super();
+    this.ref = MyCoolTemplate.createRef();
+  }
+
   componentDidMount() {
     if (this.props.shouldScroll) {
-      this.scrollToElement({ behavior: 'smooth' });
+      this.ref.current.scrollIntoView({ behavior: 'smooth' });
     }
     super.componentDidMount();
   }
@@ -24,6 +33,7 @@ export class ChatMessage extends MyCoolComponent<IProps, null> {
       'li',
       {
         key: this.props.id,
+        ref: this.ref,
         class: `${styles.chat_message} ${
           this.props.type === 'received'
             ? styles.chat_message_received

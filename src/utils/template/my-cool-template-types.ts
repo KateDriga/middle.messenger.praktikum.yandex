@@ -12,9 +12,14 @@ interface IVirtualDomUnit {
   key: string | number;
 }
 
+export interface IRef {
+  current: HTMLElement | null;
+}
+
 export interface IVirtualDomElement extends IVirtualDomUnit {
   type: ElementTypes.ELEMENT;
   tagName: string;
+  ref?: IRef;
   children?: Array<TVirtualDomNode>;
   props?: IVirtualDomAttributes;
 }
@@ -43,7 +48,8 @@ export interface IVirtualDomAttributes {
     | number
     | ((arg?: any) => void)
     | Array<any>
-    | Record<string, any>;
+    | Record<string, any>
+    | IRef;
 }
 
 export interface IVirtualDomProps extends IVirtualDomAttributes {

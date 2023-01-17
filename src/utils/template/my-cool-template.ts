@@ -1,6 +1,7 @@
 import {
   ElementTypes,
   IAttributesUpdate,
+  IRef,
   IVirtualDomAttributes,
   IVirtualDomComponent,
   IVirtualDomElement,
@@ -48,9 +49,15 @@ function createElement(
   const checkedProps = checkKey(props, tagName);
   const key = checkedProps.key;
   delete checkedProps.key;
+  let ref: IRef | null;
+  if (props.ref && Object.prototype.hasOwnProperty.call(props.ref, 'current')) {
+    ref = props.ref as IRef;
+    delete checkedProps.ref;
+  }
   return {
     type: ElementTypes.ELEMENT,
     tagName,
+    ref,
     props: checkedProps,
     children,
     key,
@@ -245,6 +252,9 @@ function renderElement(node: TVirtualDomNode): HTMLElement | Text {
   }
   // render element
   const element = document.createElement(node.tagName);
+  if (node.ref) {
+    node.ref.current = element;
+  }
   // Add props, classes and events
   addProps(node.props, node.type, element);
   node.children.forEach(child => element.appendChild(renderElement(child)));
@@ -326,6 +336,10 @@ function applyChildrenDiff(
   });
 }
 
+function createRef(initialValue: HTMLElement | null = null): IRef {
+  return { current: initialValue };
+}
+
 function renderDom(rootId: string, rootNode: TVirtualDomNode): HTMLElement {
   const element = document.getElementById(rootId);
   if (!element) {
@@ -342,6 +356,7 @@ export const MyCoolTemplate = {
   createComponent,
   createElement,
   createTextElement,
+  createRef,
   renderDom,
   unmountChildNodes,
 };

@@ -1,6 +1,9 @@
 import * as styles from './chat-list-item.module.scss';
 import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import {
+  IRef,
+  TVirtualDomNode,
+} from '../../utils/template/my-cool-template-types';
 import { MyCoolTemplate } from '../../utils/template/my-cool-template';
 import { IChat } from '../../utils/ts-types/chat-types';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
@@ -14,9 +17,11 @@ interface IState {
 
 export class ChatListItem extends MyCoolComponent<IChat, IState> {
   state: IState = { isActive: false };
+  ref: IRef;
 
   constructor() {
     super();
+    this.ref = MyCoolTemplate.createRef();
     this.handlePathChange = this.handlePathChange.bind(this);
     window.addEventListener('popstate', this.handlePathChange);
   }
@@ -34,9 +39,16 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
 
   componentDidMount() {
     if (this.state.isActive) {
-      this.scrollToElement({ block: 'center' });
+      this.ref.current.scrollIntoView({ block: 'center' });
     }
     super.componentDidMount();
+  }
+
+  componentDidUpdate() {
+    if (this.state.isActive && this.ref.current.offsetParent === null) {
+      this.ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    super.componentDidUpdate();
   }
 
   componentWillUnmount() {
@@ -45,13 +57,11 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
   }
 
   render(): TVirtualDomNode {
-    if (this.props.id === 133) {
-      console.log('rerender');
-    }
     return MyCoolTemplate.createElement(
       'li',
       {
         key: 'chat-item',
+        ref: this.ref,
       },
       MyCoolTemplate.createElement(
         'div',
