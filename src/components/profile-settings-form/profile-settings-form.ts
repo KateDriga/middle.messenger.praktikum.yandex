@@ -29,6 +29,8 @@ interface IState {
   errorInputs: Set<string>;
 }
 
+const editIconStyle = 'margin-top: 20px';
+
 export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
   state: IState = {
     isValid: true,
@@ -85,6 +87,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const emailEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => this.allowInputEdit(email),
     };
     // login
@@ -99,6 +102,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const loginEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => this.allowInputEdit(login),
     };
     // first name
@@ -113,6 +117,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const firstNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => this.allowInputEdit(firstName),
     };
     // last name
@@ -127,6 +132,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const lastNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => this.allowInputEdit(lastName),
     };
     // chat name
@@ -144,6 +150,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const chatNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => this.allowInputEdit(chatName),
     };
     // phone number
@@ -165,6 +172,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const phoneNumberEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => {
         this.allowInputEdit(phoneCode);
         this.allowInputEdit(phoneNumber);
@@ -184,6 +192,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const passwordEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
+      style: editIconStyle,
       onClick: () => {
         passwordEdit.onClick = null;
         const confirmPassword: IInputProps = {

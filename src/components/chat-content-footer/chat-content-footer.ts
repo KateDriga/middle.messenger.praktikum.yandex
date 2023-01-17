@@ -6,7 +6,7 @@ import { InputChatMessage } from '../input-chat-message/input-chat-message';
 import { Picture } from '../picture/picture';
 
 export class ChatContentFooter extends MyCoolComponent<
-  { onKeyDown: (e: KeyboardEvent) => void },
+  { onSendMessage: (e: KeyboardEvent | MouseEvent) => void },
   null
 > {
   render(): TVirtualDomNode {
@@ -17,14 +17,19 @@ export class ChatContentFooter extends MyCoolComponent<
         key: 'chat-message-media',
         picName: 'insertFile',
         type: 'icon',
-        style: 'width: 30px; height: 30px; margin-top: 10px;',
         // TODO: add file onClick
         onClick: () => null,
       }),
       MyCoolTemplate.createComponent(InputChatMessage, {
         key: 'chat-message-send',
         name: 'message',
-        onKeyDown: this.props.onKeyDown,
+        onKeyDown: this.props.onSendMessage,
+      }),
+      MyCoolTemplate.createComponent(Picture, {
+        key: 'chat-message-send-button',
+        picName: 'sendMessage',
+        type: 'icon',
+        onClick: this.props.onSendMessage,
       })
     );
   }

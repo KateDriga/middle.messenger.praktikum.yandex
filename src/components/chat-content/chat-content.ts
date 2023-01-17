@@ -57,9 +57,12 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
     this.setState(() => ({ messages: [...this.state.messages, newMessage] }));
   }
 
-  sendMessage(e: KeyboardEvent) {
+  sendMessage(e: KeyboardEvent | MouseEvent) {
     const textValue = (<HTMLInputElement>e.target).value;
-    if (e.key === 'Enter' && txtMessageNotEmpty(textValue)) {
+    if (
+      (e instanceof MouseEvent || e.key === 'Enter') &&
+      txtMessageNotEmpty(textValue)
+    ) {
       const newMessage = {
         type: 'sent',
         time: new Date().toISOString(),
@@ -109,7 +112,7 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
       }),
       MyCoolTemplate.createComponent(ChatContentFooter, {
         key: 'chat-content-footer',
-        onKeyDown: this.sendMessage,
+        onSendMessage: this.sendMessage,
       })
     );
   }

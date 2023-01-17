@@ -15,7 +15,6 @@ export class InputChatMessage extends MyCoolComponent<IProps, null> {
       class: `${styles.input_chat_message}`,
       name: this.props.name,
       placeholder: 'Message',
-      rows: 3,
       onKeyDown: this.props.onKeyDown,
     });
   }

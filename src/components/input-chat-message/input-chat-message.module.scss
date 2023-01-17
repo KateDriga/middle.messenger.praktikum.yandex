@@ -1,3 +1,9 @@
+@import 'src/common-styles/media-screen';
+
+@function get-height($rows) {
+  @return 12px * 1.3 * $rows;
+}
+
 .input_chat_message {
   flex: 1;
   border: 2px solid var(--apricot);
@@ -5,6 +11,7 @@
   resize: none;
   padding: 10px;
   color: var(--polished-pine);
+  height: get-height(3);
 
   &:focus {
     outline-color: var(--deep-pink);
@@ -12,5 +19,9 @@
 
   &::placeholder {
     color: var(--polished-pine);
+  }
+
+  @include media-screen-large {
+    height: get-height(2);
   }
 }

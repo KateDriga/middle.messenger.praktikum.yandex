@@ -13,6 +13,7 @@ export interface IPictureProps {
 const PIC_PATHS = {
   edit: require('../../images/icons/edit.svg'),
   insertFile: require('../../images/icons/insert-file.svg'),
+  sendMessage: require('../../images/icons/send-message.svg'),
   avatar: require('../../images/fake-test-images/superman.webp'),
 };
 
