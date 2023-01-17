@@ -1,24 +1,27 @@
-@import "src/common-styles/scroll";
-@import "src/common-styles/media-screen";
+@import 'src/common-styles/scroll';
+@import 'src/common-styles/media-screen';
 
 .chats_list {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+
   @include media-screen-medium {
     width: 50%;
     overflow-x: hidden;
   }
+
   @include media-screen-large {
     width: 400px;
   }
+
   @include custom-scroll(var(--polished-pine));
 }
 
-
 .chats_list.chats_list_hidden_mobile {
   display: none;
+
   @include media-screen-medium {
     display: flex;
   }

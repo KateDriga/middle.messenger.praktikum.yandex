@@ -12,7 +12,7 @@ export class InputChatMessage extends MyCoolComponent<IProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement('textarea', {
       key: 'input',
-      class: `${styles.input_chat_message} custom_scroll`,
+      class: `${styles.input_chat_message}`,
       name: this.props.name,
       placeholder: 'Message',
       rows: 3,

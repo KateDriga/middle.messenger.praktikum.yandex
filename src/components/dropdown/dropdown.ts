@@ -25,7 +25,7 @@ export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
         'select',
         {
           key: 'select',
-          class: styles.form__input_select,
+          class: styles.form_input_select,
           name: this.props.name,
           disabled: this.props.disabled ?? false,
           onChange: this.props.onChange,

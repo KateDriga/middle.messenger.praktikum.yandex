@@ -14,19 +14,19 @@ export interface IFormInput {
 }
 
 export function instanceOfIFormInputFieldProps(
-  object: IInputProps | any
+  object: IInputProps | IDropdownProps | IPictureProps | IInputFileProps
 ): object is IInputProps {
-  return object.htmlType === 'input';
+  return 'htmlType' in object && object.htmlType === 'input';
 }
 
 export function instanceOfIDropdownProps(
-  object: IDropdownProps | any
-): object is IInputProps {
-  return object.htmlType === 'select';
+  object: IInputProps | IDropdownProps | IPictureProps | IInputFileProps
+): object is IDropdownProps {
+  return 'htmlType' in object && object.htmlType === 'select';
 }
 
 export function instanceOfIPictureProps(
-  object: IPictureProps | any
+  object: IInputProps | IDropdownProps | IPictureProps | IInputFileProps
 ): object is IPictureProps {
   return 'picName' in object;
 }

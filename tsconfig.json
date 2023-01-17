@@ -11,6 +11,11 @@
   "skipLibCheck": true,
   "esModuleInterop": true,
   "strict": true,
+  "noImplicitAny": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "sourceMap": true,
+  "strictNullChecks": true,
   "include": [
     "src", "./declaration.d.ts"
   ]

@@ -1,11 +1,15 @@
-@mixin error_page {
+@mixin error-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--polished-pine);
-  h1, h2, h3 {
+
+  h1,
+  h2,
+  h3 {
     text-align: center;
   }
+
   img {
     width: 100%;
     min-width: 250px;

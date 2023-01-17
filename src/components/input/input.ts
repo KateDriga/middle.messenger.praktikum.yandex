@@ -29,13 +29,13 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
       'label',
       {
         key: this.props.label,
-        class: styles.form__input,
+        class: styles.form_input,
         style: this.props.style,
       },
       MyCoolTemplate.createTextElement(this.props.label),
       MyCoolTemplate.createElement('input', {
         key: 'input',
-        class: styles.form__input_field,
+        class: styles.form_input_field,
         type: this.props.type,
         placeholder: this.props.placeholder,
         name: this.props.name,
@@ -64,7 +64,7 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
       }),
       MyCoolTemplate.createElement(
         'span',
-        { key: 'error-text', class: styles.form__input_error_text },
+        { key: 'error-text', class: styles.form_input_error_text },
         MyCoolTemplate.createTextElement(
           this.state.hasError ? this.props.validation.errorText : ''
         )

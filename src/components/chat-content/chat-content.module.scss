@@ -1,8 +1,10 @@
-@import "src/common-styles/scroll";
+@import 'src/common-styles/scroll';
 
 .chat_content {
   display: flex;
   flex-direction: column;
+  width: 100%;
+
   @include custom-scroll(var(--polished-pine));
 }
 

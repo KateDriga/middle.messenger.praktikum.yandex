@@ -1,9 +1,10 @@
-@import "src/common-styles/media-screen";
+@import 'src/common-styles/media-screen';
 
 .chat_text_area {
   display: flex;
   flex: 1;
   max-height: 100%;
+
   @include media-screen-medium {
     display: flex;
     justify-content: center;
@@ -12,6 +13,7 @@
 
 .chat_text_area.chat_text_area_hidden_mobile {
   display: none;
+
   @include media-screen-medium {
     display: flex;
   }

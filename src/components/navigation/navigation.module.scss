@@ -1,8 +1,7 @@
 .navigation {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
   padding: 0;
 }

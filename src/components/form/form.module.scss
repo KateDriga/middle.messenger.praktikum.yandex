@@ -1,4 +1,5 @@
-@import "src/common-styles/media-screen";
+@import 'src/common-styles/media-screen';
+
 $content-width: 250px;
 
 .form {
@@ -12,12 +13,13 @@ $content-width: 250px;
   align-items: center;
   gap: 40px;
   height: fit-content;
+
   @include media-screen-large {
     width: 500px;
   }
 }
 
-.form__title {
+.form_title {
   text-align: center;
   color: var(--apricot);
   margin: 0;
@@ -41,7 +43,7 @@ $content-width: 250px;
   padding-bottom: 20px;
 }
 
-.form__error_text {
+.form_error_text {
   color: var(--deep-pink);
   font-weight: bold;
 }

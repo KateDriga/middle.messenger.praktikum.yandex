@@ -1,36 +1,35 @@
 :root {
-    --polished-pine: #5EA99D;
-    --linen: #F9EFE2;
-    --apricot: #FBCBAC;
-    --crystal-blue: #5EAFBC;
-    --deep-pink: #F32A93;
-    --white-smoke: #EFEFEF;
+  --polished-pine: #5ea99d;
+  --linen: #f9efe2;
+  --apricot: #fbcbac;
+  --crystal-blue: #5eafbc;
+  --deep-pink: #f32a93;
+  --white-smoke: #efefef;
 }
-
 
 body {
-    background-color: var(--linen);
-    font-family: 'Inter', sans-serif;
-    margin: 0;
+  background-color: var(--linen);
+  font-family: Inter, sans-serif;
+  margin: 0;
 }
 
-a, a:hover, a:focus, a:active {
-    text-decoration: none;
-    color: inherit;
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
 }
 
 ul {
-    padding: 0;
+  padding: 0;
 }
 
 li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 p {
-    margin: 0;
-    font-size: 14px;
+  margin: 0;
+  font-size: 14px;
 }
-
-
-

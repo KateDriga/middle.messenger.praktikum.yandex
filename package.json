@@ -3,20 +3,29 @@
   "version": "1.0.0",
   "description": "chat",
   "scripts": {
+    "lint": "eslint . --ext .ts && npx stylelint \"**/*.scss\"",
     "start": "parcel index.html -p 3000 --open --no-cache",
     "build": "parcel build index.html"
   },
   "author": "Kate Driga",
   "license": "ISC",
-  "engines" : {
-    "node" : ">=14.0"
+  "engines": {
+    "node": ">=14.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.8.2",
     "@types/node": "18.11.18",
+    "@typescript-eslint/eslint-plugin": "5.48.1",
+    "@typescript-eslint/parser": "5.48.1",
+    "eslint": "8.32.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
     "express": "4.18.2",
     "parcel": "2.8.2",
-    "prettier": "2.8.1",
-    "sass": "1.57.1"
+    "sass": "1.57.1",
+    "stylelint": "14.16.1",
+    "stylelint-config-prettier": "9.0.4",
+    "stylelint-config-standard": "29.0.0",
+    "stylelint-config-standard-scss": "6.1.0"
   }
 }

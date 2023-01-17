@@ -91,7 +91,7 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
         'ul',
         {
           key: 'messages-list',
-          class: `${styles.messages_list} custom_scroll`,
+          class: `${styles.messages_list}`,
         },
         ...this.state.messages.map((ms, idx) =>
           MyCoolTemplate.createComponent(ChatMessage, {

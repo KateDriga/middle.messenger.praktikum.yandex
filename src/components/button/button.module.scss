@@ -1,34 +1,40 @@
 .btn {
-    border: 2px solid;
-    border-radius: 10px;
-    height: 40px;
-    cursor: pointer;
-    transition: 0.4s;
-    width: 100%;
-    min-width: 150px;
+  border: 2px solid;
+  border-radius: 10px;
+  height: 40px;
+  cursor: pointer;
+  transition: 0.4s;
+  width: 100%;
+  min-width: 150px;
 }
 
 .btn.primary {
-    background-color: var(--linen);
-    border-color: var(--apricot);
-    color: var(--polished-pine);
-    font-weight: bold;
-    &:hover, &:focus {
-        background-color: var(--deep-pink);
-        border-color: var(--linen);
-        color: var(--linen);
-    }
+  background-color: var(--linen);
+  border-color: var(--apricot);
+  color: var(--polished-pine);
+  font-weight: bold;
+
+  &:hover,
+  &:focus {
+    background-color: var(--deep-pink);
+    border-color: var(--linen);
+    color: var(--linen);
+  }
 }
 
 .btn.secondary {
-    background-color: var(--polished-pine);
-    border-color: var(--linen);
-    color: var(--linen);
-    &:hover, &:focus {
-        background-color: var(--deep-pink);
-    }
+  background-color: var(--polished-pine);
+  border-color: var(--linen);
+  color: var(--linen);
+
+  &:hover,
+  &:focus {
+    background-color: var(--deep-pink);
+  }
 }
 
-.btn.active, .btn.primary.active, .btn.secondary.active {
-    background-color: var(--deep-pink);
+.btn.active,
+.btn.primary.active,
+.btn.secondary.active {
+  background-color: var(--deep-pink);
 }

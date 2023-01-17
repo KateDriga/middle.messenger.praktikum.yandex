@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MyCoolComponent } from './my-cool-component';
 
 export enum ElementTypes {
@@ -40,7 +41,7 @@ export interface IVirtualDomAttributes {
     | string
     | boolean
     | number
-    | Function
+    | ((arg?: any) => void)
     | Array<any>
     | Record<string, any>;
 }

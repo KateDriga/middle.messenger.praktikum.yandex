@@ -1,7 +1,7 @@
-@import "src/common-styles/page";
+@import 'src/common-styles/page';
 
 .not_found_page {
-  @include error_page;
+  @include error-page;
 }
 
 .redirect {

@@ -1,4 +1,4 @@
-@import "src/common-styles/input-field";
+@import 'src/common-styles/input-field';
 
 .chats_list_header {
   display: flex;
@@ -17,8 +17,8 @@
   position: relative;
 }
 
-.search_label:after {
-  content: "";
+.search_label::after {
+  content: '';
   position: absolute;
   left: 10px;
   top: 50%;

@@ -32,7 +32,9 @@ const checkPropsEqual = (
   const newPropsLength = Object.keys(newProps).length;
   if (oldPropsLength === newPropsLength) {
     return Object.keys(oldProps).every(
-      key => newProps.hasOwnProperty(key) && oldProps[key] === newProps[key]
+      key =>
+        Object.prototype.hasOwnProperty.call(newProps, key) &&
+        oldProps[key] === newProps[key]
     );
   }
   return false;
@@ -66,8 +68,9 @@ function createTextElement(
   };
 }
 
-function createComponent<P extends Record<string, any>>(
-  component: { new (): MyCoolComponent<P, any> },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function createComponent<P extends Record<string, any>, S>(
+  component: { new (): MyCoolComponent<P, S> },
   props: IVirtualDomProps
 ): IVirtualDomComponent {
   const checkedProps = checkKey(props, component.name);
@@ -128,7 +131,7 @@ function createDiff(
     return {
       type: OperationTypes.REPLACE,
       newNode: newNode.instance.initProps(newNode.props),
-      callback: e => newNode.instance.notifyMounted(e),
+      callback: el => newNode.instance.notifyMounted(el),
     };
   }
 
@@ -256,11 +259,8 @@ function addProps(
 ) {
   Object.keys(props).forEach(prop => {
     if (isEvent(prop)) {
-      if (props[prop] instanceof Function) {
-        const eventType = prop.substring(2).toLowerCase();
-        // @ts-ignore function type check added
-        element.addEventListener(eventType, props[prop]);
-      }
+      const eventType = prop.substring(2).toLowerCase();
+      element.addEventListener(eventType, props[prop] as (e?: Event) => void);
     } else if (prop === 'class') {
       if (nodeType === ElementTypes.ELEMENT) {
         element.className = props[prop].toString();
@@ -308,10 +308,8 @@ function applyChildrenDiff(
       return;
     }
     if (operation.type === OperationTypes.INSERT) {
-      if (element.childNodes[idx + offset - 1]) {
-        element.childNodes[idx + offset - 1].after(
-          renderElement(operation.node)
-        );
+      if (element.childNodes[idx + offset]) {
+        element.childNodes[idx + offset].before(renderElement(operation.node));
       } else {
         element.appendChild(renderElement(operation.node));
       }

@@ -11,6 +11,7 @@ export interface IRoute {
   title: string;
   path: string;
   pathRegExp: RegExp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: { new (): MyCoolComponent<any, any> };
 }
 

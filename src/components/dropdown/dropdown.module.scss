@@ -13,7 +13,7 @@
   width: 100%;
 }
 
-.form__input_select {
+.form_input_select {
   height: 35px;
   border: 2px solid var(--apricot);
   border-radius: 10px;
@@ -21,6 +21,7 @@
   width: 70px;
   color: var(--polished-pine);
   text-indent: 10px;
+
   &:focus {
     outline-color: var(--deep-pink);
   }

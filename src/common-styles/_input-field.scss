@@ -1,4 +1,4 @@
-@mixin form-input-field($padding, $placeholder-color:"") {
+@mixin form-input-field($padding, $placeholder-color: '') {
   height: 35px;
   border: 2px solid var(--apricot);
   border-radius: 10px;
@@ -8,11 +8,13 @@
   text-indent: 10px;
   box-sizing: border-box;
   padding: $padding;
+
   &:focus {
     outline-color: var(--deep-pink);
   }
+
   &::placeholder {
     opacity: 0.5;
-    color: unquote($placeholder-color);
+    color: $placeholder-color;
   }
 }

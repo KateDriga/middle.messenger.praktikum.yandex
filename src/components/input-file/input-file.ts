@@ -17,7 +17,7 @@ export class InputFile extends MyCoolComponent<IInputFileProps, null> {
       'label',
       {
         key: 'file-input',
-        class: styles.form__input_file,
+        class: styles.form_input_file,
         style: this.props.style,
       },
       MyCoolTemplate.createTextElement(this.props.label),

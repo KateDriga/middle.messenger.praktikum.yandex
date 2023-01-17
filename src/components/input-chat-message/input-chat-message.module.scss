@@ -5,9 +5,11 @@
   resize: none;
   padding: 10px;
   color: var(--polished-pine);
+
   &:focus {
     outline-color: var(--deep-pink);
   }
+
   &::placeholder {
     color: var(--polished-pine);
   }

@@ -1,5 +1,5 @@
-@import "src/common-styles/page";
+@import 'src/common-styles/page';
 
 .server_error_page {
-  @include error_page;
+  @include error-page;
 }

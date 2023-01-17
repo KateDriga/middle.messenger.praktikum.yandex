@@ -54,7 +54,7 @@ export class ChatsList extends MyCoolComponent<{ id: string | null }, IState> {
         'ul',
         {
           key: 'chat-listing',
-          class: `${styles.chat_listing} custom_scroll`,
+          class: `${styles.chat_listing}`,
         },
         ...this.state.chatsToDisplay.map(chat =>
           MyCoolTemplate.createComponent(ChatListItem, {

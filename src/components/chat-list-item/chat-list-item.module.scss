@@ -2,12 +2,15 @@
   background-clip: content-box;
   background-color: var(--white-smoke);
   border-radius: 40px;
+
   .chat_list_title {
     color: var(--crystal-blue);
   }
+
   .chat_list_last_message {
     color: var(--polished-pine);
   }
+
   .chat_list_time {
     color: var(--polished-pine);
   }
@@ -19,14 +22,16 @@
   gap: 20px;
   padding: 0 10px;
   cursor: pointer;
+
   &:hover {
-    @include active-style();
+    @include active-style;
   }
 }
 
 .chat_list_item.chat_list_item_active {
-  @include active-style();
   transition: 0.4s;
+
+  @include active-style;
 }
 
 .separator {

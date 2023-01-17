@@ -34,7 +34,7 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
 
   componentDidMount() {
     if (this.state.isActive) {
-      this.scrollToElement({ behavior: 'smooth' });
+      this.scrollToElement({ block: 'center' });
     }
     super.componentDidMount();
   }
@@ -45,6 +45,9 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
   }
 
   render(): TVirtualDomNode {
+    if (this.props.id === 133) {
+      console.log('rerender');
+    }
     return MyCoolTemplate.createElement(
       'li',
       {

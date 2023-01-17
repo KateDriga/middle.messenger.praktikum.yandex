@@ -72,10 +72,12 @@ export abstract class MyCoolComponent<P, S> {
   }
 
   // Lifecycle Methods
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public componentDidMount() {}
   public componentWillReceiveProps(props: P, state: S): S {
     return state;
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public componentDidUpdate() {}
   public componentWillUnmount() {
     MyCoolTemplate.unmountChildNodes(this.currentRootNode);

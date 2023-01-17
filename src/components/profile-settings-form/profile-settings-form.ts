@@ -85,7 +85,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const emailEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => this.allowInputEdit(email),
+      onClick: () => this.allowInputEdit(email),
     };
     // login
     const login: IInputProps = {
@@ -99,7 +99,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const loginEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => this.allowInputEdit(login),
+      onClick: () => this.allowInputEdit(login),
     };
     // first name
     const firstName: IInputProps = {
@@ -113,7 +113,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const firstNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => this.allowInputEdit(firstName),
+      onClick: () => this.allowInputEdit(firstName),
     };
     // last name
     const lastName: IInputProps = {
@@ -127,7 +127,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const lastNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => this.allowInputEdit(lastName),
+      onClick: () => this.allowInputEdit(lastName),
     };
     // chat name
     const chatName: IInputProps = {
@@ -144,7 +144,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const chatNameEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => this.allowInputEdit(chatName),
+      onClick: () => this.allowInputEdit(chatName),
     };
     // phone number
     const phoneCode: IDropdownProps = {
@@ -165,7 +165,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const phoneNumberEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => {
+      onClick: () => {
         this.allowInputEdit(phoneCode);
         this.allowInputEdit(phoneNumber);
       },
@@ -184,7 +184,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     const passwordEdit: IPictureProps = {
       picName: 'edit',
       type: 'icon',
-      onClick: (_: Event) => {
+      onClick: () => {
         passwordEdit.onClick = null;
         const confirmPassword: IInputProps = {
           ...PASSWORD_INPUT,

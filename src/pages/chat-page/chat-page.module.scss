@@ -1,4 +1,4 @@
-@import "src/common-styles/media-screen";
+@import 'src/common-styles/media-screen';
 
 .chat_page {
   display: flex;
@@ -7,12 +7,14 @@
   max-height: 75vh;
   background-color: var(--polished-pine);
   border-radius: 20px;
+
   @include media-screen-medium {
     flex-direction: row;
     gap: 0;
   }
 }
 
-.chats_list, .chats_text_area {
+.chats_list,
+.chats_text_area {
   max-height: 100%;
 }

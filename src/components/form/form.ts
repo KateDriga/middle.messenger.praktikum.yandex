@@ -29,7 +29,7 @@ export interface IFormState {
   isValid: boolean;
 }
 
-export class Form extends MyCoolComponent<IProps, any> {
+export class Form extends MyCoolComponent<IProps, null> {
   render(): TVirtualDomNode {
     return MyCoolTemplate.createElement(
       'form',
@@ -41,7 +41,7 @@ export class Form extends MyCoolComponent<IProps, any> {
       },
       MyCoolTemplate.createElement(
         'h2',
-        { key: this.props.title, class: styles.form__title },
+        { key: this.props.title, class: styles.form_title },
         MyCoolTemplate.createTextElement(this.props.title)
       ),
       MyCoolTemplate.createElement(
@@ -61,7 +61,7 @@ export class Form extends MyCoolComponent<IProps, any> {
         { key: 'form-buttons', class: styles.form_buttons },
         MyCoolTemplate.createElement(
           'span',
-          { key: 'error-text', class: styles.form__error_text },
+          { key: 'error-text', class: styles.form_error_text },
           MyCoolTemplate.createTextElement(this.props.errorText)
         ),
         ...this.props.buttons.map(btn =>
