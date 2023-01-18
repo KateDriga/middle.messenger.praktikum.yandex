@@ -9,22 +9,28 @@ import {
   getRegExpForPath,
   ROUTES,
 } from '../../utils/const-variables/pages';
+import {
+  HistoryEventTypes,
+  RouterService,
+} from '../../services/router-service';
 
 export interface IChatSelectedState {
   chatId: string | null;
 }
 
 export class ChatPage extends MyCoolComponent<null, IChatSelectedState> {
-  state: IChatSelectedState = {
-    chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
-      ? getChatIdFromPath()
-      : null,
-  };
+  state: IChatSelectedState;
+  routerService: RouterService;
 
   constructor() {
     super();
+    this.state = {
+      chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
+        ? getChatIdFromPath()
+        : null,
+    };
+    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
-    window.addEventListener('popstate', this.handlePathChange);
   }
 
   handlePathChange() {
@@ -35,8 +41,13 @@ export class ChatPage extends MyCoolComponent<null, IChatSelectedState> {
     }));
   }
 
+  componentDidMount() {
+    this.routerService.on(HistoryEventTypes.POPSTATE, this.handlePathChange);
+    super.componentDidMount();
+  }
+
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handlePathChange);
+    this.routerService.off(HistoryEventTypes.POPSTATE, this.handlePathChange);
     super.componentWillUnmount();
   }
 

@@ -10,25 +10,26 @@ import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 import { navigate } from '../../utils/util-functions/router';
 import { getChatIdFromPath, ROUTES } from '../../utils/const-variables/pages';
 import { Picture } from '../picture/picture';
+import {
+  HistoryEventTypes,
+  RouterService,
+} from '../../services/router-service';
 
 interface IState {
   isActive: boolean;
 }
 
 export class ChatListItem extends MyCoolComponent<IChat, IState> {
-  state: IState = { isActive: false };
+  state: IState;
   ref: IRef;
+  routerService: RouterService;
 
   constructor() {
     super();
+    this.state = { isActive: false };
     this.ref = MyCoolTemplate.createRef();
+    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
-    window.addEventListener('popstate', this.handlePathChange);
-  }
-
-  initProps(props: IChat): TVirtualDomNode {
-    this.state.isActive = getChatIdFromPath() === props.id.toString();
-    return super.initProps(props);
   }
 
   handlePathChange() {
@@ -37,9 +38,17 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
     }));
   }
 
+  initProps(props: IChat): IChat {
+    this.state.isActive = getChatIdFromPath() === props.id.toString();
+    return super.initProps(props);
+  }
+
   componentDidMount() {
+    this.routerService.on(HistoryEventTypes.POPSTATE, this.handlePathChange);
     if (this.state.isActive) {
-      this.ref.current.scrollIntoView({ block: 'center' });
+      setTimeout(() =>
+        this.ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      );
     }
     super.componentDidMount();
   }
@@ -52,7 +61,7 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handlePathChange);
+    this.routerService.off(HistoryEventTypes.POPSTATE, this.handlePathChange);
     super.componentWillUnmount();
   }
 

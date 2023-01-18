@@ -128,7 +128,7 @@ function createDiff(
   }
   // replace component
   if (oldNode.type === ElementTypes.COMPONENT) {
-    oldNode.instance.unmount();
+    oldNode.instance.dispatchUnmount();
     oldNode.instance = null;
     return { type: OperationTypes.REPLACE, newNode };
   }
@@ -137,8 +137,8 @@ function createDiff(
     newNode.instance = new newNode.component();
     return {
       type: OperationTypes.REPLACE,
-      newNode: newNode.instance.initProps(newNode.props),
-      callback: el => newNode.instance.notifyMounted(el),
+      newNode: newNode.instance.dispatchInitProps(newNode.props),
+      callback: el => newNode.instance.dispatchComponentDidMount(el),
     };
   }
 
@@ -203,7 +203,7 @@ function removeBeforeKey(
 ) {
   while (elements[0] && elements[0][0] !== key) {
     if (elements[0][1].type == ElementTypes.COMPONENT) {
-      elements[0][1].instance.unmount();
+      elements[0][1].instance.dispatchUnmount();
       elements[0][1].instance = null;
     }
     operations.push({ type: OperationTypes.REMOVE });
@@ -227,7 +227,7 @@ function unmountChildNodes(node: TVirtualDomNode) {
       .filter(child => child.type !== ElementTypes.TEXT)
       .forEach(child =>
         child.type === ElementTypes.COMPONENT
-          ? child.instance.unmount()
+          ? child.instance.dispatchUnmount()
           : unmountChildNodes(child)
       );
   }
@@ -245,9 +245,9 @@ function renderElement(node: TVirtualDomNode): HTMLElement | Text {
       element = renderElement(node.instance.render());
     } else {
       node.instance = new node.component();
-      element = renderElement(node.instance.initProps(node.props));
+      element = renderElement(node.instance.dispatchInitProps(node.props));
     }
-    node.instance.notifyMounted(element);
+    node.instance.dispatchComponentDidMount(element);
     return element;
   }
   // render element

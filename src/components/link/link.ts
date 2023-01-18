@@ -8,6 +8,10 @@ import {
   getPathWithoutTrailingSlash,
   ROUTES,
 } from '../../utils/const-variables/pages';
+import {
+  HistoryEventTypes,
+  RouterService,
+} from '../../services/router-service';
 
 interface IProps {
   title: string;
@@ -20,14 +24,15 @@ interface IState {
 }
 
 export class Link extends MyCoolComponent<IProps, IState> {
-  state: IState = { isActive: false };
+  state: IState;
+  routerService: RouterService;
 
   constructor() {
     super();
-    this.navigate = this.navigate.bind(this);
+    this.state = { isActive: false };
+    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
-    window.addEventListener('load', this.handlePathChange);
-    window.addEventListener('popstate', this.handlePathChange);
+    this.navigate = this.navigate.bind(this);
   }
 
   handlePathChange() {
@@ -47,9 +52,15 @@ export class Link extends MyCoolComponent<IProps, IState> {
     navigate(this.props.href);
   };
 
+  componentDidMount() {
+    this.routerService.on(HistoryEventTypes.LOAD, this.handlePathChange);
+    this.routerService.on(HistoryEventTypes.POPSTATE, this.handlePathChange);
+    super.componentDidMount();
+  }
+
   componentWillUnmount() {
-    window.removeEventListener('load', this.handlePathChange);
-    window.removeEventListener('popstate', this.handlePathChange);
+    this.routerService.off(HistoryEventTypes.LOAD, this.handlePathChange);
+    this.routerService.off(HistoryEventTypes.POPSTATE, this.handlePathChange);
     super.componentWillUnmount();
   }
 

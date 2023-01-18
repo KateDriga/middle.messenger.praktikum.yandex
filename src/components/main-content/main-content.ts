@@ -8,20 +8,26 @@ import {
   ROUTES,
 } from '../../utils/const-variables/pages';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
+import {
+  HistoryEventTypes,
+  RouterService,
+} from '../../services/router-service';
 
 interface IState {
   path: string;
 }
 
 export class MainContent extends MyCoolComponent<null, IState> {
-  state: IState = {
-    path: getPathWithoutTrailingSlash(window.location.pathname),
-  };
+  state: IState;
+  routerService: RouterService;
 
   constructor() {
     super();
+    this.state = {
+      path: getPathWithoutTrailingSlash(window.location.pathname),
+    };
+    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
-    window.addEventListener('popstate', this.handlePathChange);
   }
 
   handlePathChange() {
@@ -30,8 +36,13 @@ export class MainContent extends MyCoolComponent<null, IState> {
     }));
   }
 
+  componentDidMount() {
+    this.routerService.on(HistoryEventTypes.POPSTATE, this.handlePathChange);
+    super.componentDidMount();
+  }
+
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handlePathChange);
+    this.routerService.off(HistoryEventTypes.POPSTATE, this.handlePathChange);
     super.componentWillUnmount();
   }
 

@@ -4,6 +4,7 @@ import {
   TVirtualDomUpdateOperation,
 } from './my-cool-template-types';
 import { MyCoolTemplate } from './my-cool-template';
+import { EventBus, EventBusTypes, TListener } from '../../services/event-bus';
 
 export abstract class MyCoolComponent<P, S> {
   protected props: P;
@@ -11,6 +12,46 @@ export abstract class MyCoolComponent<P, S> {
 
   private currentRootNode: TVirtualDomNode;
   private mountedElement: HTMLElement | Text;
+  private readonly eventBus: () => EventBus;
+
+  constructor() {
+    const eventBus = new EventBus();
+    this.eventBus = () => eventBus;
+    this._registerEvents(eventBus);
+  }
+
+  private _registerEvents(eventBus: EventBus) {
+    eventBus.on(EventBusTypes.INIT, this._initProps.bind(this));
+    eventBus.on(EventBusTypes.FLOW_CDM, this._componentDidMount.bind(this));
+    eventBus.on(EventBusTypes.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(
+      EventBusTypes.FLOW_CWRP,
+      this._componentWillReceiveProps.bind(this)
+    );
+    eventBus.on(EventBusTypes.FLOW_CWU, this._componentWillUnmount.bind(this));
+    eventBus.on(EventBusTypes.FLOW_RENDER, this._render.bind(this));
+  }
+
+  private _clearEvents() {
+    Object.entries(this.eventBus().listeners).forEach(
+      ([event, callbacks]: [string, Array<TListener>]) =>
+        callbacks.forEach(callback => this.eventBus().off(event, callback))
+    );
+  }
+
+  public dispatchInitProps(props: P): TVirtualDomNode {
+    this.eventBus().emit(EventBusTypes.INIT, props);
+    return this.currentRootNode;
+  }
+
+  // called when mounting the element to Virtual Dom
+  private _initProps(props: P) {
+    this.props = this.initProps(props);
+    this.eventBus().emit(EventBusTypes.FLOW_RENDER);
+  }
+  public initProps(props: P): P {
+    return props;
+  }
 
   // called when mounted element should receive new state
   protected setState(updater: (s: S) => S) {
@@ -26,28 +67,20 @@ export abstract class MyCoolComponent<P, S> {
     if (this.mountedElement === null) {
       throw new Error('Setting props on unmounted component');
     }
-    this.state = this.componentWillReceiveProps(props, this.state);
+    this.eventBus().emit(EventBusTypes.FLOW_CWRP, props, this.state);
     this.props = props;
     return this.getUpdateDiff();
   }
 
-  // called when mounting the element to Virtual Dom
-  public initProps(props: P): TVirtualDomNode {
-    this.props = props;
-    this.currentRootNode = this.render();
-    return this.currentRootNode;
-  }
-
   // called when the component is mounted in the real DOM
-  public notifyMounted(element: HTMLElement | Text) {
+  public dispatchComponentDidMount(element: HTMLElement | Text) {
     this.mountedElement = element;
-    setTimeout(() => this.componentDidMount());
+    setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDM));
   }
 
   // called when the component will be unmounted
-  public unmount() {
-    this.componentWillUnmount();
-    this.mountedElement = null;
+  public dispatchUnmount() {
+    this.eventBus().emit(EventBusTypes.FLOW_CWU);
   }
 
   private getUpdateDiff(): TVirtualDomUpdateOperation {
@@ -57,31 +90,43 @@ export abstract class MyCoolComponent<P, S> {
       diff.callback = elem => (this.mountedElement = elem);
     }
     this.currentRootNode = newRootNode;
-    setTimeout(() => this.componentDidUpdate());
+    setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDU));
     return diff;
   }
 
-  public scrollToElement(arg?: boolean | ScrollIntoViewOptions) {
-    if (!this.mountedElement) {
-      throw new Error('Scrolling to unmounted component');
-    }
-    if (this.mountedElement instanceof Text) {
-      throw new Error('Text Element does not support scrollIntoView');
-    }
-    this.mountedElement.scrollIntoView(arg);
+  // Lifecycle Flow Events
+  private _componentDidMount() {
+    this.componentDidMount();
   }
-
-  // Lifecycle Methods
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public componentDidMount() {}
+
+  private _componentWillReceiveProps(props: P, state: S) {
+    this.state = this.componentWillReceiveProps(props, state);
+  }
   public componentWillReceiveProps(props: P, state: S): S {
     return state;
   }
+
+  private _componentDidUpdate() {
+    this.componentDidUpdate();
+  }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public componentDidUpdate() {}
-  public componentWillUnmount() {
-    MyCoolTemplate.unmountChildNodes(this.currentRootNode);
-  }
 
+  private _componentWillUnmount() {
+    this.componentWillUnmount();
+    setTimeout(() => {
+      MyCoolTemplate.unmountChildNodes(this.currentRootNode);
+      this.mountedElement = null;
+      this._clearEvents();
+    });
+  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public componentWillUnmount() {}
+
+  private _render() {
+    this.currentRootNode = this.render();
+  }
   public abstract render(): TVirtualDomNode;
 }

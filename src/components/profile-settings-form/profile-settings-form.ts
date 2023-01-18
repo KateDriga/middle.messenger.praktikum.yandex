@@ -44,6 +44,7 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
     this.allowInputEdit = this.allowInputEdit.bind(this);
     this.generateInitInputFields = this.generateInitInputFields.bind(this);
     this.reset = this.reset.bind(this);
+    this.state.inputs = this.generateInitInputFields();
   }
   clearError() {
     if (!this.state.isValid) {
@@ -222,11 +223,6 @@ export class ProfileSettingsForm extends MyCoolComponent<null, IState> {
       [phoneCode, phoneNumber, phoneNumberEdit],
       [password, passwordEdit],
     ];
-  }
-
-  initProps(props: null): TVirtualDomNode {
-    this.state.inputs = this.generateInitInputFields();
-    return super.initProps(props);
   }
 
   reset() {
