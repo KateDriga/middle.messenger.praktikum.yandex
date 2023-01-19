@@ -6,7 +6,6 @@ import { ROUTES } from '../../utils/const-variables/pages';
 import { Template } from '../../utils/template/template';
 import { Form, IFormState } from '../../components/form/form';
 import { IInputProps, InputNameTypes } from '../../components/input/input';
-import { IDropdownProps } from '../../components/dropdown/dropdown';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 
 export interface IRegisterPageState extends IFormState {
@@ -15,7 +14,7 @@ export interface IRegisterPageState extends IFormState {
 
 export class RegisterPage extends Block<null, IRegisterPageState> {
   state: IRegisterPageState = { isValid: true, errorText: null };
-  inputs: Array<IInputProps | Array<IInputProps | IDropdownProps>>;
+  inputs: Array<IInputProps>;
   errorInputs = new Set<string>();
   buttons: Array<IButtonProps> = [
     { title: 'Sign up', type: 'primary', htmlType: 'submit' },
@@ -42,7 +41,7 @@ export class RegisterPage extends Block<null, IRegisterPageState> {
     e.preventDefault();
     if (this.errorInputs.size === 0) {
       const passwords = this.inputs.filter(
-        input => !Array.isArray(input) && input.name === InputNameTypes.PASSWORD
+        input => input.name === InputNameTypes.PASSWORD
       ) as Array<IInputProps>;
       if (new Set(passwords.map(pass => pass.value)).size !== 1) {
         this.setState(() => ({

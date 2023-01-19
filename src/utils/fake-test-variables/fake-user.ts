@@ -3,10 +3,7 @@ export interface IUser {
   login: string;
   firstName: string;
   lastName: string;
-  phone: {
-    code: string;
-    number: string;
-  };
+  phone: string;
   chatName: string;
   password: string;
 }
@@ -16,10 +13,7 @@ export const USER: IUser = {
   login: 'ivanivanov',
   firstName: 'Ivan',
   lastName: 'Ivanov',
-  phone: {
-    code: '+7',
-    number: '9991234567',
-  },
+  phone: '+79991234567',
   chatName: 'Mega',
   password: '',
 };

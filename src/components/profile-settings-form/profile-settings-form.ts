@@ -1,11 +1,6 @@
 import { Template } from '../../utils/template/template';
 import { Block } from '../../utils/block/block';
-import { IInputProps, InputNameTypes } from '../input/input';
-import { IDropdownProps } from '../dropdown/dropdown';
-import {
-  instanceOfIDropdownProps,
-  instanceOfIPictureProps,
-} from '../form-input-field/form-input-field';
+import { IInputProps } from '../input/input';
 import { IPictureProps } from '../picture/picture';
 import { USER } from '../../utils/fake-test-variables/fake-user';
 import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
@@ -19,13 +14,12 @@ import { IRegisterPageState } from '../../pages/register-page/register-page';
 
 export type TInputPropsWithRef = IInputProps & { ref: IRef };
 
-export interface IProfileSettingsInput {
-  key: InputNameTypes;
-  value: Array<TInputPropsWithRef | IPictureProps | IDropdownProps>;
-}
+export type TProfileSettingsInput =
+  | [TInputPropsWithRef, IPictureProps]
+  | TInputPropsWithRef;
 
 interface IState extends IRegisterPageState {
-  inputs: Array<IProfileSettingsInput>;
+  inputs: Array<TProfileSettingsInput>;
 }
 
 export class ProfileSettingsForm extends Block<null, IState> {
@@ -64,7 +58,6 @@ export class ProfileSettingsForm extends Block<null, IState> {
   }
 
   focusInput(prop: TInputPropsWithRef) {
-    console.log('focusInput', prop);
     const input = prop.ref.current as HTMLInputElement;
     input.focus();
     // input type 'email' does not support selection
@@ -74,25 +67,26 @@ export class ProfileSettingsForm extends Block<null, IState> {
     }
   }
 
-  allowInputEdit(inputKey: InputNameTypes) {
-    const updatedInputs = this.state.inputs.map(inputBlock => {
-      if (inputBlock.key === inputKey) {
-        inputBlock.value.map(input => {
-          if (!instanceOfIPictureProps(input)) {
-            input.disabled = false;
-            if (!instanceOfIDropdownProps(input)) {
-              this.focusInput(input);
-            }
-          }
-          return input;
-        });
+  allowInputEdit(prop: TInputPropsWithRef) {
+    prop.disabled = false;
+    const updatedInputs: Array<TProfileSettingsInput> = this.state.inputs.map(
+      inputBlock => {
+        if (inputBlock[0] === prop) {
+          const updatedInput = { ...inputBlock[0], disabled: false };
+          const updatedEdit = {
+            ...inputBlock[1],
+            onClick: () => this.focusInput(updatedInput),
+          };
+          return [updatedInput, updatedEdit];
+        }
+        return inputBlock;
       }
-      return inputBlock;
-    });
+    );
     this.setState(() => ({ ...this.state, inputs: updatedInputs }));
   }
 
-  addConfirmPasswordInput() {
+  addConfirmPasswordInput(input: TInputPropsWithRef) {
+    this.allowInputEdit(input);
     const confirmPassword = generateConfirmPasswordInput(
       this.errorInputs,
       this.clearError
@@ -118,11 +112,10 @@ export class ProfileSettingsForm extends Block<null, IState> {
   }
 
   render(): TVirtualDomNode {
-    const inputs = this.state.inputs.map(input => input.value);
     return Template.createComponent(Form, {
       key: 'settings-page-profile',
       title: 'Profile Settings',
-      inputs,
+      inputs: this.state.inputs,
       buttons: this.buttons,
       // TODO add submit function
       submit: e => {

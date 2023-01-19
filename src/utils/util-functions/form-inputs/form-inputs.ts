@@ -5,15 +5,12 @@ import {
   LAST_NAME_INPUT,
   LOGIN_INPUT,
   PASSWORD_INPUT,
-  PHONE_CODE_INPUT,
-  PHONE_COUNTRY_CODES,
   PHONE_NUMBER_INPUT,
 } from '../../const-variables/field-inputs';
 import {
   IValidation,
   saveAndTestValue,
 } from '../../const-variables/field-validation';
-import { IDropdownProps } from '../../../components/dropdown/dropdown';
 
 export function generateEmailInput(
   errorInputs: Set<string>,
@@ -97,17 +94,6 @@ export function generateChatNameInput(
     clearError,
   };
   return chatName;
-}
-
-export function generatePhoneCodeInput(
-  errorInputs: Set<string>
-): IDropdownProps {
-  const phoneCode: IDropdownProps = {
-    ...PHONE_CODE_INPUT,
-    value: PHONE_COUNTRY_CODES[0],
-    onChange: (e: Event) => saveAndTestValue(e, phoneCode, errorInputs),
-  };
-  return phoneCode;
 }
 
 export function generatePhoneNumberInput(
