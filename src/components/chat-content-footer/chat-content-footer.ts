@@ -4,6 +4,7 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { InputChatMessage } from '../input-chat-message/input-chat-message';
 import { Picture } from '../picture/picture';
+import { InputNameTypes } from '../input/input';
 
 interface IProps {
   onSendMessage: (e: KeyboardEvent | MouseEvent) => void;
@@ -23,7 +24,7 @@ export class ChatContentFooter extends Block<IProps, null> {
       }),
       Template.createComponent(InputChatMessage, {
         key: 'chat-message-send',
-        name: 'message',
+        name: InputNameTypes.MESSAGE,
         onKeyDown: this.props.onSendMessage,
       }),
       Template.createComponent(Picture, {

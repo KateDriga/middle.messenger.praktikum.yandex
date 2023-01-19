@@ -1,28 +1,21 @@
 import { IInputProps } from '../../components/input/input';
 import { IDropdownProps } from '../../components/dropdown/dropdown';
-import { instanceOfIFormInputFieldProps } from '../../components/form-input-field/form-input-field';
 
 export interface IValidation {
   rule: RegExp;
   errorText: string;
-  replaceFn?: (e: Event) => void;
 }
 
 export const LOGIN_VALIDATION: IValidation = {
-  rule: /.{5,50}/,
+  rule: /^(?=[a-zA-Z\d_-]{3,20}$)(?!\s)(?=.*[a-zA-Z]+).*$/,
   errorText:
-    'Incorrect login (must contain at least 5\u00A0symbols and must not be longer than 50\u00A0characters)',
+    'Incorrect login (must contain minimum 3\u00A0characters, maximum 20\u00A0characters, may contain numbers, -\u00A0or _\u00A0signs, spaces are not allowed)',
 };
 
 export const PASSWORD_VALIDATION: IValidation = {
-  rule: /[^\n]+/,
-  errorText: '',
-};
-
-export const PASSWORD_REGISTER_VALIDATION: IValidation = {
-  rule: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@.,:;$!%*#?&^_-]{8,}$/,
+  rule: /^(?=.{8,40}$)(?=.*[A-Z])(?=.*\d).*$/,
   errorText:
-    'Password must contain minimum 8\u00A0characters, at least 1\u00A0uppercase letter, 1\u00A0lowercase letter and 1\u00A0number, spaces are not allowed',
+    'Password must contain minimum 8\u00A0characters, maximum 40\u00A0characters, at least 1\u00A0uppercase letter and 1\u00A0number',
 };
 
 export const EMAIL_VALIDATION: IValidation = {
@@ -31,37 +24,29 @@ export const EMAIL_VALIDATION: IValidation = {
 };
 
 export const FIRST_NAME_VALIDATION: IValidation = {
-  rule: /^[A-Za-z]+$/,
-  errorText: 'Name must include only letters',
+  rule: /^[A-ZА-Я][a-zа-я-]+$/,
+  errorText:
+    'Must start with upper case, must contain only letters or -\u00A0sign',
 };
 
-export const LAST_NAME_VALIDATION = {
-  rule: /^[A-Za-z'-]+$/,
-  errorText: 'Incorrect last name',
+export const LAST_NAME_VALIDATION: IValidation = FIRST_NAME_VALIDATION;
+
+export const PHONE_NUMBER_VALIDATION: IValidation = {
+  rule: /^[+]?\d{10,15}$/,
+  errorText:
+    'Invalid phone number (must contain 10-15\u00A0characters, may start with a plus sign)',
 };
 
-export const PHONE_NUMBER_VALIDATION = {
-  rule: /^\(\d{3}\)\s\d{3}-\d{4}$/,
-  errorText: 'Invalid phone number',
-  replaceFn: (e: Event) => {
-    const num = (<HTMLInputElement>e.target).value
-      .replace(/\D/g, '')
-      .match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-    (<HTMLInputElement>e.target).value = !num[2]
-      ? num[1]
-      : '(' + num[1] + ') ' + num[2] + (num[3] ? '-' + num[3] : '');
-  },
+export const MESSAGE_VALIDATION = {
+  rule: /(?!^$)(\S)/,
+  errorText: 'Should not be empty',
 };
 
 export const saveAndTestValue = (
   e: Event,
-  props: IInputProps | IDropdownProps,
-  errorInputs: Set<string>
+  props: IInputProps | IDropdownProps
 ) => {
   props.value = (<HTMLInputElement>e.target).value;
-  if (instanceOfIFormInputFieldProps(props)) {
-    props.validation.rule.test(props.value)
-      ? errorInputs.delete(props.label)
-      : errorInputs.add(props.label);
-  }
 };
+
+export const DEFAULT_FORM_ERROR_MESSAGE = 'Something went wrong...;';

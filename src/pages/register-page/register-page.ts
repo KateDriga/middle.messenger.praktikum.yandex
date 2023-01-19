@@ -4,18 +4,19 @@ import { IButtonProps } from '../../components/button/button';
 import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { Template } from '../../utils/template/template';
-import { Form, IFormState } from '../../components/form/form';
-import { IInputProps, InputNameTypes } from '../../components/input/input';
+import { Form } from '../../components/form/form';
+import { IInputProps } from '../../components/input/input';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
+import { IFormPageState } from '../login-page/login-page';
+import { DEFAULT_FORM_ERROR_MESSAGE } from '../../utils/const-variables/field-validation';
+import {
+  generateFormObject,
+  validateRegisterForm,
+} from '../../utils/util-functions/form-inputs/form-inputs';
 
-export interface IRegisterPageState extends IFormState {
-  errorText: string | null;
-}
-
-export class RegisterPage extends Block<null, IRegisterPageState> {
-  state: IRegisterPageState = { isValid: true, errorText: null };
+export class RegisterPage extends Block<null, IFormPageState> {
+  state: IFormPageState = { isValid: true, errorText: null };
   inputs: Array<IInputProps>;
-  errorInputs = new Set<string>();
   buttons: Array<IButtonProps> = [
     { title: 'Sign up', type: 'primary', htmlType: 'submit' },
     { title: 'Sign in', type: 'secondary', htmlType: 'reset' },
@@ -23,10 +24,7 @@ export class RegisterPage extends Block<null, IRegisterPageState> {
 
   constructor() {
     super();
-    this.inputs = generateRegisterPageFormInputs(
-      this.errorInputs,
-      this.clearError.bind(this)
-    );
+    this.inputs = generateRegisterPageFormInputs(this.clearError.bind(this));
     this.submitForm = this.submitForm.bind(this);
     this.resetForm = this.resetForm.bind(this);
   }
@@ -39,21 +37,14 @@ export class RegisterPage extends Block<null, IRegisterPageState> {
 
   submitForm(e: Event) {
     e.preventDefault();
-    if (this.errorInputs.size === 0) {
-      const passwords = this.inputs.filter(
-        input => input.name === InputNameTypes.PASSWORD
-      ) as Array<IInputProps>;
-      if (new Set(passwords.map(pass => pass.value)).size !== 1) {
-        this.setState(() => ({
-          isValid: false,
-          errorText: "Passwords don't match",
-        }));
-      } else {
-        // TODO: send request, check response
-        navigate(ROUTES.chats.path);
-      }
-      // TODO: set invalid state on error
-      // this.setState(() => ({ isValid: false }));
+    const formState = validateRegisterForm(this.inputs);
+    if (formState.isValid) {
+      const requestBody = generateFormObject(this.inputs);
+      console.log('Register', requestBody);
+      // TODO: send request, check login and password
+      navigate(ROUTES.chats.path);
+    } else {
+      this.setState(() => formState);
     }
   }
 
@@ -70,7 +61,7 @@ export class RegisterPage extends Block<null, IRegisterPageState> {
       submit: this.submitForm,
       reset: this.resetForm,
       errorText: !this.state.isValid
-        ? this.state.errorText || 'Something went wrong...'
+        ? this.state.errorText || DEFAULT_FORM_ERROR_MESSAGE
         : '',
     });
   }

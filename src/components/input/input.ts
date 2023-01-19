@@ -73,11 +73,6 @@ export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
           }));
           this.props.onChange(e);
         },
-        onInput: (e: Event) => {
-          if (this.props.validation.replaceFn) {
-            this.props.validation.replaceFn(e);
-          }
-        },
       }),
       Template.createElement(
         'span',

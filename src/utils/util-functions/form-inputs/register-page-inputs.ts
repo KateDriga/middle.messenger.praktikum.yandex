@@ -9,17 +9,16 @@ import {
 } from './form-inputs';
 
 export function generateRegisterPageFormInputs(
-  errorInputs: Set<string>,
   clearError: () => void
 ): Array<IInputProps> {
-  const email = generateEmailInput(errorInputs, clearError);
-  const login = generateLoginInput(errorInputs, clearError);
-  const firstName = generateFirstNameInput(errorInputs, clearError);
-  const lastName = generateLastNameInput(errorInputs, clearError);
-  const phoneNumber = generatePhoneNumberInput(errorInputs, clearError);
-  const passwordCreate = generatePasswordInput(errorInputs, clearError);
+  const email = generateEmailInput(clearError);
+  const login = generateLoginInput(clearError);
+  const firstName = generateFirstNameInput(clearError);
+  const lastName = generateLastNameInput(clearError);
+  const phoneNumber = generatePhoneNumberInput(clearError);
+  const passwordCreate = generatePasswordInput(clearError);
   passwordCreate.label = 'Create Password';
-  const passwordConfirm = generatePasswordInput(errorInputs, clearError);
+  const passwordConfirm = generatePasswordInput(clearError);
   passwordConfirm.label = 'Confirm Password';
 
   return [

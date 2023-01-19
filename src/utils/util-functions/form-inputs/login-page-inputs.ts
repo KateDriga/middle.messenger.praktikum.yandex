@@ -1,16 +1,10 @@
 import { IInputProps } from '../../../components/input/input';
-import { PASSWORD_VALIDATION } from '../../const-variables/field-validation';
 import { generateLoginInput, generatePasswordInput } from './form-inputs';
 
 export function generateLoginPageFormInputs(
-  errorInputs: Set<string>,
   clearError: () => void
 ): Array<IInputProps> {
-  const login = generateLoginInput(errorInputs, clearError);
-  const password = generatePasswordInput(
-    errorInputs,
-    clearError,
-    PASSWORD_VALIDATION
-  );
+  const login = generateLoginInput(clearError);
+  const password = generatePasswordInput(clearError);
   return [login, password];
 }
