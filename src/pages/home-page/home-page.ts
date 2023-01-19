@@ -1,13 +1,13 @@
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
-export class HomePage extends MyCoolComponent<null, null> {
+export class HomePage extends Block<null, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       { key: 'home-page' },
-      MyCoolTemplate.createTextElement('Home page')
+      Template.createTextElement('Home page')
     );
   }
 }

@@ -1,4 +1,4 @@
-import { IChat } from '../ts-types/chat-types';
+import { IChat } from '../../components/chat-list-item/chat-list-item';
 
 export const FAKE_CHATS: Array<IChat> = [
   {

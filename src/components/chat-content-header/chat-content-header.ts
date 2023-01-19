@@ -1,26 +1,26 @@
 import * as styles from './chat-content-header.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { Template } from '../../utils/template/template';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Picture } from '../picture/picture';
 
-export class ChatContentHeader extends MyCoolComponent<{ id: string }, null> {
+export class ChatContentHeader extends Block<{ id: string }, null> {
   render(): TVirtualDomNode {
     // TODO: replace with info from server
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       { key: 'header-title', class: styles.chat_text_area_title },
-      MyCoolTemplate.createComponent(Picture, {
+      Template.createComponent(Picture, {
         key: 'avatar',
         picName: 'avatar',
         type: 'image',
         style: 'width: 70px; height: 70px;',
       }),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'h2',
         { key: 'chat-name' },
-        MyCoolTemplate.createTextElement(
+        Template.createTextElement(
           FAKE_CHATS.find(chat => chat.id.toString() === this.props.id).title
         )
       )

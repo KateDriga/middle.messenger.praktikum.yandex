@@ -1,4 +1,4 @@
-import { MyCoolComponent } from '../template/my-cool-component';
+import { Block } from '../block/block';
 import { HomePage } from '../../pages/home-page/home-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
@@ -12,7 +12,7 @@ export interface IRoute {
   path: string;
   pathRegExp: RegExp;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: { new (): MyCoolComponent<any, any> };
+  component: { new (): Block<any, any> };
 }
 
 interface IRoutes {

@@ -1,14 +1,29 @@
 import * as styles from './input.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Block } from '../../utils/block/block';
+import { Template } from '../../utils/template/template';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { IValidation } from '../../utils/const-variables/field-validation';
 import { IFormInput } from '../form-input-field/form-input-field';
+import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
+
+export enum InputNameTypes {
+  EMAIL = 'email',
+  LOGIN = 'login',
+  FIRST_NAME = 'first_name',
+  SECOND_NAME = 'second_name',
+  PHONE_CODE = 'phone_code',
+  PHONE = 'phone',
+  PASSWORD = 'password',
+  OLD_PASSWORD = 'oldPassword',
+  NEW_PASSWORD = 'newPassword',
+  DISPLAY_NAME = 'display_name',
+  MESSAGE = 'message',
+}
 
 export interface IInputProps extends IFormInput {
   type: string;
   placeholder: string;
-  name: string;
+  name: InputNameTypes;
   required: boolean;
   validation: IValidation;
   clearError: () => void;
@@ -18,22 +33,23 @@ export interface IInputProps extends IFormInput {
   inputStyle?: string;
 }
 
-export interface IFormInputState {
+interface IState {
   hasError: boolean;
 }
 
-export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
-  state: IFormInputState = { hasError: false };
+export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
+  state: IState = { hasError: false };
+
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'label',
       {
         key: this.props.label,
         class: styles.form_input,
         style: this.props.style,
       },
-      MyCoolTemplate.createTextElement(this.props.label),
-      MyCoolTemplate.createElement('input', {
+      Template.createTextElement(this.props.label),
+      Template.createElement('input', {
         key: 'input',
         class: styles.form_input_field,
         type: this.props.type,
@@ -43,6 +59,7 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
         disabled: this.props.disabled || false,
         value: this.props.value,
         style: this.props.inputStyle,
+        ref: 'ref' in this.props && this.props.ref,
         onFocus: () => {
           this.setState(() => ({ hasError: false }));
           this.props.clearError();
@@ -62,10 +79,10 @@ export class Input extends MyCoolComponent<IInputProps, IFormInputState> {
           }
         },
       }),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'span',
         { key: 'error-text', class: styles.form_input_error_text },
-        MyCoolTemplate.createTextElement(
+        Template.createTextElement(
           this.state.hasError ? this.props.validation.errorText : ''
         )
       )

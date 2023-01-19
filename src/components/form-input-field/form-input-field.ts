@@ -1,10 +1,11 @@
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { IInputProps, Input } from '../input/input';
 import { Dropdown, IDropdownProps } from '../dropdown/dropdown';
 import { Picture, IPictureProps } from '../picture/picture';
 import { IInputFileProps, InputFile } from '../input-file/input-file';
+import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
 
 export interface IFormInput {
   htmlType: 'input' | 'select';
@@ -31,24 +32,28 @@ export function instanceOfIPictureProps(
   return 'picName' in object;
 }
 
-export class FormInputField extends MyCoolComponent<
-  IInputProps | IDropdownProps | IPictureProps | IInputFileProps,
+export class FormInputField extends Block<
+  | IInputProps
+  | TInputPropsWithRef
+  | IDropdownProps
+  | IPictureProps
+  | IInputFileProps,
   null
 > {
   render(): TVirtualDomNode {
     return instanceOfIPictureProps(this.props)
-      ? MyCoolTemplate.createComponent(Picture, {
+      ? Template.createComponent(Picture, {
           key: 'image',
           ...this.props,
         })
       : instanceOfIFormInputFieldProps(this.props)
-      ? MyCoolTemplate.createComponent(Input, { key: 'input', ...this.props })
+      ? Template.createComponent(Input, { key: 'input', ...this.props })
       : instanceOfIDropdownProps(this.props)
-      ? MyCoolTemplate.createComponent(Dropdown, {
+      ? Template.createComponent(Dropdown, {
           key: 'dropdown',
           ...this.props,
         })
-      : MyCoolTemplate.createComponent(InputFile, {
+      : Template.createComponent(InputFile, {
           key: 'input-file',
           ...this.props,
         });

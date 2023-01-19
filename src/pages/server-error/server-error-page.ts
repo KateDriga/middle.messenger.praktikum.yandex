@@ -1,35 +1,35 @@
 import * as styles from './server-error-page.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
-export class ServerErrorPage extends MyCoolComponent<null, null> {
+export class ServerErrorPage extends Block<null, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       { key: 'error-page', class: styles.server_error_page },
-      MyCoolTemplate.createElement('img', {
+      Template.createElement('img', {
         key: 'img',
         src: require('../../images/technical-error.webp'),
         alt: 'error image',
         style: 'max-width: 400px',
       }),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'h1',
         { key: '500' },
-        MyCoolTemplate.createTextElement('5**')
+        Template.createTextElement('5**')
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'h2',
         { key: 'info1' },
-        MyCoolTemplate.createTextElement(
+        Template.createTextElement(
           'We are having technical difficulties and are actively working on a fix.'
         )
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'h2',
         { key: 'info2' },
-        MyCoolTemplate.createTextElement(
+        Template.createTextElement(
           'Please try to refresh this page or come back in a few minutes.'
         )
       )

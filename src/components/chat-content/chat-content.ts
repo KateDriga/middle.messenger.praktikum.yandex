@@ -1,7 +1,7 @@
 import * as styles from './chat-content.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Block } from '../../utils/block/block';
+import { Template } from '../../utils/template/template';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import {
   FAKE_MESSAGES_RECEIVED,
   FAKE_MESSAGES_SENT,
@@ -19,7 +19,7 @@ const txtMessageNotEmpty = (ms: string): boolean => {
   return ms && ms.trim().replaceAll('\n', '').length !== 0;
 };
 
-export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
+export class ChatContent extends Block<{ id: string }, IState> {
   state: IState = { messages: [] };
   testInterval;
 
@@ -79,25 +79,25 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       { key: 'messages', class: styles.chat_content },
-      MyCoolTemplate.createComponent(ChatContentHeader, {
+      Template.createComponent(ChatContentHeader, {
         key: 'chat-content-header',
         id: this.props.id,
       }),
-      MyCoolTemplate.createElement('hr', {
+      Template.createElement('hr', {
         key: 'separator-header',
         class: styles.separator,
       }),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'ul',
         {
           key: 'messages-list',
           class: `${styles.messages_list}`,
         },
         ...this.state.messages.map((ms, idx) =>
-          MyCoolTemplate.createComponent(ChatMessage, {
+          Template.createComponent(ChatMessage, {
             key: this.props.id,
             id: this.props.id,
             // TODO: scroll to first unread message
@@ -106,11 +106,11 @@ export class ChatContent extends MyCoolComponent<{ id: string }, IState> {
           })
         )
       ),
-      MyCoolTemplate.createElement('hr', {
+      Template.createElement('hr', {
         key: 'separator-footer',
         class: styles.separator,
       }),
-      MyCoolTemplate.createComponent(ChatContentFooter, {
+      Template.createComponent(ChatContentFooter, {
         key: 'chat-content-footer',
         onSendMessage: this.sendMessage,
       })

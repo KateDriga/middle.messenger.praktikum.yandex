@@ -1,15 +1,15 @@
 import * as styles from './header.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { Navigation } from '../navigation/navigation';
 
-export class Header extends MyCoolComponent<null, null> {
+export class Header extends Block<null, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'nav',
       { key: 'nav', class: styles.header },
-      MyCoolTemplate.createComponent(Navigation, { key: 'nav' })
+      Template.createComponent(Navigation, { key: 'nav' })
     );
   }
 }

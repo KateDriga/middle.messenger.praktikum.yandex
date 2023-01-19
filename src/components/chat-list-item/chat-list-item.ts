@@ -1,11 +1,7 @@
 import * as styles from './chat-list-item.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import {
-  IRef,
-  TVirtualDomNode,
-} from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { IChat } from '../../utils/ts-types/chat-types';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 import { navigate } from '../../utils/util-functions/router';
 import { getChatIdFromPath, ROUTES } from '../../utils/const-variables/pages';
@@ -15,20 +11,38 @@ import {
   RouterService,
 } from '../../services/router-service';
 
+interface IUserMessage {
+  first_name: string;
+  second_name: string;
+  avatar: string;
+  email: string;
+  login: string;
+  phone: string;
+}
+
+export interface IChat {
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: number;
+  last_message: {
+    user: IUserMessage;
+    time: string;
+    content: string;
+  };
+}
+
 interface IState {
   isActive: boolean;
 }
 
-export class ChatListItem extends MyCoolComponent<IChat, IState> {
-  state: IState;
-  ref: IRef;
-  routerService: RouterService;
+export class ChatListItem extends Block<IChat, IState> {
+  state: IState = { isActive: false };
+  ref = Template.createRef();
+  routerService = RouterService.getInstance();
 
   constructor() {
     super();
-    this.state = { isActive: false };
-    this.ref = MyCoolTemplate.createRef();
-    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
   }
 
@@ -66,13 +80,13 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'li',
       {
         key: 'chat-item',
         ref: this.ref,
       },
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'div',
         {
           key: 'chat-list-item',
@@ -83,38 +97,38 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
             navigate(ROUTES.chat.path.replace(':id', this.props.id.toString())),
         },
         //TODO: replace image name with info from props
-        MyCoolTemplate.createComponent(Picture, {
+        Template.createComponent(Picture, {
           key: 'avatar',
           picName: 'avatar',
           type: 'image',
           style:
             'width: 50px; height: 50px; align-self: center; margin-left: 5px;',
         }),
-        MyCoolTemplate.createElement(
+        Template.createElement(
           'div',
           { key: 'content', class: styles.chat_list_content },
-          MyCoolTemplate.createElement(
+          Template.createElement(
             'h3',
             { key: 'chat-title', class: styles.chat_list_title },
-            MyCoolTemplate.createTextElement(this.props.title)
+            Template.createTextElement(this.props.title)
           ),
-          MyCoolTemplate.createElement(
+          Template.createElement(
             'p',
             { key: 'chat-last-message', class: styles.chat_list_last_message },
-            MyCoolTemplate.createTextElement(this.props.last_message.content)
+            Template.createTextElement(this.props.last_message.content)
           )
         ),
-        MyCoolTemplate.createElement(
+        Template.createElement(
           'div',
           { key: 'chat-extra', class: styles.chat_list_extra },
-          MyCoolTemplate.createElement(
+          Template.createElement(
             'span',
             { key: 'chat-time', class: styles.chat_list_time },
-            MyCoolTemplate.createTextElement(
+            Template.createTextElement(
               formatMessageDate(this.props.last_message.time)
             )
           ),
-          MyCoolTemplate.createElement(
+          Template.createElement(
             'span',
             {
               key: 'chat-unread',
@@ -122,13 +136,13 @@ export class ChatListItem extends MyCoolComponent<IChat, IState> {
                 this.props.unread_count > 0 ? styles.chat_list_unread_count : ''
               }`,
             },
-            MyCoolTemplate.createTextElement(
+            Template.createTextElement(
               this.props.unread_count > 0 ? this.props.unread_count : ''
             )
           )
         )
       ),
-      MyCoolTemplate.createElement('hr', {
+      Template.createElement('hr', {
         key: 'line-separator',
         class: styles.separator,
       })

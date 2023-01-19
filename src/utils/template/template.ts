@@ -11,8 +11,8 @@ import {
   TVirtualDomChildUpdateOperation,
   TVirtualDomNode,
   TVirtualDomUpdateOperation,
-} from './my-cool-template-types';
-import { MyCoolComponent } from './my-cool-component';
+} from './template-types';
+import { Block } from '../block/block';
 
 const isEvent = (key: string) => key.startsWith('on');
 const checkKey = (
@@ -77,7 +77,7 @@ function createTextElement(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createComponent<P extends Record<string, any>, S>(
-  component: { new (): MyCoolComponent<P, S> },
+  component: { new (): Block<P, S> },
   props: IVirtualDomProps
 ): IVirtualDomComponent {
   const checkedProps = checkKey(props, component.name);
@@ -350,7 +350,7 @@ function renderDom(rootId: string, rootNode: TVirtualDomNode): HTMLElement {
   return parent.children[0] as HTMLElement;
 }
 
-export const MyCoolTemplate = {
+export const Template = {
   applyUpdate,
   createDiff,
   createComponent,

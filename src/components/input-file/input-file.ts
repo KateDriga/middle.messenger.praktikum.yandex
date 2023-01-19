@@ -1,7 +1,7 @@
 import * as styles from './input-file.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
 export interface IInputFileProps {
   label: string;
@@ -11,17 +11,17 @@ export interface IInputFileProps {
   //TODO: add onChange event handler
 }
 
-export class InputFile extends MyCoolComponent<IInputFileProps, null> {
+export class InputFile extends Block<IInputFileProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'label',
       {
         key: 'file-input',
         class: styles.form_input_file,
         style: this.props.style,
       },
-      MyCoolTemplate.createTextElement(this.props.label),
-      MyCoolTemplate.createElement('input', {
+      Template.createTextElement(this.props.label),
+      Template.createElement('input', {
         key: 'file-input',
         type: 'file',
         name: this.props.name,

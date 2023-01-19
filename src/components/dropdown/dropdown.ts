@@ -1,7 +1,7 @@
 import * as styles from './dropdown.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Block } from '../../utils/block/block';
+import { Template } from '../../utils/template/template';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { IFormInput } from '../form-input-field/form-input-field';
 
 export interface IDropdownProps extends IFormInput {
@@ -11,17 +11,17 @@ export interface IDropdownProps extends IFormInput {
   disabled?: boolean;
 }
 
-export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
+export class Dropdown extends Block<IDropdownProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       { key: 'dropdown', class: styles.dropdown },
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'label',
         { key: this.props.label, class: styles.dropdown_label },
-        MyCoolTemplate.createTextElement(this.props.label)
+        Template.createTextElement(this.props.label)
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'select',
         {
           key: 'select',
@@ -31,13 +31,13 @@ export class Dropdown extends MyCoolComponent<IDropdownProps, null> {
           onChange: this.props.onChange,
         },
         ...this.props.options.map(option =>
-          MyCoolTemplate.createElement(
+          Template.createElement(
             'option',
             { key: this.props.label },
-            MyCoolTemplate.createElement(
+            Template.createElement(
               'option',
               { key: option },
-              MyCoolTemplate.createTextElement(option)
+              Template.createTextElement(option)
             )
           )
         )

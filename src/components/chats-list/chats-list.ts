@@ -1,21 +1,20 @@
 import * as styles from './chats-list.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { ChatsListHeader } from '../chats-list-header/chats-list-header';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
-import { IChat } from '../../utils/ts-types/chat-types';
+import { IChat } from '../chat-list-item/chat-list-item';
 import { ChatListItem } from '../chat-list-item/chat-list-item';
 
 interface IState {
   chatsToDisplay: Array<IChat>;
 }
 
-export class ChatsList extends MyCoolComponent<{ id: string | null }, IState> {
-  chats: Array<IChat> = [];
-  state: IState = {
-    chatsToDisplay: [],
-  };
+export class ChatsList extends Block<{ id: string | null }, IState> {
+  chats: Array<IChat>;
+  state: IState = { chatsToDisplay: [] };
+
   constructor() {
     super();
     // TODO: replace fake data
@@ -34,7 +33,7 @@ export class ChatsList extends MyCoolComponent<{ id: string | null }, IState> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       {
         key: 'chats-list',
@@ -42,22 +41,22 @@ export class ChatsList extends MyCoolComponent<{ id: string | null }, IState> {
           this.props.id ? styles.chats_list_hidden_mobile : ''
         }`,
       },
-      MyCoolTemplate.createComponent(ChatsListHeader, {
+      Template.createComponent(ChatsListHeader, {
         key: 'chats-header',
         onInput: this.handleSearchQueryInput,
       }),
-      MyCoolTemplate.createElement('hr', {
+      Template.createElement('hr', {
         key: 'line',
         class: styles.separator,
       }),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'ul',
         {
           key: 'chat-listing',
           class: `${styles.chat_listing}`,
         },
         ...this.state.chatsToDisplay.map(chat =>
-          MyCoolTemplate.createComponent(ChatListItem, {
+          Template.createComponent(ChatListItem, {
             key: chat.id,
             ...chat,
           })

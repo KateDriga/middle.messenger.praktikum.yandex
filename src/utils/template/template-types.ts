@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MyCoolComponent } from './my-cool-component';
+import { Block } from '../block/block';
 
 export enum ElementTypes {
   TEXT = 'text',
@@ -31,9 +31,9 @@ export interface IVirtualDomText extends IVirtualDomUnit {
 
 export interface IVirtualDomComponent extends IVirtualDomUnit {
   type: ElementTypes.COMPONENT;
-  instance?: MyCoolComponent<any, any>;
+  instance?: Block<any, any>;
   props: IVirtualDomAttributes;
-  component: { new (): MyCoolComponent<any, any> };
+  component: { new (): Block<any, any> };
 }
 
 export type TVirtualDomNode =

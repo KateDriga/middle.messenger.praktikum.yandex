@@ -1,7 +1,7 @@
 import * as styles from './button.module.scss';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Template } from '../../utils/template/template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 
 export interface IButtonProps {
   title: string;
@@ -11,9 +11,9 @@ export interface IButtonProps {
   isActive?: boolean;
 }
 
-export class Button extends MyCoolComponent<IButtonProps, null> {
+export class Button extends Block<IButtonProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'button',
       {
         key: this.props.title,
@@ -23,7 +23,7 @@ export class Button extends MyCoolComponent<IButtonProps, null> {
         type: this.props.htmlType,
         disabled: this.props.disabled ?? false,
       },
-      MyCoolTemplate.createTextElement(this.props.title)
+      Template.createTextElement(this.props.title)
     );
   }
 }

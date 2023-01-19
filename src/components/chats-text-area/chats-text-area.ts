@@ -1,15 +1,12 @@
 import * as styles from './chat-text-area.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { ChatContent } from '../chat-content/chat-content';
 
-export class ChatsTextArea extends MyCoolComponent<
-  { id: string | null },
-  null
-> {
+export class ChatsTextArea extends Block<{ id: string | null }, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       {
         key: 'chat-text-area',
@@ -18,20 +15,20 @@ export class ChatsTextArea extends MyCoolComponent<
         }`,
       },
       this.props.id
-        ? MyCoolTemplate.createComponent(ChatContent, {
+        ? Template.createComponent(ChatContent, {
             key: this.props.id,
             id: this.props.id,
           })
-        : MyCoolTemplate.createElement(
+        : Template.createElement(
             'div',
             { key: 'chat-content', class: styles.chat_text_area_empty },
-            MyCoolTemplate.createElement('img', {
+            Template.createElement('img', {
               key: 'img',
               class: styles.chat_text_area_img,
               src: require('../../images/chat.png'),
               alt: 'chat image',
             }),
-            MyCoolTemplate.createTextElement('Select a chat to send a message')
+            Template.createTextElement('Select a chat to send a message')
           )
     );
   }

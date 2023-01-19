@@ -1,126 +1,75 @@
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { saveAndTestValue } from '../../utils/const-variables/field-validation';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { IButtonProps } from '../../components/button/button';
 import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Template } from '../../utils/template/template';
 import { Form, IFormState } from '../../components/form/form';
-import { IInputProps } from '../../components/input/input';
+import { IInputProps, InputNameTypes } from '../../components/input/input';
 import { IDropdownProps } from '../../components/dropdown/dropdown';
-import {
-  EMAIL_INPUT,
-  FIRST_NAME_INPUT,
-  LAST_NAME_INPUT,
-  LOGIN_INPUT,
-  PASSWORD_INPUT,
-  PHONE_CODE_INPUT,
-  PHONE_COUNTRY_CODES,
-  PHONE_NUMBER_INPUT,
-} from '../../utils/const-variables/field-inputs';
+import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 
-interface IState extends IFormState {
+export interface IRegisterPageState extends IFormState {
   errorText: string | null;
 }
 
-export class RegisterPage extends MyCoolComponent<null, IState> {
-  state: IState = { isValid: true, errorText: null };
-  render(): TVirtualDomNode {
-    const errorInputs = new Set<string>();
-    const clearError = () => {
-      if (!this.state.isValid) {
-        this.setState(() => ({ isValid: true, errorText: null }));
-      }
-    };
-    const email: IInputProps = {
-      ...EMAIL_INPUT,
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, email, errorInputs),
-      clearError,
-    };
-    const login: IInputProps = {
-      ...LOGIN_INPUT,
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, login, errorInputs),
-      clearError,
-    };
-    const firstName: IInputProps = {
-      ...FIRST_NAME_INPUT,
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, firstName, errorInputs),
-      clearError,
-    };
-    const lastName: IInputProps = {
-      ...LAST_NAME_INPUT,
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, lastName, errorInputs),
-      clearError,
-    };
-    const phoneCode: IDropdownProps = {
-      ...PHONE_CODE_INPUT,
-      value: PHONE_COUNTRY_CODES[0],
-      onChange: (e: Event) => saveAndTestValue(e, phoneCode, errorInputs),
-    };
-    const phoneNumber: IInputProps = {
-      ...PHONE_NUMBER_INPUT,
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, phoneNumber, errorInputs),
-      clearError,
-    };
-    const passwordCreate: IInputProps = {
-      ...PASSWORD_INPUT,
-      label: 'Create Password',
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, passwordCreate, errorInputs),
-      clearError,
-    };
-    const passwordConfirm: IInputProps = {
-      ...PASSWORD_INPUT,
-      label: 'Confirm Password',
-      value: '',
-      onChange: (e: Event) => saveAndTestValue(e, passwordConfirm, errorInputs),
-      clearError,
-    };
-    const inputs: Array<
-      IInputProps | IDropdownProps | Array<IInputProps | IDropdownProps>
-    > = [
-      email,
-      login,
-      firstName,
-      lastName,
-      [phoneCode, phoneNumber],
-      passwordCreate,
-      passwordConfirm,
-    ];
-    const buttons: Array<IButtonProps> = [
-      { title: 'Sign up', type: 'primary', htmlType: 'submit' },
-      { title: 'Sign in', type: 'secondary', htmlType: 'reset' },
-    ];
-    const onSubmit = (e: Event) => {
-      e.preventDefault();
-      if (errorInputs.size === 0) {
-        if (passwordCreate.value !== passwordConfirm.value) {
-          this.setState(() => ({
-            isValid: false,
-            errorText: `'${passwordCreate.label}' and '${passwordConfirm.label}' must be equal`,
-          }));
-        } else {
-          // TODO: send request, check response
-          navigate(ROUTES.chats.path);
-        }
-        // TODO: set invalid state on error
-        // this.setState(() => ({ isValid: false }));
-      }
-    };
-    const onReset = () => navigate(ROUTES.login.path);
+export class RegisterPage extends Block<null, IRegisterPageState> {
+  state: IRegisterPageState = { isValid: true, errorText: null };
+  inputs: Array<IInputProps | Array<IInputProps | IDropdownProps>>;
+  errorInputs = new Set<string>();
+  buttons: Array<IButtonProps> = [
+    { title: 'Sign up', type: 'primary', htmlType: 'submit' },
+    { title: 'Sign in', type: 'secondary', htmlType: 'reset' },
+  ];
 
-    return MyCoolTemplate.createComponent(Form, {
+  constructor() {
+    super();
+    this.inputs = generateRegisterPageFormInputs(
+      this.errorInputs,
+      this.clearError.bind(this)
+    );
+    this.submitForm = this.submitForm.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+  }
+
+  clearError() {
+    if (!this.state.isValid) {
+      this.setState(() => ({ isValid: true, errorText: null }));
+    }
+  }
+
+  submitForm(e: Event) {
+    e.preventDefault();
+    if (this.errorInputs.size === 0) {
+      const passwords = this.inputs.filter(
+        input => !Array.isArray(input) && input.name === InputNameTypes.PASSWORD
+      ) as Array<IInputProps>;
+      if (new Set(passwords.map(pass => pass.value)).size !== 1) {
+        this.setState(() => ({
+          isValid: false,
+          errorText: "Passwords don't match",
+        }));
+      } else {
+        // TODO: send request, check response
+        navigate(ROUTES.chats.path);
+      }
+      // TODO: set invalid state on error
+      // this.setState(() => ({ isValid: false }));
+    }
+  }
+
+  resetForm() {
+    navigate(ROUTES.login.path);
+  }
+
+  render(): TVirtualDomNode {
+    return Template.createComponent(Form, {
       key: 'register-page',
       title: 'Sign up',
-      inputs,
-      buttons,
-      submit: onSubmit,
-      reset: onReset,
+      inputs: this.inputs,
+      buttons: this.buttons,
+      submit: this.submitForm,
+      reset: this.resetForm,
       errorText: !this.state.isValid
         ? this.state.errorText || 'Something went wrong...'
         : '',

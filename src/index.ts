@@ -1,10 +1,7 @@
 import './index.scss';
-import { MyCoolTemplate } from './utils/template/my-cool-template';
+import { Template } from './utils/template/template';
 import { App } from './components/app/app';
 
 export const ROOT_ID = 'root';
 
-MyCoolTemplate.renderDom(
-  ROOT_ID,
-  MyCoolTemplate.createComponent(App, { key: ROOT_ID })
-);
+Template.renderDom(ROOT_ID, Template.createComponent(App, { key: ROOT_ID }));

@@ -1,10 +1,7 @@
 import * as styles from './chat-message.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import {
-  IRef,
-  TVirtualDomNode,
-} from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { IMessage } from '../../utils/fake-test-variables/fake-messages';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 
@@ -14,12 +11,8 @@ interface IProps extends IMessage {
   shouldScroll: boolean;
 }
 
-export class ChatMessage extends MyCoolComponent<IProps, null> {
-  ref: IRef;
-  constructor() {
-    super();
-    this.ref = MyCoolTemplate.createRef();
-  }
+export class ChatMessage extends Block<IProps, null> {
+  ref = Template.createRef();
 
   componentDidMount() {
     if (this.props.shouldScroll) {
@@ -29,7 +22,7 @@ export class ChatMessage extends MyCoolComponent<IProps, null> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'li',
       {
         key: this.props.id,
@@ -40,15 +33,15 @@ export class ChatMessage extends MyCoolComponent<IProps, null> {
             : styles.chat_message_sent
         }`,
       },
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'p',
         { key: 'message-text' },
-        MyCoolTemplate.createTextElement(this.props.text)
+        Template.createTextElement(this.props.text)
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'p',
         { key: 'message-date', class: styles.chat_message_date },
-        MyCoolTemplate.createTextElement(formatMessageDate(this.props.time))
+        Template.createTextElement(formatMessageDate(this.props.time))
       )
     );
   }

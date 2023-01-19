@@ -2,11 +2,11 @@ import {
   OperationTypes,
   TVirtualDomNode,
   TVirtualDomUpdateOperation,
-} from './my-cool-template-types';
-import { MyCoolTemplate } from './my-cool-template';
+} from '../template/template-types';
+import { Template } from '../template/template';
 import { EventBus, EventBusTypes, TListener } from '../../services/event-bus';
 
-export abstract class MyCoolComponent<P, S> {
+export abstract class Block<P, S> {
   protected props: P;
   protected state: S;
 
@@ -59,7 +59,7 @@ export abstract class MyCoolComponent<P, S> {
       throw new Error('Setting state on unmounted component');
     }
     this.state = updater(this.state);
-    MyCoolTemplate.applyUpdate(this.mountedElement, this.getUpdateDiff());
+    Template.applyUpdate(this.mountedElement, this.getUpdateDiff());
   }
 
   // called when mounted element receives new props
@@ -85,7 +85,7 @@ export abstract class MyCoolComponent<P, S> {
 
   private getUpdateDiff(): TVirtualDomUpdateOperation {
     const newRootNode = this.render();
-    const diff = MyCoolTemplate.createDiff(this.currentRootNode, newRootNode);
+    const diff = Template.createDiff(this.currentRootNode, newRootNode);
     if (diff.type == OperationTypes.REPLACE) {
       diff.callback = elem => (this.mountedElement = elem);
     }
@@ -117,7 +117,7 @@ export abstract class MyCoolComponent<P, S> {
   private _componentWillUnmount() {
     this.componentWillUnmount();
     setTimeout(() => {
-      MyCoolTemplate.unmountChildNodes(this.currentRootNode);
+      Template.unmountChildNodes(this.currentRootNode);
       this.mountedElement = null;
       this._clearEvents();
     });

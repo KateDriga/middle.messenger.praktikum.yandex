@@ -1,8 +1,8 @@
 import * as styles from './link.module.scss';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Template } from '../../utils/template/template';
 import { Button } from '../button/button';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { navigate } from '../../utils/util-functions/router';
 import {
   getPathWithoutTrailingSlash,
@@ -23,14 +23,12 @@ interface IState {
   isActive: boolean;
 }
 
-export class Link extends MyCoolComponent<IProps, IState> {
-  state: IState;
-  routerService: RouterService;
+export class Link extends Block<IProps, IState> {
+  state: IState = { isActive: false };
+  routerService = RouterService.getInstance();
 
   constructor() {
     super();
-    this.state = { isActive: false };
-    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
     this.navigate = this.navigate.bind(this);
   }
@@ -65,7 +63,7 @@ export class Link extends MyCoolComponent<IProps, IState> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'a',
       {
         class: `${styles.link} ${
@@ -76,14 +74,14 @@ export class Link extends MyCoolComponent<IProps, IState> {
         key: 'link',
       },
       this.props.isButton
-        ? MyCoolTemplate.createComponent(Button, {
+        ? Template.createComponent(Button, {
             title: this.props.title,
             type: 'secondary',
             htmlType: 'button',
             key: this.props.title,
             isActive: this.state.isActive,
           })
-        : MyCoolTemplate.createTextElement(this.props.title)
+        : Template.createTextElement(this.props.title)
     );
   }
 }

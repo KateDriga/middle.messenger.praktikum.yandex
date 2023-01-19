@@ -1,6 +1,6 @@
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { IButtonProps } from '../button/button';
 import { IInputFileProps } from '../input-file/input-file';
 import { Form } from '../form/form';
@@ -12,7 +12,7 @@ interface IState {
   errorInputs: Set<string>;
 }
 
-export class ProfileSettingsFormAvatar extends MyCoolComponent<null, IState> {
+export class ProfileSettingsFormAvatar extends Block<null, IState> {
   state: IState = {
     isValid: true,
     inputs: [
@@ -47,7 +47,7 @@ export class ProfileSettingsFormAvatar extends MyCoolComponent<null, IState> {
       { title: 'Save new Avatar', type: 'primary', htmlType: 'submit' },
       { title: 'Logout', type: 'secondary', htmlType: 'reset' },
     ];
-    return MyCoolTemplate.createComponent(Form, {
+    return Template.createComponent(Form, {
       key: 'settings-page-avatar',
       title: 'Other Settings',
       inputs: this.state.inputs,

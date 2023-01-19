@@ -1,7 +1,7 @@
 import * as styles from './picture.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
 export interface IPictureProps {
   picName: string;
@@ -17,9 +17,9 @@ const PIC_PATHS = {
   avatar: require('../../images/fake-test-images/superman.webp'),
 };
 
-export class Picture extends MyCoolComponent<IPictureProps, null> {
+export class Picture extends Block<IPictureProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement('img', {
+    return Template.createElement('img', {
       key: 'img',
       class: `${this.props.type === 'icon' ? styles.img_icon : styles.img_pic}`,
       src: PIC_PATHS[this.props.picName],

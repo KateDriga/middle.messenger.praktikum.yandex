@@ -1,18 +1,18 @@
 import * as styles from './navigation.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { Link } from '../link/link';
 
-export class Navigation extends MyCoolComponent<null, null> {
+export class Navigation extends Block<null, null> {
   listItems = Object.keys(ROUTES)
     .filter(key => key !== 'chat')
     .map(key =>
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'li',
         { key },
-        MyCoolTemplate.createComponent(Link, {
+        Template.createComponent(Link, {
           href: ROUTES[key].path,
           title: ROUTES[key].title,
           isButton: true,
@@ -20,8 +20,9 @@ export class Navigation extends MyCoolComponent<null, null> {
         })
       )
     );
+
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'ul',
       { class: styles.navigation, key: 'nav' },
       ...this.listItems

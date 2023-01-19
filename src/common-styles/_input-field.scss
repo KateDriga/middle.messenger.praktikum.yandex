@@ -13,6 +13,10 @@
     outline-color: var(--deep-pink);
   }
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &::placeholder {
     opacity: 0.5;
     color: $placeholder-color;

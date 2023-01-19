@@ -1,4 +1,17 @@
-export const USER = {
+export interface IUser {
+  email: string;
+  login: string;
+  firstName: string;
+  lastName: string;
+  phone: {
+    code: string;
+    number: string;
+  };
+  chatName: string;
+  password: string;
+}
+
+export const USER: IUser = {
   email: 'user-email@test.com',
   login: 'ivanivanov',
   firstName: 'Ivan',

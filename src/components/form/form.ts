@@ -1,23 +1,31 @@
 import * as styles from './form.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
 import { FormInputField } from '../form-input-field/form-input-field';
 import { Button, IButtonProps } from '../button/button';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Template } from '../../utils/template/template';
 import { IInputProps } from '../input/input';
 import { IDropdownProps } from '../dropdown/dropdown';
 import { InputBlock } from '../input-block/input-block';
 import { IInputFileProps } from '../input-file/input-file';
 import { IPictureProps } from '../picture/picture';
+import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
 
 interface IProps {
   title: string;
   inputs: Array<
     | IInputProps
+    | TInputPropsWithRef
     | IDropdownProps
     | IInputFileProps
     | IPictureProps
-    | Array<IInputProps | IDropdownProps | IInputFileProps | IPictureProps>
+    | Array<
+        | IInputProps
+        | TInputPropsWithRef
+        | IDropdownProps
+        | IInputFileProps
+        | IPictureProps
+      >
   >;
   buttons: Array<IButtonProps>;
   submit: () => void;
@@ -29,9 +37,9 @@ export interface IFormState {
   isValid: boolean;
 }
 
-export class Form extends MyCoolComponent<IProps, null> {
+export class Form extends Block<IProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'form',
       {
         key: 'login-form',
@@ -39,33 +47,33 @@ export class Form extends MyCoolComponent<IProps, null> {
         onSubmit: this.props.submit,
         onReset: this.props.reset,
       },
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'h2',
         { key: this.props.title, class: styles.form_title },
-        MyCoolTemplate.createTextElement(this.props.title)
+        Template.createTextElement(this.props.title)
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'div',
         { key: 'form-inputs', class: styles.form_inputs },
         ...this.props.inputs.map((input, idx) =>
           Array.isArray(input)
-            ? MyCoolTemplate.createComponent(InputBlock, { key: idx, ...input })
-            : MyCoolTemplate.createComponent(FormInputField, {
+            ? Template.createComponent(InputBlock, { key: idx, ...input })
+            : Template.createComponent(FormInputField, {
                 key: 'label' in input ? input.label : input.picName,
                 ...input,
               })
         )
       ),
-      MyCoolTemplate.createElement(
+      Template.createElement(
         'div',
         { key: 'form-buttons', class: styles.form_buttons },
-        MyCoolTemplate.createElement(
+        Template.createElement(
           'span',
           { key: 'error-text', class: styles.form_error_text },
-          MyCoolTemplate.createTextElement(this.props.errorText)
+          Template.createTextElement(this.props.errorText)
         ),
         ...this.props.buttons.map(btn =>
-          MyCoolTemplate.createComponent(Button, { key: btn.title, ...btn })
+          Template.createComponent(Button, { key: btn.title, ...btn })
         )
       )
     );

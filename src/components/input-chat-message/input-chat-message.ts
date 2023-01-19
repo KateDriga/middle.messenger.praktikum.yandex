@@ -1,16 +1,16 @@
 import * as styles from './input-chat-message.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
 interface IProps {
   name: string;
   onKeyDown: (e: KeyboardEvent) => void;
 }
 
-export class InputChatMessage extends MyCoolComponent<IProps, null> {
+export class InputChatMessage extends Block<IProps, null> {
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement('textarea', {
+    return Template.createElement('textarea', {
       key: 'input',
       class: `${styles.input_chat_message}`,
       name: this.props.name,

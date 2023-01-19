@@ -1,7 +1,7 @@
 import * as styles from './chat-page.module.scss';
-import { MyCoolComponent } from '../../utils/template/my-cool-component';
-import { TVirtualDomNode } from '../../utils/template/my-cool-template-types';
-import { MyCoolTemplate } from '../../utils/template/my-cool-template';
+import { Block } from '../../utils/block/block';
+import { TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 import { ChatsList } from '../../components/chats-list/chats-list';
 import { ChatsTextArea } from '../../components/chats-text-area/chats-text-area';
 import {
@@ -14,22 +14,20 @@ import {
   RouterService,
 } from '../../services/router-service';
 
-export interface IChatSelectedState {
+interface IState {
   chatId: string | null;
 }
 
-export class ChatPage extends MyCoolComponent<null, IChatSelectedState> {
-  state: IChatSelectedState;
-  routerService: RouterService;
+export class ChatPage extends Block<null, IState> {
+  state: IState = {
+    chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
+      ? getChatIdFromPath()
+      : null,
+  };
+  routerService = RouterService.getInstance();
 
   constructor() {
     super();
-    this.state = {
-      chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
-        ? getChatIdFromPath()
-        : null,
-    };
-    this.routerService = RouterService.getInstance();
     this.handlePathChange = this.handlePathChange.bind(this);
   }
 
@@ -52,18 +50,18 @@ export class ChatPage extends MyCoolComponent<null, IChatSelectedState> {
   }
 
   render(): TVirtualDomNode {
-    return MyCoolTemplate.createElement(
+    return Template.createElement(
       'div',
       {
         key: 'chat-page',
         class: styles.chat_page,
       },
-      MyCoolTemplate.createComponent(ChatsList, {
+      Template.createComponent(ChatsList, {
         key: 'chats-list',
         class: styles.chats_list,
         id: this.state.chatId,
       }),
-      MyCoolTemplate.createComponent(ChatsTextArea, {
+      Template.createComponent(ChatsTextArea, {
         key: 'chats-text-area',
         class: styles.chats_text_area,
         id: this.state.chatId,
