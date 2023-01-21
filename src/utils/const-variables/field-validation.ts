@@ -1,6 +1,3 @@
-import { IInputProps } from '../../components/input/input';
-import { IDropdownProps } from '../../components/dropdown/dropdown';
-
 export interface IValidation {
   rule: RegExp;
   errorText: string;
@@ -24,7 +21,7 @@ export const EMAIL_VALIDATION: IValidation = {
 };
 
 export const FIRST_NAME_VALIDATION: IValidation = {
-  rule: /^[A-ZА-Я][a-zа-я-]+$/,
+  rule: /^[A-ZА-Я][a-zа-яA-ZА-Я-]+$/,
   errorText:
     'Must start with upper case, must contain only letters or -\u00A0sign',
 };
@@ -40,13 +37,6 @@ export const PHONE_NUMBER_VALIDATION: IValidation = {
 export const MESSAGE_VALIDATION = {
   rule: /(?!^$)(\S)/,
   errorText: 'Should not be empty',
-};
-
-export const saveAndTestValue = (
-  e: Event,
-  props: IInputProps | IDropdownProps
-) => {
-  props.value = (<HTMLInputElement>e.target).value;
 };
 
 export const DEFAULT_FORM_ERROR_MESSAGE = 'Something went wrong...;';

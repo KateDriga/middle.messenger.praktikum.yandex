@@ -1,17 +1,16 @@
 import * as styles from './input.module.scss';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { Template } from '../../utils/template/template';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { IValidation } from '../../utils/const-variables/field-validation';
 import { IFormInput } from '../form-input-field/form-input-field';
-import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
+import { TInputPropsWithRef } from '../../utils/base-components/page-form-edit';
 
 export enum InputNameTypes {
   EMAIL = 'email',
   LOGIN = 'login',
   FIRST_NAME = 'first_name',
   SECOND_NAME = 'second_name',
-  PHONE_CODE = 'phone_code',
   PHONE = 'phone',
   PASSWORD = 'password',
   OLD_PASSWORD = 'oldPassword',
@@ -40,6 +39,28 @@ interface IState {
 export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
   state: IState = { hasError: false };
 
+  constructor() {
+    super();
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+  }
+
+  onFocus() {
+    if (this.state.hasError) {
+      this.setState(() => ({ hasError: false }));
+    }
+    this.props.clearError();
+  }
+
+  onBlur(e: Event) {
+    this.props.value = (<HTMLInputElement>e.target).value;
+    const isErrorInput = !this.props.validation.rule.test(this.props.value);
+    if (isErrorInput && !this.state.hasError) {
+      this.setState(() => ({ hasError: true }));
+    }
+    this.props.onBlur(this.props.value);
+  }
+
   render(): TVirtualDomNode {
     return Template.createElement(
       'label',
@@ -60,19 +81,8 @@ export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
         value: this.props.value,
         style: this.props.inputStyle,
         ref: 'ref' in this.props && this.props.ref,
-        onFocus: () => {
-          this.setState(() => ({ hasError: false }));
-          this.props.clearError();
-        },
-        onBlur: (e: Event) => {
-          this.props.value = (<HTMLInputElement>e.target).value;
-          this.setState(() => ({
-            hasError: this.props.disabled
-              ? false
-              : !this.props.validation.rule.test(this.props.value),
-          }));
-          this.props.onChange(e);
-        },
+        onFocus: this.onFocus,
+        onBlur: this.onBlur,
       }),
       Template.createElement(
         'span',

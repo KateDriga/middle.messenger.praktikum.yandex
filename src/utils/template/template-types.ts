@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Block } from '../block/block';
+import { Block } from '../base-components/block';
 
 export enum ElementTypes {
   TEXT = 'text',
@@ -31,9 +30,9 @@ export interface IVirtualDomText extends IVirtualDomUnit {
 
 export interface IVirtualDomComponent extends IVirtualDomUnit {
   type: ElementTypes.COMPONENT;
-  instance?: Block<any, any>;
+  instance?: Block<unknown, unknown>;
   props: IVirtualDomAttributes;
-  component: { new (): Block<any, any> };
+  component: { new (): Block<unknown, unknown> };
 }
 
 export type TVirtualDomNode =
@@ -41,6 +40,7 @@ export type TVirtualDomNode =
   | IVirtualDomText
   | IVirtualDomComponent;
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IVirtualDomAttributes {
   [key: string]:
     | string
@@ -51,6 +51,7 @@ export interface IVirtualDomAttributes {
     | Record<string, any>
     | IRef;
 }
+/* eslint-enable */
 
 export interface IVirtualDomProps extends IVirtualDomAttributes {
   key: string | number;

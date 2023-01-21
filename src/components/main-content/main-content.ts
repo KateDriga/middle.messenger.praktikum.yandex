@@ -1,5 +1,5 @@
 import * as styles from './main-content.module.scss';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import {

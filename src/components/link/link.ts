@@ -1,7 +1,7 @@
 import * as styles from './link.module.scss';
 import { Template } from '../../utils/template/template';
 import { Button } from '../button/button';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { navigate } from '../../utils/util-functions/router';
 import {

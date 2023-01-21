@@ -1,68 +1,55 @@
-import { Block } from '../../utils/block/block';
-import { TVirtualDomNode } from '../../utils/template/template-types';
-import { IButtonProps } from '../../components/button/button';
-import { navigate } from '../../utils/util-functions/router';
+import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { Template } from '../../utils/template/template';
-import { Form } from '../../components/form/form';
-import { IInputProps } from '../../components/input/input';
-import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
-import { IFormPageState } from '../login-page/login-page';
-import { DEFAULT_FORM_ERROR_MESSAGE } from '../../utils/const-variables/field-validation';
+import { navigate } from '../../utils/util-functions/router';
 import {
+  checkPasswordsState,
   generateFormObject,
-  validateRegisterForm,
+  validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
+import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
+import { IInputProps } from '../../components/input/input';
 
-export class RegisterPage extends Block<null, IFormPageState> {
-  state: IFormPageState = { isValid: true, errorText: null };
-  inputs: Array<IInputProps>;
-  buttons: Array<IButtonProps> = [
-    { title: 'Sign up', type: 'primary', htmlType: 'submit' },
-    { title: 'Sign in', type: 'secondary', htmlType: 'reset' },
-  ];
-
+export class RegisterPage extends PageForm {
   constructor() {
     super();
-    this.inputs = generateRegisterPageFormInputs(this.clearError.bind(this));
+    this.title = 'Sign up';
+    this.state.inputs = generateRegisterPageFormInputs(
+      this.clearError.bind(this),
+      this.updateInput.bind(this)
+    );
+    this.buttons = [
+      { title: 'Sign up', type: 'primary', htmlType: 'submit' },
+      { title: 'Sign in', type: 'secondary', htmlType: 'reset' },
+    ];
     this.submitForm = this.submitForm.bind(this);
     this.resetForm = this.resetForm.bind(this);
   }
 
-  clearError() {
-    if (!this.state.isValid) {
-      this.setState(() => ({ isValid: true, errorText: null }));
-    }
-  }
-
   submitForm(e: Event) {
     e.preventDefault();
-    const formState = validateRegisterForm(this.inputs);
+    const inputsValidityState = validateFormInputs(
+      <Array<IInputProps>>this.state.inputs
+    );
+    const formState = inputsValidityState.isValid
+      ? checkPasswordsState(<Array<IInputProps>>this.state.inputs)
+      : inputsValidityState;
     if (formState.isValid) {
-      const requestBody = generateFormObject(this.inputs);
+      const requestBody = generateFormObject(
+        <Array<IInputProps>>this.state.inputs
+      );
       console.log('Register', requestBody);
       // TODO: send request, check login and password
       navigate(ROUTES.chats.path);
     } else {
-      this.setState(() => formState);
+      this.setState(s => ({
+        ...s,
+        isValid: formState.isValid,
+        errorText: formState.errorText,
+      }));
     }
   }
 
   resetForm() {
     navigate(ROUTES.login.path);
-  }
-
-  render(): TVirtualDomNode {
-    return Template.createComponent(Form, {
-      key: 'register-page',
-      title: 'Sign up',
-      inputs: this.inputs,
-      buttons: this.buttons,
-      submit: this.submitForm,
-      reset: this.resetForm,
-      errorText: !this.state.isValid
-        ? this.state.errorText || DEFAULT_FORM_ERROR_MESSAGE
-        : '',
-    });
   }
 }

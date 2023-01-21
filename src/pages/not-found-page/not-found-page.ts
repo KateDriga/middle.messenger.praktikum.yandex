@@ -1,6 +1,6 @@
 import * as styles from './not-found-page.module.scss';
 import '../../common-styles/_page.scss';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { navigate } from '../../utils/util-functions/router';

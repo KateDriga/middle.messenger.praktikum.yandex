@@ -1,11 +1,19 @@
 @import 'src/common-styles/media-screen';
 
-.profile_settings {
+@mixin flex-column() {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.profile_settings {
+  @include flex-column;
 
   @include media-screen-large {
     flex-direction: row;
   }
+}
+
+.profile_settings_section {
+  @include flex-column;
 }

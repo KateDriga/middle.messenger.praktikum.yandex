@@ -1,7 +1,8 @@
 import { IInputProps, InputNameTypes } from '../../../components/input/input';
 import { IPictureProps } from '../../../components/picture/picture';
-import { IUser } from '../../fake-test-variables/fake-user';
+import { TUser } from '../../fake-test-variables/fake-user';
 import {
+  addOnBlurCallback,
   generateChatNameInput,
   generateEmailInput,
   generateFirstNameInput,
@@ -14,112 +15,94 @@ import { Template } from '../../template/template';
 import {
   TInputPropsWithRef,
   TProfileSettingsInput,
-} from '../../../components/profile-settings-form/profile-settings-form';
+} from '../../base-components/page-form-edit';
+import { IInputFileProps } from '../../../components/input-file/input-file';
 
-function generateDisabledInputWithRef(input: IInputProps): TInputPropsWithRef {
-  input.disabled = true;
-  return { ...input, ref: Template.createRef() };
-}
+const ICON_EDIT: Omit<IPictureProps, 'onClick'> = {
+  picName: 'edit',
+  type: 'icon',
+  style: 'margin-top: 20px',
+};
 
 export function generateProfileSettingsInputs(
-  errorInputs: Set<string>,
   clearError: () => void,
+  onBlurCallback: (prop: IInputProps, value: string) => void,
   allowInputEdit: (prop: TInputPropsWithRef) => void,
-  focusInput: (prop: TInputPropsWithRef) => void,
-  addConfirmPasswordInput: (prop: TInputPropsWithRef) => void,
-  user: IUser
+  user: TUser
 ): Array<TProfileSettingsInput> {
-  const ICON_EDIT: Omit<IPictureProps, 'onClick'> = {
-    picName: 'edit',
-    type: 'icon',
-    style: 'margin-top: 20px',
-  };
-  const generateEditIcon = (input: TInputPropsWithRef): IPictureProps => {
-    return {
-      ...ICON_EDIT,
-      onClick: () => {
-        allowInputEdit(input);
-        focusInput(input);
-      },
-    };
-  };
+  const email = generateEmailInput(clearError);
+  email.value = user[InputNameTypes.EMAIL];
+  const login = generateLoginInput(clearError);
+  login.value = user[InputNameTypes.LOGIN];
+  const firstName = generateFirstNameInput(clearError);
+  firstName.value = user[InputNameTypes.FIRST_NAME];
+  const lastName = generateLastNameInput(clearError);
+  lastName.value = user[InputNameTypes.SECOND_NAME];
+  const chatName = generateChatNameInput(clearError);
+  chatName.value = user[InputNameTypes.DISPLAY_NAME];
+  const phone = generatePhoneNumberInput(clearError);
+  phone.value = user[InputNameTypes.PHONE];
 
-  // email
-  const emailInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generateEmailInput(errorInputs, clearError)
-  );
-  emailInput.value = user.email;
-  const emailEdit = generateEditIcon(emailInput);
-
-  // login
-  const loginInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generateLoginInput(errorInputs, clearError)
-  );
-  loginInput.value = user.login;
-  const loginEdit = generateEditIcon(loginInput);
-
-  // first name
-  const firstNameInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generateFirstNameInput(errorInputs, clearError)
-  );
-  firstNameInput.value = user.firstName;
-  const firstNameEdit = generateEditIcon(firstNameInput);
-
-  // last name
-  const lastNameInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generateLastNameInput(errorInputs, clearError)
-  );
-  lastNameInput.value = user.lastName;
-  const lastNameEdit = generateEditIcon(lastNameInput);
-
-  // chat name
-  const chatNameInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generateChatNameInput(errorInputs, clearError)
-  );
-  chatNameInput.value = user.chatName;
-  const chatNameEdit = generateEditIcon(chatNameInput);
-
-  // phone number
-  const phoneInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generatePhoneNumberInput(errorInputs, clearError)
-  );
-  phoneInput.value = user.phone;
-  const phoneEdit = generateEditIcon(phoneInput);
-
-  // password
-  const passwordInput: TInputPropsWithRef = generateDisabledInputWithRef(
-    generatePasswordInput(errorInputs, clearError)
-  );
-  passwordInput.name = InputNameTypes.OLD_PASSWORD;
-  passwordInput.required = false;
-  const passwordEdit: IPictureProps = {
-    ...ICON_EDIT,
-    onClick: () => {
-      addConfirmPasswordInput(passwordInput);
-      focusInput(passwordInput);
-    },
-  };
-
-  return [
-    [emailInput, emailEdit],
-    [loginInput, loginEdit],
-    [firstNameInput, firstNameEdit],
-    [lastNameInput, lastNameEdit],
-    [chatNameInput, chatNameEdit],
-    [phoneInput, phoneEdit],
-    [passwordInput, passwordEdit],
-  ];
+  return [email, login, firstName, lastName, chatName, phone].map(input => {
+    const prop = Object.assign(
+      addOnBlurCallback({ ...input, disabled: true }, onBlurCallback),
+      {
+        ref: Template.createRef(),
+      }
+    );
+    const edit = { ...ICON_EDIT, onClick: () => allowInputEdit(prop) };
+    return [prop, edit];
+  });
 }
 
-export function generateConfirmPasswordInput(
-  errorInputs: Set<string>,
+export function generateNewPasswordInputs(
+  onBlurCallback: (prop: IInputProps, value: string) => void,
   clearError: () => void
-): TProfileSettingsInput {
-  const confirmPasswordInput = generateDisabledInputWithRef(
-    generatePasswordInput(errorInputs, clearError)
+): Array<TProfileSettingsInput> {
+  const newPassword = generatePasswordInput(clearError);
+  newPassword.label = 'New Password';
+  newPassword.name = InputNameTypes.NEW_PASSWORD;
+  const confirmPassword = { ...newPassword, label: 'Confirm Password' };
+  return [newPassword, confirmPassword].map(input => [
+    Object.assign(addOnBlurCallback(input, onBlurCallback), {
+      ref: Template.createRef(),
+    }),
+  ]);
+}
+
+export function generateChangePasswordProfileInputs(
+  clearError: () => void,
+  onBlurCallback: (prop: IInputProps, value: string) => void,
+  addNewPasswordInputs: (prop: TInputPropsWithRef) => void
+): Array<TProfileSettingsInput> {
+  const password = generatePasswordInput(clearError);
+  password.label = 'Old Password';
+  password.name = InputNameTypes.OLD_PASSWORD;
+  password.disabled = true;
+  const oldPassword = Object.assign(
+    addOnBlurCallback(password, onBlurCallback),
+    {
+      ref: Template.createRef(),
+    }
   );
-  confirmPasswordInput.disabled = false;
-  confirmPasswordInput.label = 'Confirm Password';
-  confirmPasswordInput.name = InputNameTypes.NEW_PASSWORD;
-  return confirmPasswordInput;
+  const edit = {
+    ...ICON_EDIT,
+    onClick: () => addNewPasswordInputs(oldPassword),
+  };
+  return [[oldPassword, edit]];
+}
+
+export function generateChangeAvatarProfileInputs(
+  onChangeCallback: (prop: IInputFileProps, value: string) => void
+): Array<IInputFileProps | IPictureProps> {
+  const avatar: IPictureProps = { picName: 'avatar', type: 'image' };
+  const input: IInputFileProps = {
+    label: 'Change Avatar',
+    value: '',
+    name: 'avatar',
+    ref: Template.createRef(),
+    onChange: (value: string) => onChangeCallback(input, value),
+    style: 'text-align: center;',
+  };
+  return [avatar, input];
 }

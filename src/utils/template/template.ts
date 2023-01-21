@@ -12,7 +12,7 @@ import {
   TVirtualDomNode,
   TVirtualDomUpdateOperation,
 } from './template-types';
-import { Block } from '../block/block';
+import { Block } from '../base-components/block';
 
 const isEvent = (key: string) => key.startsWith('on');
 const checkKey = (

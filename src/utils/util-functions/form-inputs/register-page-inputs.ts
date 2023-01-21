@@ -1,5 +1,6 @@
 import { IInputProps } from '../../../components/input/input';
 import {
+  addOnBlurCallback,
   generateEmailInput,
   generateFirstNameInput,
   generateLastNameInput,
@@ -9,7 +10,8 @@ import {
 } from './form-inputs';
 
 export function generateRegisterPageFormInputs(
-  clearError: () => void
+  clearError: () => void,
+  onBlurCallback: (prop: IInputProps, value: string) => void
 ): Array<IInputProps> {
   const email = generateEmailInput(clearError);
   const login = generateLoginInput(clearError);
@@ -29,5 +31,5 @@ export function generateRegisterPageFormInputs(
     phoneNumber,
     passwordCreate,
     passwordConfirm,
-  ];
+  ].map(input => addOnBlurCallback(input, onBlurCallback));
 }

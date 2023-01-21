@@ -1,63 +1,41 @@
-import { Block } from '../../utils/block/block';
-import { TVirtualDomNode } from '../../utils/template/template-types';
-import { Template } from '../../utils/template/template';
-import { IButtonProps } from '../button/button';
+import { PageForm } from '../../utils/base-components/page-form';
+import { ROUTES } from '../../utils/const-variables/pages';
+import { navigate } from '../../utils/util-functions/router';
 import { IInputFileProps } from '../input-file/input-file';
-import { Form } from '../form/form';
-import { IPictureProps } from '../picture/picture';
+import { IInputProps } from '../input/input';
+import { generateChangeAvatarProfileInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 
-interface IState {
-  isValid: boolean;
-  inputs: Array<IInputFileProps | IPictureProps>;
-  errorInputs: Set<string>;
-}
-
-export class ProfileSettingsFormAvatar extends Block<null, IState> {
-  state: IState = {
-    isValid: true,
-    inputs: [
-      { picName: 'avatar', type: 'image' },
-      {
-        label: 'Change Avatar',
-        value: '',
-        name: 'avatar',
-        style: 'text-align: center;',
-      },
-    ],
-    errorInputs: new Set<string>(),
-  };
-
+export class ProfileSettingsFormAvatar extends PageForm {
   constructor() {
     super();
-    this.clearError = this.clearError.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-  clearError() {
-    if (!this.state.isValid) {
-      this.setState(() => ({ ...this.state, isValid: true }));
-    }
-  }
-
-  reset() {
-    // TODO: logout
-  }
-
-  render(): TVirtualDomNode {
-    const buttons: Array<IButtonProps> = [
+    this.title = 'Avatar Settings';
+    this.state.inputs = generateChangeAvatarProfileInputs(
+      this.updateInput.bind(this)
+    );
+    this.buttons = [
       { title: 'Save new Avatar', type: 'primary', htmlType: 'submit' },
       { title: 'Logout', type: 'secondary', htmlType: 'reset' },
     ];
-    return Template.createComponent(Form, {
-      key: 'settings-page-avatar',
-      title: 'Other Settings',
-      inputs: this.state.inputs,
-      buttons,
-      // TODO add change avatar function
-      submit: e => {
-        e.preventDefault();
-      },
-      reset: this.reset,
-      errorText: !this.state.isValid ? 'Something went wrong...' : '',
-    });
+    this.submitForm = this.submitForm.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+  }
+
+  updateInput(inputProp: IInputProps, value: string) {
+    super.updateInput(inputProp, value);
+  }
+
+  submitForm(e: Event) {
+    e.preventDefault();
+    if ((<IInputFileProps>this.state.inputs[1]).value !== '') {
+      const avatar = (<HTMLInputElement>(
+        (<IInputFileProps>this.state.inputs[1]).ref.current
+      )).files[0];
+      // TODO: send change avatar request
+      console.log('Avatar Settings', avatar);
+    }
+  }
+
+  resetForm() {
+    navigate(ROUTES.login.path);
   }
 }

@@ -1,6 +1,6 @@
 import * as styles from './button.module.scss';
 import { Template } from '../../utils/template/template';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 
 export interface IButtonProps {

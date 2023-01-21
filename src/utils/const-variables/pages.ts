@@ -1,4 +1,4 @@
-import { Block } from '../block/block';
+import { Block } from '../base-components/block';
 import { HomePage } from '../../pages/home-page/home-page';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
@@ -11,8 +11,7 @@ export interface IRoute {
   title: string;
   path: string;
   pathRegExp: RegExp;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: { new (): Block<any, any> };
+  component: { new (): Block<unknown, unknown> };
 }
 
 interface IRoutes {

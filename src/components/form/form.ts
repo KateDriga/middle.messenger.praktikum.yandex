@@ -1,5 +1,5 @@
 import * as styles from './form.module.scss';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { FormInputField } from '../form-input-field/form-input-field';
 import { Button, IButtonProps } from '../button/button';
@@ -9,7 +9,7 @@ import { IDropdownProps } from '../dropdown/dropdown';
 import { InputBlock } from '../input-block/input-block';
 import { IInputFileProps } from '../input-file/input-file';
 import { IPictureProps } from '../picture/picture';
-import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
+import { TInputPropsWithRef } from '../../utils/base-components/page-form-edit';
 
 interface IProps {
   title: string;

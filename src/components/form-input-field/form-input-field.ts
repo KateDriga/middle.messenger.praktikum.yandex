@@ -1,17 +1,17 @@
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { IInputProps, Input } from '../input/input';
 import { Dropdown, IDropdownProps } from '../dropdown/dropdown';
 import { Picture, IPictureProps } from '../picture/picture';
 import { IInputFileProps, InputFile } from '../input-file/input-file';
-import { TInputPropsWithRef } from '../profile-settings-form/profile-settings-form';
+import { TInputPropsWithRef } from '../../utils/base-components/page-form-edit';
 
 export interface IFormInput {
   htmlType: 'input' | 'select';
   value: string;
   label: string;
-  onChange: (e: Event) => void;
+  onBlur: (value: string) => void;
 }
 
 export function instanceOfIFormInputFieldProps(

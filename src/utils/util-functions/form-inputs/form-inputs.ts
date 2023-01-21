@@ -7,116 +7,128 @@ import {
   PASSWORD_INPUT,
   PHONE_NUMBER_INPUT,
 } from '../../const-variables/field-inputs';
-import {
-  IValidation,
-  saveAndTestValue,
-} from '../../const-variables/field-validation';
-import { IFormPageState } from '../../../pages/login-page/login-page';
+import { IPageState } from '../../base-components/page-form';
 
-export function generateEmailInput(clearError: () => void): IInputProps {
-  const email: IInputProps = {
+export function generateEmailInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...EMAIL_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, email),
     clearError,
   };
-  return email;
 }
 
-export function generateLoginInput(clearError: () => void): IInputProps {
-  const login: IInputProps = {
+export function generateLoginInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...LOGIN_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, login),
     clearError,
   };
-  return login;
 }
 
 export function generatePasswordInput(
-  clearError: () => void,
-  validation?: IValidation
-): IInputProps {
-  const password: IInputProps = {
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...PASSWORD_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, password),
     clearError,
   };
-  if (validation) {
-    password.validation = validation;
-  }
-  return password;
 }
 
-export function generateFirstNameInput(clearError: () => void): IInputProps {
-  const firstName: IInputProps = {
+export function generateFirstNameInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...FIRST_NAME_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, firstName),
     clearError,
   };
-  return firstName;
 }
 
-export function generateLastNameInput(clearError: () => void): IInputProps {
-  const lastName: IInputProps = {
+export function generateLastNameInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...LAST_NAME_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, lastName),
     clearError,
   };
-  return lastName;
 }
 
-export function generateChatNameInput(clearError: () => void): IInputProps {
-  const chatName: IInputProps = {
+export function generateChatNameInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...FIRST_NAME_INPUT,
     label: 'Chat Name',
     name: InputNameTypes.DISPLAY_NAME,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, chatName),
     clearError,
   };
-  return chatName;
 }
 
-export function generatePhoneNumberInput(clearError: () => void): IInputProps {
-  const phoneNumber: IInputProps = {
+export function generatePhoneNumberInput(
+  clearError: () => void
+): Omit<IInputProps, 'onBlur'> {
+  return {
     ...PHONE_NUMBER_INPUT,
     value: '',
-    onChange: (e: Event) => saveAndTestValue(e, phoneNumber),
     clearError,
   };
-  return phoneNumber;
 }
 
-export function validateForm(inputs: Array<IInputProps>): IFormPageState {
-  const isValid = inputs.every(input =>
-    input.validation.rule.test(input.value)
+export function addOnBlurCallback(
+  input: Omit<IInputProps, 'onBlur'>,
+  onBlurCallback: (prop: IInputProps, value: string) => void
+): IInputProps {
+  const prop = {
+    ...input,
+    onBlur: (value: string) => onBlurCallback(prop, value),
+  };
+  return prop;
+}
+
+export function isPasswordInput(input: IInputProps) {
+  return input.name === InputNameTypes.PASSWORD;
+}
+
+export function isOldPasswordInput(input: IInputProps) {
+  return input.name === InputNameTypes.OLD_PASSWORD;
+}
+
+export function isNewPasswordInput(input: IInputProps) {
+  return input.name === InputNameTypes.NEW_PASSWORD;
+}
+
+export function validateFormInputs(inputs: Array<IInputProps>): IPageState {
+  const fieldsValid = inputs.every(
+    input => !input.required || input.validation.rule.test(input.value)
   );
-  return { isValid, errorText: isValid ? null : 'Please check form inputs' };
+  return {
+    isValid: fieldsValid,
+    errorText: fieldsValid ? null : 'Please check form inputs',
+  };
 }
 
-export function checkPasswordsEqual(inputs: Array<IInputProps>): boolean {
-  const passwordInputs = inputs.filter(
-    input => input.name === InputNameTypes.PASSWORD
-  );
-  return new Set(passwordInputs.map(input => input.value)).size === 1;
-}
-
-export function validateRegisterForm(
-  inputs: Array<IInputProps>
-): IFormPageState {
-  const formState = validateForm(inputs);
-  if (!formState.isValid) {
-    return formState;
-  }
-  const passwordsEqual = checkPasswordsEqual(inputs);
+function checkPasswordsEqual(passwordInputs: Array<IInputProps>): IPageState {
+  const passwordsEqual =
+    new Set(passwordInputs.map(input => input.value)).size === 1;
   return {
     isValid: passwordsEqual,
     errorText: passwordsEqual ? null : "Passwords don't match",
   };
+}
+
+export function checkPasswordsState(inputs: Array<IInputProps>): IPageState {
+  return checkPasswordsEqual(inputs.filter(input => isPasswordInput(input)));
+}
+
+export function checkNewPasswordsState(inputs: Array<IInputProps>): IPageState {
+  return checkPasswordsEqual(inputs.filter(input => isNewPasswordInput(input)));
 }
 
 export function generateFormObject(

@@ -1,5 +1,5 @@
 import * as styles from './chat-content-header.module.scss';
-import { Block } from '../../utils/block/block';
+import { Block } from '../../utils/base-components/block';
 import { Template } from '../../utils/template/template';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
 import { TVirtualDomNode } from '../../utils/template/template-types';
