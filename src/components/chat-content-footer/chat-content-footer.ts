@@ -1,6 +1,6 @@
 import * as styles from './chat-content-footer.module.scss';
 import { Block } from '../../utils/base-components/block';
-import { TVirtualDomNode } from '../../utils/template/template-types';
+import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { InputChatMessage } from '../input-chat-message/input-chat-message';
 import { Picture } from '../picture/picture';
@@ -8,6 +8,7 @@ import { InputNameTypes } from '../input/input';
 
 interface IProps {
   onSendMessage: (e: KeyboardEvent | MouseEvent) => void;
+  newMessageRef: IRef;
 }
 
 export class ChatContentFooter extends Block<IProps, null> {
@@ -26,6 +27,7 @@ export class ChatContentFooter extends Block<IProps, null> {
         key: 'chat-message-send',
         name: InputNameTypes.MESSAGE,
         onKeyDown: this.props.onSendMessage,
+        newMessageRef: this.props.newMessageRef,
       }),
       Template.createComponent(Picture, {
         key: 'chat-message-send-button',

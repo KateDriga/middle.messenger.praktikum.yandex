@@ -23,7 +23,7 @@ export class Picture extends Block<IPictureProps, null> {
       key: 'img',
       class: `${this.props.type === 'icon' ? styles.img_icon : styles.img_pic}`,
       src: PIC_PATHS[this.props.picName],
-      alt: 'image',
+      alt: this.props.picName,
       style: this.props.style ?? '',
       onClick: this.props.onClick,
     });

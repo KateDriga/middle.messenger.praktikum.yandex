@@ -10,18 +10,16 @@ import {
 import { ChatMessage } from '../chat-message/chat-message';
 import { ChatContentHeader } from '../chat-content-header/chat-content-header';
 import { ChatContentFooter } from '../chat-content-footer/chat-content-footer';
+import { MESSAGE_VALIDATION } from '../../utils/const-variables/field-validation';
 
 interface IState {
   messages: Array<IMessage & { type: string }>;
 }
 
-const txtMessageNotEmpty = (ms: string): boolean => {
-  return ms && ms.trim().replaceAll('\n', '').length !== 0;
-};
-
 export class ChatContent extends Block<{ id: string }, IState> {
   state: IState = { messages: [] };
   testInterval;
+  newMessageRef = Template.createRef();
 
   constructor() {
     super();
@@ -58,18 +56,21 @@ export class ChatContent extends Block<{ id: string }, IState> {
   }
 
   sendMessage(e: KeyboardEvent | MouseEvent) {
-    const textValue = (<HTMLInputElement>e.target).value;
-    if (
-      (e instanceof MouseEvent || e.key === 'Enter') &&
-      txtMessageNotEmpty(textValue)
-    ) {
-      const newMessage = {
-        type: 'sent',
-        time: new Date().toISOString(),
-        text: textValue,
-      };
-      this.setState(() => ({ messages: [...this.state.messages, newMessage] }));
-      (<HTMLInputElement>e.target).value = '';
+    const textValue = (<HTMLInputElement>this.newMessageRef.current).value;
+    if (e instanceof MouseEvent || (e.key === 'Enter' && !e.shiftKey)) {
+      e.preventDefault();
+      if (MESSAGE_VALIDATION.rule.test(textValue)) {
+        const newMessage = {
+          type: 'sent',
+          time: new Date().toISOString(),
+          text: textValue,
+        };
+        console.log(newMessage.text);
+        (<HTMLInputElement>this.newMessageRef.current).value = '';
+        this.setState(() => ({
+          messages: [...this.state.messages, newMessage],
+        }));
+      }
     }
   }
 
@@ -113,6 +114,7 @@ export class ChatContent extends Block<{ id: string }, IState> {
       Template.createComponent(ChatContentFooter, {
         key: 'chat-content-footer',
         onSendMessage: this.sendMessage,
+        newMessageRef: this.newMessageRef,
       })
     );
   }

@@ -35,7 +35,7 @@ export class ChatMessage extends Block<IProps, null> {
       },
       Template.createElement(
         'p',
-        { key: 'message-text' },
+        { key: 'message-text', style: 'white-space: pre-wrap;' },
         Template.createTextElement(this.props.text)
       ),
       Template.createElement(
