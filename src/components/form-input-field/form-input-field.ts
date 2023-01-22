@@ -11,7 +11,7 @@ export interface IFormInput {
   htmlType: 'input' | 'select';
   value: string;
   label: string;
-  onBlur: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
 export function instanceOfIFormInputFieldProps(

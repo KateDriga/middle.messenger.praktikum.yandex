@@ -8,7 +8,7 @@ import {
   PHONE_NUMBER_VALIDATION,
 } from './field-validation';
 
-type TUserInput = Omit<IInputProps, 'value' | 'onBlur' | 'clearError'>;
+type TUserInput = Omit<IInputProps, 'value' | 'onChange' | 'clearError'>;
 
 export const EMAIL_INPUT: TUserInput = {
   htmlType: 'input',

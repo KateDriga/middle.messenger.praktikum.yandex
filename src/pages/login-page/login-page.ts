@@ -7,8 +7,11 @@ import {
   validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../../components/input/input';
+import { Auth } from '../../services/api/auth';
 
 export class LoginPage extends PageForm {
+  auth = new Auth();
+
   constructor() {
     super();
     this.title = 'Sign in';
@@ -24,7 +27,7 @@ export class LoginPage extends PageForm {
     this.resetForm = this.resetForm.bind(this);
   }
 
-  submitForm(e: Event) {
+  async submitForm(e: Event) {
     e.preventDefault();
     const formState = validateFormInputs(<Array<IInputProps>>this.state.inputs);
     if (formState.isValid) {
@@ -32,8 +35,17 @@ export class LoginPage extends PageForm {
         <Array<IInputProps>>this.state.inputs
       );
       console.log('Login', requestBody);
-      // TODO: send request, check login and password
-      navigate(ROUTES.chats.path);
+      try {
+        const response = await this.auth.signIn(requestBody);
+        console.log('Register response', response);
+        navigate(ROUTES.chats.path);
+      } catch (err) {
+        this.setState(s => ({
+          ...s,
+          isValid: false,
+          errorText: JSON.parse(err.data).reason,
+        }));
+      }
     } else {
       this.setState(s => ({
         ...s,

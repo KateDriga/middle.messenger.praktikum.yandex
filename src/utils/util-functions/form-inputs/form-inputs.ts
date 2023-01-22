@@ -11,7 +11,7 @@ import { IPageState } from '../../base-components/page-form';
 
 export function generateEmailInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...EMAIL_INPUT,
     value: '',
@@ -21,7 +21,7 @@ export function generateEmailInput(
 
 export function generateLoginInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...LOGIN_INPUT,
     value: '',
@@ -31,7 +31,7 @@ export function generateLoginInput(
 
 export function generatePasswordInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...PASSWORD_INPUT,
     value: '',
@@ -41,7 +41,7 @@ export function generatePasswordInput(
 
 export function generateFirstNameInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...FIRST_NAME_INPUT,
     value: '',
@@ -51,7 +51,7 @@ export function generateFirstNameInput(
 
 export function generateLastNameInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...LAST_NAME_INPUT,
     value: '',
@@ -61,7 +61,7 @@ export function generateLastNameInput(
 
 export function generateChatNameInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...FIRST_NAME_INPUT,
     label: 'Chat Name',
@@ -73,7 +73,7 @@ export function generateChatNameInput(
 
 export function generatePhoneNumberInput(
   clearError: () => void
-): Omit<IInputProps, 'onBlur'> {
+): Omit<IInputProps, 'onChange'> {
   return {
     ...PHONE_NUMBER_INPUT,
     value: '',
@@ -81,13 +81,13 @@ export function generatePhoneNumberInput(
   };
 }
 
-export function addOnBlurCallback(
-  input: Omit<IInputProps, 'onBlur'>,
-  onBlurCallback: (prop: IInputProps, value: string) => void
+export function addOnChangeCallback(
+  input: Omit<IInputProps, 'onChange'>,
+  onChangeCallback: (prop: IInputProps, value: string) => void
 ): IInputProps {
   const prop = {
     ...input,
-    onBlur: (value: string) => onBlurCallback(prop, value),
+    onChange: (value: string) => onChangeCallback(prop, value),
   };
   return prop;
 }

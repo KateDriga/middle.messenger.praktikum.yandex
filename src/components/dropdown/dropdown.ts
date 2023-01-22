@@ -28,7 +28,7 @@ export class Dropdown extends Block<IDropdownProps, null> {
           class: styles.form_input_select,
           name: this.props.name,
           disabled: this.props.disabled ?? false,
-          onChange: this.props.onBlur,
+          onChange: this.props.onChange,
         },
         ...this.props.options.map(option =>
           Template.createElement(

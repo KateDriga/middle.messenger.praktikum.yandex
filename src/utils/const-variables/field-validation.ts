@@ -39,4 +39,4 @@ export const MESSAGE_VALIDATION = {
   errorText: 'Should not be empty',
 };
 
-export const DEFAULT_FORM_ERROR_MESSAGE = 'Something went wrong...;';
+export const DEFAULT_FORM_ERROR_MESSAGE = 'Something went wrong...';

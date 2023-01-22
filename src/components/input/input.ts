@@ -53,12 +53,12 @@ export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
   }
 
   onBlur(e: Event) {
-    this.props.value = (<HTMLInputElement>e.target).value;
-    const isErrorInput = !this.props.validation.rule.test(this.props.value);
+    const isErrorInput = !this.props.validation.rule.test(
+      (<HTMLInputElement>e.target).value
+    );
     if (isErrorInput && !this.state.hasError) {
       this.setState(() => ({ hasError: true }));
     }
-    this.props.onBlur(this.props.value);
   }
 
   render(): TVirtualDomNode {
@@ -83,6 +83,8 @@ export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
         ref: 'ref' in this.props && this.props.ref,
         onFocus: this.onFocus,
         onBlur: this.onBlur,
+        onInput: (e: Event) =>
+          this.props.onChange((<HTMLInputElement>e.target).value),
       }),
       Template.createElement(
         'span',

@@ -2,7 +2,7 @@ import { IInputProps, InputNameTypes } from '../../../components/input/input';
 import { IPictureProps } from '../../../components/picture/picture';
 import { TUser } from '../../fake-test-variables/fake-user';
 import {
-  addOnBlurCallback,
+  addOnChangeCallback,
   generateChatNameInput,
   generateEmailInput,
   generateFirstNameInput,
@@ -26,7 +26,7 @@ const ICON_EDIT: Omit<IPictureProps, 'onClick'> = {
 
 export function generateProfileSettingsInputs(
   clearError: () => void,
-  onBlurCallback: (prop: IInputProps, value: string) => void,
+  onChangeCallback: (prop: IInputProps, value: string) => void,
   allowInputEdit: (prop: TInputPropsWithRef) => void,
   user: TUser
 ): Array<TProfileSettingsInput> {
@@ -45,7 +45,7 @@ export function generateProfileSettingsInputs(
 
   return [email, login, firstName, lastName, chatName, phone].map(input => {
     const prop = Object.assign(
-      addOnBlurCallback({ ...input, disabled: true }, onBlurCallback),
+      addOnChangeCallback({ ...input, disabled: true }, onChangeCallback),
       {
         ref: Template.createRef(),
       }
@@ -56,7 +56,7 @@ export function generateProfileSettingsInputs(
 }
 
 export function generateNewPasswordInputs(
-  onBlurCallback: (prop: IInputProps, value: string) => void,
+  onChangeCallback: (prop: IInputProps, value: string) => void,
   clearError: () => void
 ): Array<TProfileSettingsInput> {
   const newPassword = generatePasswordInput(clearError);
@@ -64,7 +64,7 @@ export function generateNewPasswordInputs(
   newPassword.name = InputNameTypes.NEW_PASSWORD;
   const confirmPassword = { ...newPassword, label: 'Confirm Password' };
   return [newPassword, confirmPassword].map(input => [
-    Object.assign(addOnBlurCallback(input, onBlurCallback), {
+    Object.assign(addOnChangeCallback(input, onChangeCallback), {
       ref: Template.createRef(),
     }),
   ]);
@@ -72,7 +72,7 @@ export function generateNewPasswordInputs(
 
 export function generateChangePasswordProfileInputs(
   clearError: () => void,
-  onBlurCallback: (prop: IInputProps, value: string) => void,
+  onChangeCallback: (prop: IInputProps, value: string) => void,
   addNewPasswordInputs: (prop: TInputPropsWithRef) => void
 ): Array<TProfileSettingsInput> {
   const password = generatePasswordInput(clearError);
@@ -80,7 +80,7 @@ export function generateChangePasswordProfileInputs(
   password.name = InputNameTypes.OLD_PASSWORD;
   password.disabled = true;
   const oldPassword = Object.assign(
-    addOnBlurCallback(password, onBlurCallback),
+    addOnChangeCallback(password, onChangeCallback),
     {
       ref: Template.createRef(),
     }
