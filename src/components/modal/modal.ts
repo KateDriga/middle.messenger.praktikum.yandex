@@ -26,7 +26,7 @@ export class Modal extends Block<IModalMessage, null> {
     super();
     this.close = this.close.bind(this);
     this.closeOnEscape = this.closeOnEscape.bind(this);
-    document.body.addEventListener('keydown', this.closeOnEscape)
+    document.body.addEventListener('keydown', this.closeOnEscape);
   }
 
   close() {

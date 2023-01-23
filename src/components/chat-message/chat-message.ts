@@ -7,7 +7,7 @@ import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 
 interface IProps extends IMessage {
   id: string;
-  type: string;
+  kind: string;
   shouldScroll: boolean;
 }
 
@@ -28,15 +28,16 @@ export class ChatMessage extends Block<IProps, null> {
         key: this.props.id,
         ref: this.ref,
         class: `${styles.chat_message} ${
-          this.props.type === 'received'
+          this.props.kind === 'received'
             ? styles.chat_message_received
             : styles.chat_message_sent
         }`,
       },
+      // TODO: display different elements depending on message type (file/text)
       Template.createElement(
         'p',
         { key: 'message-text', style: 'white-space: pre-wrap;' },
-        Template.createTextElement(this.props.text)
+        Template.createTextElement(this.props.content)
       ),
       Template.createElement(
         'p',

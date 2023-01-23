@@ -6,8 +6,8 @@ import {
   validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../input/input';
-import { Template } from "../../utils/template/template";
-import { Modal, MODAL_ID } from "../modal/modal";
+import { Template } from '../../utils/template/template';
+import { Modal, MODAL_ID } from '../modal/modal';
 
 export class ProfileSettingsForm extends PageFormEdit {
   constructor() {

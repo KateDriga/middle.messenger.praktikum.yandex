@@ -1,7 +1,11 @@
-.chat_content_footer {
+.chat_content_message {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 20px;
   padding: 10px 15px 10px 30px;
+}
+
+.chat_content_files {
+  padding-left: 30px;
 }

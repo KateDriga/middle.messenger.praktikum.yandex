@@ -79,12 +79,16 @@ export class ProfileSettingsFormPassword extends PageFormEdit {
         );
       } else {
         if (this.state.errorText !== formState.errorText) {
-          this.setState(() => ({inputs: this.displayError ? this.state.inputs : this.state.inputs.map(input => {
-              input[0].displayError = true;
-              return input
-            }),
+          this.setState(() => ({
+            inputs: this.displayError
+              ? this.state.inputs
+              : this.state.inputs.map(input => {
+                  input[0].displayError = true;
+                  return input;
+                }),
             isValid: formState.isValid,
-            errorText: formState.errorText,}));
+            errorText: formState.errorText,
+          }));
         }
       }
     }

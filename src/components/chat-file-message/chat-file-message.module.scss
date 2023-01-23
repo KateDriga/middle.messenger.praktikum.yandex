@@ -1,0 +1,26 @@
+@import 'src/common-styles/media-screen';
+
+.file_message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.file_name {
+  color: var(--apricot);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90%;
+
+  @include media-screen-medium {
+    max-width: 90%;
+  }
+}
+
+.remove_file_icon {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
