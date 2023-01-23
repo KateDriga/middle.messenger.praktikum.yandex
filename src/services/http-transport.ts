@@ -10,16 +10,16 @@ enum HttpTransportMethods {
 export enum HttpTransportPaths {
   AUTH_SIGN_UP = '/auth/signup',
   AUTH_SIGN_IN = '/auth/signin',
+  AUTH_USER = '/auth/user',
 }
 
-interface IOptions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+interface IOptions<T> {
+  data?: T;
   timeout?: number;
   headers?: Record<string, string>;
 }
 
-interface IOptionsWithMethod extends IOptions {
+interface IOptionsWithMethod<T> extends IOptions<T> {
   method: HttpTransportMethods;
 }
 
@@ -43,7 +43,10 @@ function generateResponseStructure(xhr: XMLHttpRequest): IResponse {
 }
 
 export class HTTPTransport {
-  get(path: HttpTransportPaths, options: IOptions = {}): Promise<IResponse> {
+  get<T extends Record<string, unknown>>(
+    path: HttpTransportPaths,
+    options: IOptions<T> = {}
+  ): Promise<IResponse> {
     return this.request(
       options.data ? queryStringify(options.data) : path,
       { ...options, method: HttpTransportMethods.GET },
@@ -51,7 +54,10 @@ export class HTTPTransport {
     );
   }
 
-  post(path: HttpTransportPaths, options: IOptions = {}): Promise<IResponse> {
+  post<T>(
+    path: HttpTransportPaths,
+    options: IOptions<T> = {}
+  ): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.POST },
@@ -59,7 +65,10 @@ export class HTTPTransport {
     );
   }
 
-  put(path: HttpTransportPaths, options: IOptions = {}): Promise<IResponse> {
+  put<T>(
+    path: HttpTransportPaths,
+    options: IOptions<T> = {}
+  ): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.PUT },
@@ -67,7 +76,10 @@ export class HTTPTransport {
     );
   }
 
-  delete(path: HttpTransportPaths, options: IOptions = {}): Promise<IResponse> {
+  delete<T>(
+    path: HttpTransportPaths,
+    options: IOptions<T> = {}
+  ): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.DELETE },
@@ -75,9 +87,9 @@ export class HTTPTransport {
     );
   }
 
-  request(
+  request<T>(
     path: string,
-    options: IOptionsWithMethod = { method: HttpTransportMethods.GET },
+    options: IOptionsWithMethod<T> = { method: HttpTransportMethods.GET },
     timeout = 5000
   ): Promise<IResponse> {
     const { method, data, headers = {} } = options;

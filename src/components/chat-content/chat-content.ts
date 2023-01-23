@@ -56,16 +56,15 @@ export class ChatContent extends Block<{ id: string }, IState> {
   }
 
   sendMessage(e: KeyboardEvent | MouseEvent) {
-    const textValue = (<HTMLInputElement>this.newMessageRef.current).value;
     if (e instanceof MouseEvent || (e.key === 'Enter' && !e.shiftKey)) {
       e.preventDefault();
+      const textValue = (<HTMLInputElement>this.newMessageRef.current).value;
       if (MESSAGE_VALIDATION.rule.test(textValue)) {
         const newMessage = {
           type: 'sent',
           time: new Date().toISOString(),
           text: textValue,
         };
-        console.log(newMessage.text);
         (<HTMLInputElement>this.newMessageRef.current).value = '';
         this.setState(() => ({
           messages: [...this.state.messages, newMessage],

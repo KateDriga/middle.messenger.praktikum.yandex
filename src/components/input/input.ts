@@ -30,6 +30,7 @@ export interface IInputProps extends IFormInput {
   disabled?: boolean;
   style?: string;
   inputStyle?: string;
+  displayError?: boolean;
 }
 
 interface IState {
@@ -43,6 +44,15 @@ export class Input extends Block<IInputProps | TInputPropsWithRef, IState> {
     super();
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
+  }
+
+  initProps(
+    props: IInputProps | TInputPropsWithRef
+  ): IInputProps | TInputPropsWithRef {
+    if (props.displayError) {
+      this.state.hasError = !props.validation.rule.test(props.value);
+    }
+    return super.initProps(props);
   }
 
   onFocus() {

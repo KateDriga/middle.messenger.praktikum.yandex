@@ -7,10 +7,10 @@ import {
   validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../../components/input/input';
-import { Auth } from '../../services/api/auth';
+import { AuthService } from '../../services/api/auth-service';
 
 export class LoginPage extends PageForm {
-  auth = new Auth();
+  auth = new AuthService();
 
   constructor() {
     super();
@@ -47,11 +47,13 @@ export class LoginPage extends PageForm {
         }));
       }
     } else {
-      this.setState(s => ({
-        ...s,
-        isValid: formState.isValid,
-        errorText: formState.errorText,
-      }));
+      if (this.state.errorText !== formState.errorText) {
+        this.setState(s => ({
+          ...s,
+          isValid: formState.isValid,
+          errorText: formState.errorText,
+        }));
+      }
     }
   }
 

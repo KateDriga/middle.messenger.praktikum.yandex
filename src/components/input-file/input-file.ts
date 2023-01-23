@@ -27,6 +27,7 @@ export class InputFile extends Block<IInputFileProps, null> {
         type: 'file',
         name: this.props.name,
         ref: this.props.ref,
+        value: this.props.value,
         onChange: (e: Event) =>
           this.props.onChange((<HTMLInputElement>e.target).value),
       })

@@ -15,6 +15,7 @@ export abstract class PageFormEdit extends PageForm {
       if (inputBlock[0] === prop) {
         inputBlock[0].disabled = false;
         inputBlock[0].required = true;
+        inputBlock[0].displayError = true;
         inputBlock[1].onClick = () => this.focusInput(inputBlock[0]);
       }
       return inputBlock;

@@ -8,10 +8,10 @@ import {
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 import { IInputProps } from '../../components/input/input';
-import { Auth } from '../../services/api/auth';
+import { AuthService } from '../../services/api/auth-service';
 
 export class RegisterPage extends PageForm {
-  auth = new Auth();
+  auth = new AuthService();
   constructor() {
     super();
     this.title = 'Sign up';
@@ -52,11 +52,13 @@ export class RegisterPage extends PageForm {
         }));
       }
     } else {
-      this.setState(s => ({
-        ...s,
-        isValid: formState.isValid,
-        errorText: formState.errorText,
-      }));
+      if (this.state.errorText !== formState.errorText) {
+        this.setState(s => ({
+          ...s,
+          isValid: formState.isValid,
+          errorText: formState.errorText,
+        }));
+      }
     }
   }
 

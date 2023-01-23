@@ -14,8 +14,12 @@ import {
   validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../input/input';
+import { Template } from '../../utils/template/template';
+import { Modal, MODAL_ID } from '../modal/modal';
 
 export class ProfileSettingsFormPassword extends PageFormEdit {
+  displayError = false;
+
   constructor() {
     super();
     this.title = 'Change Password';
@@ -50,38 +54,53 @@ export class ProfileSettingsFormPassword extends PageFormEdit {
 
   submitForm(e: Event) {
     e.preventDefault();
-    const formInputs: Array<IInputProps> = this.state.inputs.map(
-      input => input[0]
-    );
-    const inputsValidityState = validateFormInputs(formInputs);
-    const formState = inputsValidityState.isValid
-      ? checkNewPasswordsState(formInputs)
-      : inputsValidityState;
-    if (formState.isValid) {
-      // TODO send request, check response
-      const oldPassword = formInputs.find(input => isOldPasswordInput(input));
-      const newPassword = formInputs.find(input => isNewPasswordInput(input));
-      const requestBody = generateFormObject([oldPassword, newPassword]);
-      console.log('Change Password', requestBody);
-      this.resetForm();
-    } else {
-      this.setState(s => ({
-        ...s,
-        isValid: formState.isValid,
-        errorText: formState.errorText,
-      }));
+    if (this.state.inputs.length > 1) {
+      const formInputs: Array<IInputProps> = this.state.inputs.map(
+        input => input[0]
+      );
+      const inputsValidityState = validateFormInputs(formInputs);
+      const formState = inputsValidityState.isValid
+        ? checkNewPasswordsState(formInputs)
+        : inputsValidityState;
+      if (formState.isValid) {
+        // TODO send request, check response
+        const oldPassword = formInputs.find(input => isOldPasswordInput(input));
+        const newPassword = formInputs.find(input => isNewPasswordInput(input));
+        const requestBody = generateFormObject([oldPassword, newPassword]);
+        console.log('Change Password', requestBody);
+        this.resetForm();
+        Template.renderDom(
+          MODAL_ID,
+          Template.createComponent(Modal, {
+            key: MODAL_ID,
+            message: 'Password was changed',
+            type: 'success',
+          })
+        );
+      } else {
+        if (this.state.errorText !== formState.errorText) {
+          this.setState(() => ({inputs: this.displayError ? this.state.inputs : this.state.inputs.map(input => {
+              input[0].displayError = true;
+              return input
+            }),
+            isValid: formState.isValid,
+            errorText: formState.errorText,}));
+        }
+      }
     }
   }
 
   resetForm() {
-    this.setState(() => ({
-      isValid: true,
-      errorText: null,
-      inputs: generateChangePasswordProfileInputs(
-        this.clearError,
-        this.updateInput,
-        this.addNewPasswordInputs
-      ),
-    }));
+    if (this.state.inputs.length > 1) {
+      this.setState(() => ({
+        isValid: true,
+        errorText: null,
+        inputs: generateChangePasswordProfileInputs(
+          this.clearError,
+          this.updateInput,
+          this.addNewPasswordInputs
+        ),
+      }));
+    }
   }
 }

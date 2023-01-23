@@ -4,7 +4,7 @@ import {
   IResponse,
 } from '../http-transport';
 
-export class Auth {
+export class AuthService {
   httpTransport = new HTTPTransport();
   async signUp(data: Record<string, string>): Promise<IResponse> {
     return await this.httpTransport.post(HttpTransportPaths.AUTH_SIGN_UP, {

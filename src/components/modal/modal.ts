@@ -25,13 +25,22 @@ export class Modal extends Block<IModalMessage, null> {
   constructor() {
     super();
     this.close = this.close.bind(this);
+    this.closeOnEscape = this.closeOnEscape.bind(this);
+    document.body.addEventListener('keydown', this.closeOnEscape)
   }
 
   close() {
+    document.body.removeEventListener('keydown', this.closeOnEscape);
     Template.applyUpdate(this.ref.current, {
       type: OperationTypes.REPLACE,
       newNode: Template.createElement('div', { key: MODAL_ID, id: MODAL_ID }),
     });
+  }
+
+  closeOnEscape(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.close();
+    }
   }
 
   render(): TVirtualDomNode {

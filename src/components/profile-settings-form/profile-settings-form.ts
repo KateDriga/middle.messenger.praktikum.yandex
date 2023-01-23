@@ -6,6 +6,8 @@ import {
   validateFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../input/input';
+import { Template } from "../../utils/template/template";
+import { Modal, MODAL_ID } from "../modal/modal";
 
 export class ProfileSettingsForm extends PageFormEdit {
   constructor() {
@@ -43,6 +45,14 @@ export class ProfileSettingsForm extends PageFormEdit {
         // TODO send request, check response, update inputs
         const requestBody = generateFormObject(formInputs);
         console.log('Profile Settings', requestBody);
+        Template.renderDom(
+          MODAL_ID,
+          Template.createComponent(Modal, {
+            key: MODAL_ID,
+            message: 'Settings were updated',
+            type: 'success',
+          })
+        );
       }
     } else {
       this.setState(s => ({
