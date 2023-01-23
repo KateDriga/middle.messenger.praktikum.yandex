@@ -37,6 +37,10 @@ Builds the app for production to the `dist` folder.\
 It optimizes the build for the best performance by minifying JavaScript, CSS, and HTML, resizing and optimizing images and so on.
 Your app is ready to be deployed!
 
+### `npm run lint`
+
+Performs code analysis with ESLint (`*.ts` files) and Stylelint (`*.scss` files).
+
 ## Useful Links
 
 To view Figma Design please click [here](https://www.figma.com/file/UAcp9twOQHH1s8UkIoga2B/Untitled?node-id=0%3A1&t=mvcP96kY8BWzXmEV-0).\
