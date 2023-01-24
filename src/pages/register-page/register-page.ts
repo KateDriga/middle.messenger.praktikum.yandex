@@ -2,9 +2,8 @@ import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { navigate } from '../../utils/util-functions/router';
 import {
-  checkPasswordsState,
   generateFormObject,
-  validateFormInputs,
+  validateRegisterFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 import { IInputProps } from '../../components/input/input';
@@ -29,12 +28,9 @@ export class RegisterPage extends PageForm {
 
   async submitForm(e: Event) {
     e.preventDefault();
-    const inputsValidityState = validateFormInputs(
+    const formState = validateRegisterFormInputs(
       <Array<IInputProps>>this.state.inputs
     );
-    const formState = inputsValidityState.isValid
-      ? checkPasswordsState(<Array<IInputProps>>this.state.inputs)
-      : inputsValidityState;
     if (formState.isValid) {
       const requestBody = generateFormObject(
         <Array<IInputProps>>this.state.inputs

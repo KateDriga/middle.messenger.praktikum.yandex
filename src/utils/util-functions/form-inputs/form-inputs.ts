@@ -114,6 +114,24 @@ export function validateFormInputs(inputs: Array<IInputProps>): IPageState {
   };
 }
 
+export function validateChangePasswordFormInputs(
+  inputs: Array<IInputProps>
+): IPageState {
+  const inputsValidityState = validateFormInputs(inputs);
+  return inputsValidityState.isValid
+    ? checkNewPasswordsState(inputs)
+    : inputsValidityState;
+}
+
+export function validateRegisterFormInputs(
+  inputs: Array<IInputProps>
+): IPageState {
+  const inputsValidityState = validateFormInputs(inputs);
+  return inputsValidityState.isValid
+    ? checkPasswordsState(inputs)
+    : inputsValidityState;
+}
+
 function checkPasswordsEqual(passwordInputs: Array<IInputProps>): IPageState {
   const passwordsEqual =
     new Set(passwordInputs.map(input => input.value)).size === 1;

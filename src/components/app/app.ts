@@ -15,13 +15,12 @@ export class App extends Block<null, null> {
 
   constructor() {
     super();
-    window.addEventListener(
-      HistoryEventTypes.LOAD,
-      this.windowLoadEvent.bind(this)
-    );
+    this.windowLoadEvent = this.windowLoadEvent.bind(this);
+    this.windowPopstateEvent = this.windowPopstateEvent.bind(this);
+    window.addEventListener(HistoryEventTypes.LOAD, this.windowLoadEvent);
     window.addEventListener(
       HistoryEventTypes.POPSTATE,
-      this.windowPopstateEvent.bind(this)
+      this.windowPopstateEvent
     );
   }
 

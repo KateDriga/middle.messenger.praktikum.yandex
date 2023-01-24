@@ -7,11 +7,10 @@ import {
   generateNewPasswordInputs,
 } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import {
-  checkNewPasswordsState,
   generateFormObject,
   isNewPasswordInput,
   isOldPasswordInput,
-  validateFormInputs,
+  validateChangePasswordFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../input/input';
 import { Template } from '../../utils/template/template';
@@ -58,10 +57,7 @@ export class ProfileSettingsFormPassword extends PageFormEdit {
       const formInputs: Array<IInputProps> = this.state.inputs.map(
         input => input[0]
       );
-      const inputsValidityState = validateFormInputs(formInputs);
-      const formState = inputsValidityState.isValid
-        ? checkNewPasswordsState(formInputs)
-        : inputsValidityState;
+      const formState = validateChangePasswordFormInputs(formInputs);
       if (formState.isValid) {
         // TODO send request, check response
         const oldPassword = formInputs.find(input => isOldPasswordInput(input));

@@ -64,7 +64,7 @@ export abstract class Block<P, S> {
 
   // called when mounted element receives new props
   public setProps(props: P): TVirtualDomUpdateOperation {
-    if (this.mountedElement === null) {
+    if (!this.mountedElement) {
       throw new Error('Setting props on unmounted component');
     }
     this.eventBus().emit(EventBusTypes.FLOW_CWRP, props, this.state);

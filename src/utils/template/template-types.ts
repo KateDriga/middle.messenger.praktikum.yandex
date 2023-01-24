@@ -20,7 +20,7 @@ export interface IVirtualDomElement extends IVirtualDomUnit {
   tagName: string;
   ref?: IRef;
   children?: Array<TVirtualDomNode>;
-  props?: IVirtualDomAttributes;
+  props?: IVirtualDomEventsAndAttributes;
 }
 
 export interface IVirtualDomText extends IVirtualDomUnit {
@@ -31,7 +31,7 @@ export interface IVirtualDomText extends IVirtualDomUnit {
 export interface IVirtualDomComponent extends IVirtualDomUnit {
   type: ElementTypes.COMPONENT;
   instance?: Block<unknown, unknown>;
-  props: IVirtualDomAttributes;
+  props: IVirtualDomEventsAndAttributes;
   component: { new (): Block<unknown, unknown> };
 }
 
@@ -41,7 +41,7 @@ export type TVirtualDomNode =
   | IVirtualDomComponent;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface IVirtualDomAttributes {
+export interface IVirtualDomEventsAndAttributes {
   [key: string]:
     | string
     | boolean
@@ -53,7 +53,7 @@ export interface IVirtualDomAttributes {
 }
 /* eslint-enable */
 
-export interface IVirtualDomProps extends IVirtualDomAttributes {
+export interface IVirtualDomProps extends IVirtualDomEventsAndAttributes {
   key: string | number;
 }
 
@@ -69,14 +69,14 @@ interface IOperation {
   type: OperationTypes;
 }
 
-export interface IAttributesUpdate {
-  add: IVirtualDomAttributes;
-  remove: Array<string>;
+export interface IEventsAndAttributesUpdate {
+  add: IVirtualDomEventsAndAttributes;
+  remove: Record<string, (arg?: unknown) => void>;
 }
 
 interface IUpdateOperation extends IOperation {
   type: OperationTypes.UPDATE;
-  attributes: IAttributesUpdate;
+  props: IEventsAndAttributesUpdate;
   children: Array<TVirtualDomChildUpdateOperation>;
 }
 

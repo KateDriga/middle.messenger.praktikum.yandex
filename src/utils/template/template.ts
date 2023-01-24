@@ -1,8 +1,8 @@
 import {
   ElementTypes,
-  IAttributesUpdate,
+  IEventsAndAttributesUpdate,
   IRef,
-  IVirtualDomAttributes,
+  IVirtualDomEventsAndAttributes,
   IVirtualDomComponent,
   IVirtualDomElement,
   IVirtualDomProps,
@@ -26,8 +26,8 @@ const checkKey = (
   return props;
 };
 const checkPropsEqual = (
-  oldProps: IVirtualDomAttributes,
-  newProps: IVirtualDomAttributes
+  oldProps: IVirtualDomEventsAndAttributes,
+  newProps: IVirtualDomEventsAndAttributes
 ): boolean => {
   const oldPropsLength = Object.keys(oldProps).length;
   const newPropsLength = Object.keys(newProps).length;
@@ -142,21 +142,25 @@ function createDiff(
     };
   }
 
-  // update attributes
-  const attributes: IAttributesUpdate = {
+  // update events and attributes
+  const propsUpdate: IEventsAndAttributesUpdate = {
     add: Object.keys(newNode.props)
-      ?.filter(attr => oldNode.props[attr] !== newNode.props[attr])
-      .reduce((acc, attr) => ({ ...acc, [attr]: newNode.props[attr] }), {}),
-    remove: Object.keys(oldNode.props)?.filter(
-      attr => !Object.keys(newNode.props).includes(attr)
-    ),
+      ?.filter(prop => oldNode.props[prop] !== newNode.props[prop])
+      .reduce((acc, prop) => ({ ...acc, [prop]: newNode.props[prop] }), {}),
+    remove: Object.keys(oldNode.props)
+      ?.filter(
+        prop =>
+          !Object.keys(newNode.props).includes(prop) ||
+          (isEvent(prop) && newNode.props[prop] !== oldNode.props[prop])
+      )
+      .reduce((acc, prop) => ({ ...acc, [prop]: oldNode.props[prop] }), {}),
   };
   const children: Array<TVirtualDomChildUpdateOperation> = createChildDiff(
     oldNode.children,
     newNode.children
   );
 
-  return { type: OperationTypes.UPDATE, attributes, children };
+  return { type: OperationTypes.UPDATE, props: propsUpdate, children };
 }
 
 function createChildDiff(
@@ -263,7 +267,7 @@ function renderElement(node: TVirtualDomNode): HTMLElement | Text {
 }
 
 function addProps(
-  props: IVirtualDomAttributes,
+  props: IVirtualDomEventsAndAttributes,
   nodeType: ElementTypes,
   element: HTMLElement
 ) {
@@ -301,8 +305,14 @@ function applyUpdate(
   if ('wholeText' in element) {
     throw new Error('Invalid update for Text node');
   }
-  diff.attributes.remove.forEach(attr => element.removeAttribute(attr));
-  addProps(diff.attributes.add, ElementTypes.ELEMENT, element);
+  Object.keys(diff.props.remove).forEach(prop => {
+    isEvent(prop)
+      ? element.removeEventListener(prop, diff.props.remove[prop])
+      : prop === 'class'
+      ? (element.className = '')
+      : element.removeAttribute(prop);
+  });
+  addProps(diff.props.add, ElementTypes.ELEMENT, element);
   applyChildrenDiff(element, diff.children);
 
   return element;
