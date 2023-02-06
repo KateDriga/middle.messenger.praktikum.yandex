@@ -1,7 +1,20 @@
+@import 'src/common-styles/media-screen';
+
 .chat_text_area_title {
   display: flex;
   flex-direction: row;
   gap: 20px;
   color: var(--apricot);
   padding: 15px 15px 10px 30px;
+}
+
+.redirect {
+  align-self: center;
+  margin-left: auto;
+  color: var(--linen);
+  cursor: pointer;
+
+  @include media-screen-medium {
+    display: none;
+  }
 }

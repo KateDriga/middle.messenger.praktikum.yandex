@@ -1,10 +1,10 @@
 import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { navigate } from '../../utils/util-functions/router';
 import { IInputFileProps } from '../input-file/input-file';
 import { generateChangeAvatarProfileInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import { Modal, MODAL_ID } from '../modal/modal';
 import { Template } from '../../utils/template/template';
+import { Router } from '../../utils/router/router';
 
 export class ProfileSettingsFormAvatar extends PageForm {
   constructor() {
@@ -56,6 +56,6 @@ export class ProfileSettingsFormAvatar extends PageForm {
   }
 
   resetForm() {
-    navigate(ROUTES.login.path);
+    Router.getInstance().go(ROUTES.login.path);
   }
 }

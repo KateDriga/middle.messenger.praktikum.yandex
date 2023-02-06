@@ -2,8 +2,8 @@ import * as styles from './chats-list-header.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
-import { navigate } from '../../utils/util-functions/router';
 import { ROUTES } from '../../utils/const-variables/pages';
+import { Router } from '../../utils/router/router';
 
 interface IProps {
   onInput: () => void;
@@ -19,7 +19,7 @@ export class ChatsListHeader extends Block<IProps, null> {
         {
           key: 'profile',
           class: styles.chats_list_header_profile,
-          onClick: () => navigate(ROUTES.settings.path),
+          onClick: () => Router.getInstance().go(ROUTES.settings.path),
         },
         Template.createTextElement('Profile >')
       ),

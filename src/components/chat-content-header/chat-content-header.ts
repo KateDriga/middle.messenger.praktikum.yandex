@@ -4,6 +4,8 @@ import { Template } from '../../utils/template/template';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Picture } from '../picture/picture';
+import { Router } from '../../utils/router/router';
+import { ROUTES } from '../../utils/const-variables/pages';
 
 export class ChatContentHeader extends Block<{ id: string }, null> {
   render(): TVirtualDomNode {
@@ -23,6 +25,15 @@ export class ChatContentHeader extends Block<{ id: string }, null> {
         Template.createTextElement(
           FAKE_CHATS.find(chat => chat.id.toString() === this.props.id).title
         )
+      ),
+      Template.createElement(
+        'span',
+        {
+          key: 'chats',
+          class: styles.redirect,
+          onClick: () => Router.getInstance().go(ROUTES.chats.path),
+        },
+        Template.createTextElement('Back to Chats >')
       )
     );
   }

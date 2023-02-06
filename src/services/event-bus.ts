@@ -1,4 +1,4 @@
-import { Observable } from './observable';
+import { Observable, TListener } from './observable';
 
 export enum EventBusTypes {
   INIT = 'init',
@@ -8,9 +8,6 @@ export enum EventBusTypes {
   FLOW_CWU = 'flow:component-will-unmount',
   FLOW_RENDER = 'flow:render',
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type TListener = (args?: any) => void;
 
 export class EventBus extends Observable {
   listeners: { [key in EventBusTypes as string]: Array<TListener> };

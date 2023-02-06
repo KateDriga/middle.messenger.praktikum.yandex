@@ -16,4 +16,11 @@
 
 .profile_settings_section {
   @include flex-column;
+
+  align-items: center;
+}
+
+.redirect {
+  cursor: pointer;
+  color: var(--deep-pink);
 }

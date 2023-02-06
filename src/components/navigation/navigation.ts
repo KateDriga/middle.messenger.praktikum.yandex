@@ -3,7 +3,8 @@ import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { Link } from '../link/link';
+import { NavLink } from '../../utils/router/nav-link';
+import { Button } from '../button/button';
 
 export class Navigation extends Block<null, null> {
   listItems = Object.keys(ROUTES)
@@ -12,11 +13,16 @@ export class Navigation extends Block<null, null> {
       Template.createElement(
         'li',
         { key },
-        Template.createComponent(Link, {
-          href: ROUTES[key].path,
-          title: ROUTES[key].title,
-          isButton: true,
+        Template.createComponent(NavLink, {
           key,
+          href: ROUTES[key].path,
+          component: Button,
+          componentProps: {
+            key,
+            title: ROUTES[key].title,
+            type: 'secondary',
+            htmlType: 'button',
+          },
         })
       )
     );

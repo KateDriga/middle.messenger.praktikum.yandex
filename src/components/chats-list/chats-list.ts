@@ -1,10 +1,10 @@
 import * as styles from './chats-list.module.scss';
 import { Block } from '../../utils/base-components/block';
-import { TVirtualDomNode } from '../../utils/template/template-types';
+import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ChatsListHeader } from '../chats-list-header/chats-list-header';
 import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
-import { IChat } from '../chat-list-item/chat-list-item';
+import { IChat } from '../chat-list-item-content/chat-list-item-content';
 import { ChatListItem } from '../chat-list-item/chat-list-item';
 
 interface IState {
@@ -14,6 +14,7 @@ interface IState {
 export class ChatsList extends Block<{ id: string | null }, IState> {
   chats: Array<IChat>;
   state: IState = { chatsToDisplay: [] };
+  ref: IRef = Template.createRef();
 
   constructor() {
     super();
@@ -54,10 +55,12 @@ export class ChatsList extends Block<{ id: string | null }, IState> {
         {
           key: 'chat-listing',
           class: `${styles.chat_listing}`,
+          ref: this.ref,
         },
         ...this.state.chatsToDisplay.map(chat =>
           Template.createComponent(ChatListItem, {
             key: chat.id,
+            listRef: this.ref,
             ...chat,
           })
         )

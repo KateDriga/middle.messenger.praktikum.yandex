@@ -5,6 +5,8 @@ import { Template } from '../../utils/template/template';
 import { ProfileSettingsForm } from '../../components/profile-settings-form/profile-settings-form';
 import { ProfileSettingsFormAvatar } from '../../components/profile-settings-form-avatar/profile-settings-form-avatar';
 import { ProfileSettingsFormPassword } from '../../components/profile-settings-form-password/profile-settings-form-password';
+import { Router } from '../../utils/router/router';
+import { ROUTES } from '../../utils/const-variables/pages';
 
 export class ProfileSettingsPage extends Block<null, null> {
   render(): TVirtualDomNode {
@@ -29,7 +31,16 @@ export class ProfileSettingsPage extends Block<null, null> {
         { key: 'settings-section-2', class: styles.profile_settings_section },
         Template.createComponent(ProfileSettingsForm, {
           key: 'profile-settings-form',
-        })
+        }),
+        Template.createElement(
+          'h3',
+          {
+            key: 'redirect',
+            class: styles.redirect,
+            onClick: () => Router.getInstance().go(ROUTES.chats.path),
+          },
+          Template.createTextElement('Back to Chats')
+        )
       )
     );
   }

@@ -1,6 +1,5 @@
 import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { navigate } from '../../utils/util-functions/router';
 import { generateLoginPageFormInputs } from '../../utils/util-functions/form-inputs/login-page-inputs';
 import {
   generateFormObject,
@@ -8,6 +7,7 @@ import {
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../../components/input/input';
 import { AuthService } from '../../services/api/auth-service';
+import { Router } from '../../utils/router/router';
 
 export class LoginPage extends PageForm {
   auth = new AuthService();
@@ -38,7 +38,7 @@ export class LoginPage extends PageForm {
       try {
         const response = await this.auth.signIn(requestBody);
         console.log('Register response', response);
-        navigate(ROUTES.chats.path);
+        Router.getInstance().go(ROUTES.chats.path);
       } catch (err) {
         this.setState(s => ({
           ...s,
@@ -58,6 +58,6 @@ export class LoginPage extends PageForm {
   }
 
   resetForm() {
-    navigate(ROUTES.register.path);
+    Router.getInstance().go(ROUTES.register.path);
   }
 }

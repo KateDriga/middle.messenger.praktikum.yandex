@@ -3,8 +3,8 @@ import '../../common-styles/_page.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
-import { navigate } from '../../utils/util-functions/router';
-import { ROUTES } from '../../utils/const-variables/pages';
+import { Router } from '../../utils/router/router';
+import { HOME_PAGE } from '../../utils/const-variables/pages';
 
 export class NotFoundPage extends Block<null, null> {
   render(): TVirtualDomNode {
@@ -31,7 +31,7 @@ export class NotFoundPage extends Block<null, null> {
         {
           key: 'redirect',
           class: styles.redirect,
-          onClick: () => navigate(ROUTES.home.path),
+          onClick: () => Router.getInstance().go(HOME_PAGE),
         },
         Template.createTextElement('Go to main')
       )

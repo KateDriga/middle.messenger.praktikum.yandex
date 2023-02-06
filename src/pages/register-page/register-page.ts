@@ -1,6 +1,5 @@
 import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
-import { navigate } from '../../utils/util-functions/router';
 import {
   generateFormObject,
   validateRegisterFormInputs,
@@ -8,6 +7,7 @@ import {
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 import { IInputProps } from '../../components/input/input';
 import { AuthService } from '../../services/api/auth-service';
+import { Router } from '../../utils/router/router';
 
 export class RegisterPage extends PageForm {
   auth = new AuthService();
@@ -39,7 +39,7 @@ export class RegisterPage extends PageForm {
       try {
         const response = await this.auth.signUp(requestBody);
         console.log('Register response', response);
-        navigate(ROUTES.chats.path);
+        Router.getInstance().go(ROUTES.chats.path);
       } catch (err) {
         this.setState(s => ({
           ...s,
@@ -59,6 +59,6 @@ export class RegisterPage extends PageForm {
   }
 
   resetForm() {
-    navigate(ROUTES.login.path);
+    Router.getInstance().go(ROUTES.login.path);
   }
 }

@@ -4,51 +4,12 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ChatsList } from '../../components/chats-list/chats-list';
 import { ChatsTextArea } from '../../components/chats-text-area/chats-text-area';
-import {
-  getChatIdFromPath,
-  getRegExpForPath,
-  ROUTES,
-} from '../../utils/const-variables/pages';
-import {
-  HistoryEventTypes,
-  RouterService,
-} from '../../services/router-service';
 
-interface IState {
-  chatId: string | null;
+interface IProps {
+  params: { id?: string };
 }
 
-export class ChatPage extends Block<null, IState> {
-  state: IState = {
-    chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
-      ? getChatIdFromPath()
-      : null,
-  };
-  routerService = RouterService.getInstance();
-
-  constructor() {
-    super();
-    this.handlePathChange = this.handlePathChange.bind(this);
-  }
-
-  handlePathChange() {
-    this.setState(() => ({
-      chatId: getRegExpForPath(ROUTES.chat.path).test(window.location.pathname)
-        ? getChatIdFromPath()
-        : null,
-    }));
-  }
-
-  componentDidMount() {
-    this.routerService.on(HistoryEventTypes.POPSTATE, this.handlePathChange);
-    super.componentDidMount();
-  }
-
-  componentWillUnmount() {
-    this.routerService.off(HistoryEventTypes.POPSTATE, this.handlePathChange);
-    super.componentWillUnmount();
-  }
-
+export class ChatPage extends Block<IProps, null> {
   render(): TVirtualDomNode {
     return Template.createElement(
       'div',
@@ -59,12 +20,12 @@ export class ChatPage extends Block<null, IState> {
       Template.createComponent(ChatsList, {
         key: 'chats-list',
         class: styles.chats_list,
-        id: this.state.chatId,
+        id: this.props.params.id,
       }),
       Template.createComponent(ChatsTextArea, {
         key: 'chats-text-area',
         class: styles.chats_text_area,
-        id: this.state.chatId,
+        id: this.props.params.id,
       })
     );
   }

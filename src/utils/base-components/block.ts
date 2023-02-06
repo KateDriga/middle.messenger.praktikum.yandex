@@ -4,7 +4,8 @@ import {
   TVirtualDomUpdateOperation,
 } from '../template/template-types';
 import { Template } from '../template/template';
-import { EventBus, EventBusTypes, TListener } from '../../services/event-bus';
+import { EventBus, EventBusTypes } from '../../services/event-bus';
+import { TListener } from '../../services/observable';
 
 export abstract class Block<P, S> {
   protected props: P;
