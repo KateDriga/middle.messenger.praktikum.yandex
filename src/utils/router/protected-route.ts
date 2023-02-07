@@ -29,7 +29,7 @@ class AuthRoute extends Route {
 
 function mapLoginStateToProps(state: TIndexed): { isLoggedIn: boolean } {
   return {
-    isLoggedIn: state.user.isLoggedIn,
+    isLoggedIn: state.user !== null,
   };
 }
 

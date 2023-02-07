@@ -1,16 +1,10 @@
 import { PageForm } from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
-import {
-  generateFormObject,
-  validateRegisterFormInputs,
-} from '../../utils/util-functions/form-inputs/form-inputs';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 import { IInputProps } from '../../components/input/input';
-import { AuthService } from '../../services/api/auth-service';
 import { Router } from '../../utils/router/router';
 
 export class RegisterPage extends PageForm {
-  auth = new AuthService();
   constructor() {
     super();
     this.title = 'Sign up';
@@ -28,33 +22,15 @@ export class RegisterPage extends PageForm {
 
   async submitForm(e: Event) {
     e.preventDefault();
-    const formState = validateRegisterFormInputs(
+    const response = await this.authController.signUp(
       <Array<IInputProps>>this.state.inputs
     );
-    if (formState.isValid) {
-      const requestBody = generateFormObject(
-        <Array<IInputProps>>this.state.inputs
-      );
-      console.log('Register', requestBody);
-      try {
-        const response = await this.auth.signUp(requestBody);
-        console.log('Register response', response);
-        Router.getInstance().go(ROUTES.chats.path);
-      } catch (err) {
-        this.setState(s => ({
-          ...s,
-          isValid: false,
-          errorText: JSON.parse(err.data).reason,
-        }));
-      }
-    } else {
-      if (this.state.errorText !== formState.errorText) {
-        this.setState(s => ({
-          ...s,
-          isValid: formState.isValid,
-          errorText: formState.errorText,
-        }));
-      }
+    if (response && this.state.errorText !== response.errorText) {
+      this.setState(s => ({
+        ...s,
+        isValid: response.isValid,
+        errorText: response.errorText,
+      }));
     }
   }
 

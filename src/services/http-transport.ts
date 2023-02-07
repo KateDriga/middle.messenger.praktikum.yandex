@@ -7,16 +7,11 @@ enum HttpTransportMethods {
   DELETE = 'DELETE',
 }
 
-export enum HttpTransportPaths {
-  AUTH_SIGN_UP = '/auth/signup',
-  AUTH_SIGN_IN = '/auth/signin',
-  AUTH_USER = '/auth/user',
-}
-
 interface IOptions<T> {
   data?: T;
   timeout?: number;
   headers?: Record<string, string>;
+  withCredentials?: boolean;
 }
 
 interface IOptionsWithMethod<T> extends IOptions<T> {
@@ -25,7 +20,7 @@ interface IOptionsWithMethod<T> extends IOptions<T> {
 
 export interface IResponse {
   status: number;
-  data: Record<string, unknown>;
+  data: string;
 }
 
 function queryStringify(data: Record<string, unknown>): string {
@@ -43,8 +38,14 @@ function generateResponseStructure(xhr: XMLHttpRequest): IResponse {
 }
 
 export class HTTPTransport {
+  private readonly _apiUrl: string;
+
+  constructor(apiUrl: string) {
+    this._apiUrl = apiUrl;
+  }
+
   get<T extends Record<string, unknown>>(
-    path: HttpTransportPaths,
+    path: string,
     options: IOptions<T> = {}
   ): Promise<IResponse> {
     return this.request(
@@ -54,10 +55,7 @@ export class HTTPTransport {
     );
   }
 
-  post<T>(
-    path: HttpTransportPaths,
-    options: IOptions<T> = {}
-  ): Promise<IResponse> {
+  post<T>(path: string, options: IOptions<T> = {}): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.POST },
@@ -65,10 +63,7 @@ export class HTTPTransport {
     );
   }
 
-  put<T>(
-    path: HttpTransportPaths,
-    options: IOptions<T> = {}
-  ): Promise<IResponse> {
+  put<T>(path: string, options: IOptions<T> = {}): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.PUT },
@@ -76,10 +71,7 @@ export class HTTPTransport {
     );
   }
 
-  delete<T>(
-    path: HttpTransportPaths,
-    options: IOptions<T> = {}
-  ): Promise<IResponse> {
+  delete<T>(path: string, options: IOptions<T> = {}): Promise<IResponse> {
     return this.request(
       path,
       { ...options, method: HttpTransportMethods.DELETE },
@@ -92,11 +84,13 @@ export class HTTPTransport {
     options: IOptionsWithMethod<T> = { method: HttpTransportMethods.GET },
     timeout = 5000
   ): Promise<IResponse> {
-    const { method, data, headers = {} } = options;
+    const { method, data, headers = {}, withCredentials = true } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open(method, `${BASE_URL}${path}`);
+      xhr.open(method, `${BASE_URL}${this._apiUrl}${path}`);
+
+      xhr.withCredentials = withCredentials;
 
       if (!('Content-Type' in headers)) {
         xhr.setRequestHeader('Content-Type', 'application/json');

@@ -5,8 +5,14 @@ import { Template } from '../../utils/template/template';
 import { MainContent } from '../main-content/main-content';
 import { Header } from '../header/header';
 import { ROOT_ID } from '../../index';
+import { AuthController } from '../../services/controllers/auth-controller';
 
 export class App extends Block<null, null> {
+  constructor() {
+    super();
+    new AuthController().getUser();
+  }
+
   render(): TVirtualDomNode {
     return Template.createElement(
       'div',

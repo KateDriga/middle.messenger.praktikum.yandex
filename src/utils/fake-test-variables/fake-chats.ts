@@ -1,6 +1,6 @@
-import { IChat } from '../../components/chat-list-item/chat-list-item';
+import { IChat } from '../../components/chat-list-item-content/chat-list-item-content';
 
-export const FAKE_CHATS: Array<IChat> = [
+export const FAKE_CHATS: Array<Omit<IChat, 'isActive' | 'listRef'>> = [
   {
     id: 123,
     title: 'Alex',

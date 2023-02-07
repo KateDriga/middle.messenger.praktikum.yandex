@@ -9,6 +9,7 @@ import { TProfileSettingsInput } from './page-form-edit';
 import { IInputFileProps } from '../../components/input-file/input-file';
 import { IPictureProps } from '../../components/picture/picture';
 import { instanceOfIPictureProps } from '../../components/form-input-field/form-input-field';
+import { AuthController } from '../../services/controllers/auth-controller';
 
 export interface IPageState extends IFormState {
   errorText: string | null;
@@ -24,6 +25,7 @@ export abstract class PageForm extends Block<null, IFormPageState> {
   title: string;
   state: IFormPageState = { isValid: true, errorText: null, inputs: [] };
   buttons: Array<IButtonProps>;
+  authController: AuthController = new AuthController();
 
   public clearError() {
     if (!this.state.isValid) {

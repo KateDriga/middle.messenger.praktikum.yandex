@@ -9,9 +9,7 @@ export enum StoreEvents {
 export class Store extends Observable {
   listeners: { [key in StoreEvents as string]: Array<TListener> };
   private state: TIndexed = {
-    user: {
-      isLoggedIn: true,
-    },
+    user: null,
   };
   private static _instance: Store;
 

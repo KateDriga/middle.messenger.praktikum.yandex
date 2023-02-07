@@ -8,11 +8,11 @@ import { IChat } from '../chat-list-item-content/chat-list-item-content';
 import { ChatListItem } from '../chat-list-item/chat-list-item';
 
 interface IState {
-  chatsToDisplay: Array<IChat>;
+  chatsToDisplay: Array<Omit<IChat, 'isActive' | 'listRef'>>;
 }
 
 export class ChatsList extends Block<{ id: string | null }, IState> {
-  chats: Array<IChat>;
+  chats: Array<Omit<IChat, 'isActive' | 'listRef'>>;
   state: IState = { chatsToDisplay: [] };
   ref: IRef = Template.createRef();
 
