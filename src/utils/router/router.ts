@@ -1,13 +1,17 @@
 import { Block } from '../base-components/block';
 import { Observable, TListener } from '../../services/observable';
 import { IVirtualDomProps } from '../template/template-types';
-import { getPathWithoutTrailingSlash } from '../const-variables/pages';
+import {
+  DisplayPageTypes,
+  getPathWithoutTrailingSlash,
+} from '../const-variables/pages';
 
 export const PATH_CHANGE = 'path_change';
 
 export interface IRouteInfo {
   path: string;
   pathRegExp: RegExp;
+  displayType: DisplayPageTypes;
   component: { new (): Block<unknown, unknown> };
   props: IVirtualDomProps;
 }
@@ -17,14 +21,16 @@ const getRegExpForPath = (path: string): RegExp =>
 
 export class Router extends Observable {
   listeners: { PATH_CHANGE: Array<TListener> };
+
   private static __instance: Router;
+
   private _currentPath: string;
+
   routes: Array<IRouteInfo>;
   history: History;
 
   private constructor() {
     super({ PATH_CHANGE: [] });
-    this._currentPath = window.location.pathname;
     this.routes = [];
     this.history = window.history;
   }
@@ -35,11 +41,13 @@ export class Router extends Observable {
 
   use(
     pathname: string,
+    displayType: DisplayPageTypes,
     component: { new (): Block<unknown, unknown> },
     props: IVirtualDomProps
   ): Router {
     this.routes.push({
       path: pathname,
+      displayType,
       pathRegExp: getRegExpForPath(pathname),
       component,
       props,
@@ -57,8 +65,10 @@ export class Router extends Observable {
   }
 
   _onRoute(pathname: string) {
-    this._currentPath = pathname;
-    this.emit(PATH_CHANGE);
+    if (this._currentPath !== pathname) {
+      this._currentPath = pathname;
+      this.emit(PATH_CHANGE);
+    }
   }
 
   go(pathname: string) {

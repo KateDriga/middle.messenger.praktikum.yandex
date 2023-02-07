@@ -12,12 +12,10 @@ const props: IVirtualDomProps = {
   key: 'main-content',
 };
 
-router
-  .use(ROUTES.login.path, ROUTES.login.component, props)
-  .use(ROUTES.register.path, ROUTES.register.component, props)
-  .use(ROUTES.chats.path, ROUTES.chats.component, props)
-  .use(ROUTES.chat.path, ROUTES.chat.component, props)
-  .use(ROUTES.settings.path, ROUTES.settings.component, props)
-  .start();
+Object.keys(ROUTES).forEach(key => {
+  const route = ROUTES[key];
+  router.use(route.path, route.display, route.component, props);
+});
+router.start();
 
 Template.renderDom(ROOT_ID, Template.createComponent(App, { key: ROOT_ID }));

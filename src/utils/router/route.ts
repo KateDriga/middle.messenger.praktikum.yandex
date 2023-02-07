@@ -3,7 +3,8 @@ import { IVirtualDomProps, TVirtualDomNode } from '../template/template-types';
 import { Template } from '../template/template';
 import { IRouteInfo, PATH_CHANGE, Router } from './router';
 
-interface IProps {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface IProps extends Record<string, any> {
   defaultComponent?: { new (): Block<unknown, unknown> };
   defaultProps?: IVirtualDomProps;
 }
@@ -18,21 +19,29 @@ export class Route extends Block<IProps, IState> {
   routeParams: Record<string, string>;
   routeQueryParams: Record<string, string>;
   state: IState;
+  isMounted: boolean;
 
   constructor() {
     super();
     this.router = Router.getInstance();
     this.routeInfo = this.router.getRouteInfo(window.location.pathname);
-    this.getParams();
     this.handlePathChange = this.handlePathChange.bind(this);
+    this.getParams = this.getParams.bind(this);
+    this.getParams();
+    this.router.on(PATH_CHANGE, this.handlePathChange);
     this.state = { path: window.location.pathname };
+    this.isMounted = false;
   }
 
   handlePathChange() {
     if (this.state.path !== window.location.pathname) {
       this.routeInfo = this.router.getRouteInfo(window.location.pathname);
       this.getParams();
-      this.setState(() => ({ path: window.location.pathname }));
+      if (this.isMounted) {
+        this.setState(() => ({ path: window.location.pathname }));
+      } else {
+        this.state = { path: window.location.pathname };
+      }
     }
   }
 
@@ -53,7 +62,7 @@ export class Route extends Block<IProps, IState> {
   }
 
   componentDidMount() {
-    this.router.on(PATH_CHANGE, this.handlePathChange);
+    this.isMounted = true;
     super.componentDidMount();
   }
 

@@ -3,7 +3,7 @@ import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
-import { Route } from '../../utils/router/route';
+import { ProtectedRoute } from '../../utils/router/protected-route';
 
 export class MainContent extends Block<null, null> {
   render(): TVirtualDomNode {
@@ -11,7 +11,7 @@ export class MainContent extends Block<null, null> {
     return Template.createElement(
       'main',
       { key: 'page', class: styles.main_content_page },
-      Template.createComponent(Route, {
+      Template.createComponent(ProtectedRoute, {
         key,
         defaultComponent: NotFoundPage,
         defaultProps: { key },
