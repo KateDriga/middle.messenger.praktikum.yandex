@@ -26,11 +26,13 @@ export class Router extends Observable {
 
   private _currentPath: string;
 
+  fromPathname: string | null;
   routes: Array<IRouteInfo>;
   history: History;
 
   private constructor() {
     super({ PATH_CHANGE: [] });
+    this.fromPathname = null;
     this.routes = [];
     this.history = window.history;
   }
@@ -62,6 +64,7 @@ export class Router extends Observable {
         this._onRoute(path);
       }
     };
+    this._currentPath = window.location.pathname;
   }
 
   _onRoute(pathname: string) {
@@ -71,14 +74,16 @@ export class Router extends Observable {
     }
   }
 
-  go(pathname: string) {
+  go(pathname: string, fromPathname: string | null = null) {
+    this.fromPathname = fromPathname;
     if (this._currentPath !== pathname) {
       this.history.pushState({}, '', pathname);
       this._onRoute(pathname);
     }
   }
 
-  replace(pathname: string) {
+  replace(pathname: string, fromPathname: string | null = null) {
+    this.fromPathname = fromPathname;
     if (this._currentPath !== pathname) {
       this.history.replaceState({}, '', pathname);
       this._onRoute(pathname);

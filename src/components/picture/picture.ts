@@ -4,7 +4,8 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 
 export interface IPictureProps {
-  picName: string;
+  picPath?: string;
+  picName?: string;
   onClick?: (e: Event) => void;
   type: 'icon' | 'image';
   style?: string;
@@ -14,7 +15,7 @@ const PIC_PATHS = {
   edit: require('../../images/icons/edit.svg'),
   insertFile: require('../../images/icons/insert-file.svg'),
   sendMessage: require('../../images/icons/send-message.svg'),
-  avatar: require('../../images/fake-test-images/superman.webp'),
+  avatar: require('../../images/empty-avatar.webp'),
 };
 
 export class Picture extends Block<IPictureProps, null> {
@@ -22,7 +23,7 @@ export class Picture extends Block<IPictureProps, null> {
     return Template.createElement('img', {
       key: 'img',
       class: `${this.props.type === 'icon' ? styles.img_icon : styles.img_pic}`,
-      src: PIC_PATHS[this.props.picName],
+      src: this.props.picPath || PIC_PATHS[this.props.picName],
       alt: this.props.picName,
       style: this.props.style ?? '',
       onClick: this.props.onClick,

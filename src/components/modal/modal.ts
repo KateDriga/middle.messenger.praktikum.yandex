@@ -6,7 +6,7 @@ import {
 } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 
-interface IModalMessage {
+export interface IModalMessage {
   type: 'success' | 'info' | 'error';
   message: string;
 }

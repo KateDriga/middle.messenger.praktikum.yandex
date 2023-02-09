@@ -6,19 +6,9 @@ import {
   generateChangePasswordProfileInputs,
   generateNewPasswordInputs,
 } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
-import {
-  generateFormObject,
-  isNewPasswordInput,
-  isOldPasswordInput,
-  validateChangePasswordFormInputs,
-} from '../../utils/util-functions/form-inputs/form-inputs';
-import { IInputProps } from '../input/input';
-import { Template } from '../../utils/template/template';
-import { Modal, MODAL_ID } from '../modal/modal';
+import { IFormPageState } from '../../utils/base-components/page-form';
 
-export class ProfileSettingsFormPassword extends PageFormEdit {
-  displayError = false;
-
+export class ProfileSettingsFormPassword extends PageFormEdit<IFormPageState> {
   constructor() {
     super();
     this.title = 'Change Password';
@@ -51,41 +41,23 @@ export class ProfileSettingsFormPassword extends PageFormEdit {
     this.allowInputEdit(input);
   }
 
-  submitForm(e: Event) {
+  async submitForm(e: Event) {
     e.preventDefault();
     if (this.state.inputs.length > 1) {
-      const formInputs: Array<IInputProps> = this.state.inputs.map(
-        input => input[0]
+      const response = await this.userController.changePassword(
+        this.state.inputs.map(input => input[0])
       );
-      const formState = validateChangePasswordFormInputs(formInputs);
-      if (formState.isValid) {
-        // TODO send request, check response
-        const oldPassword = formInputs.find(input => isOldPasswordInput(input));
-        const newPassword = formInputs.find(input => isNewPasswordInput(input));
-        const requestBody = generateFormObject([oldPassword, newPassword]);
-        console.log('Change Password', requestBody);
+      if (!response) {
         this.resetForm();
-        Template.renderDom(
-          MODAL_ID,
-          Template.createComponent(Modal, {
-            key: MODAL_ID,
-            message: 'Password was changed',
-            type: 'success',
-          })
-        );
-      } else {
-        if (this.state.errorText !== formState.errorText) {
-          this.setState(() => ({
-            inputs: this.displayError
-              ? this.state.inputs
-              : this.state.inputs.map(input => {
-                  input[0].displayError = true;
-                  return input;
-                }),
-            isValid: formState.isValid,
-            errorText: formState.errorText,
-          }));
-        }
+      } else if (this.state.errorText !== response.errorText) {
+        this.setState(() => ({
+          inputs: this.state.inputs.map(input => {
+            input[0].displayError = true;
+            return input;
+          }),
+          isValid: response.isValid,
+          errorText: response.errorText,
+        }));
       }
     }
   }

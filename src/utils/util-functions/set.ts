@@ -40,8 +40,7 @@ export function set(
     (acc, key) => ({
       [key]: acc,
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value as any
+    value
   );
   return merge(object as TIndexed, result);
 }

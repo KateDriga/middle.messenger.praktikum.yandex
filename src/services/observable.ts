@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type TListener = (args?: any) => void;
+export type TListener = (args?: unknown) => void;
 
 export class Observable {
   listeners: Record<string, Array<TListener>>;
@@ -23,8 +22,7 @@ export class Observable {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  emit(event: string, ...args: Array<any>) {
+  emit(event: string, ...args: Array<unknown>) {
     if (!this.listeners[event]) {
       throw new Error(`Emitting event with the unknown name: ${event}`);
     }

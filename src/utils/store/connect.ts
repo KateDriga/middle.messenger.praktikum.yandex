@@ -3,40 +3,42 @@ import { TVirtualDomNode } from '../template/template-types';
 import { Store, StoreEvents } from './store';
 import { TIndexed } from '../util-functions/set';
 import { isEqual } from '../util-functions/isEqual';
-import { Template } from '../template/template';
 
-export function connect(
-  Component: { new (): Block<Record<string, unknown>, unknown> },
-  mapStateToProps: (state: TIndexed) => TIndexed
-) {
+export function connect<M, P, S extends { stateFromStore: M }>(
+  Component: { new (): Block<P, S> },
+  mapStateFn: (state: TIndexed) => TIndexed
+): { new (): Block<P, S> } {
   return class extends Component {
+    private _isMounted = false;
     constructor() {
       super();
-      this.handleStateChange = this.handleStateChange.bind(this);
-    }
-
-    initProps(props: Record<string, unknown>): Record<string, unknown> {
-      const propsWithStateProps = {
-        ...props,
-        stateFromProps: mapStateToProps(Store.getInstance().getState()),
+      this.state = {
+        ...this.state,
+        stateFromStore: mapStateFn(Store.getInstance().getState()),
       };
-      return super.initProps(propsWithStateProps);
+      this.handleStateChange = this.handleStateChange.bind(this);
+      Store.getInstance().on(StoreEvents.UPDATED, this.handleStateChange);
     }
 
     handleStateChange() {
-      const updatedStateFromProps = mapStateToProps(
-        Store.getInstance().getState()
-      );
-      if (!isEqual(this.props.stateFromProps, updatedStateFromProps)) {
-        this.setProps({
-          ...this.props,
-          stateFromProps: updatedStateFromProps,
-        });
+      const updatedStateFromStore = mapStateFn(Store.getInstance().getState());
+      if (
+        !this.state?.stateFromStore ||
+        !isEqual(this.state.stateFromStore, updatedStateFromStore)
+      ) {
+        if (this._isMounted) {
+          this.setState(s => ({ ...s, stateFromStore: updatedStateFromStore }));
+        } else {
+          this.state = {
+            ...this.state,
+            stateFromStore: mapStateFn(Store.getInstance().getState()),
+          };
+        }
       }
     }
 
     componentDidMount() {
-      Store.getInstance().on(StoreEvents.UPDATED, this.handleStateChange);
+      this._isMounted = true;
       super.componentDidMount();
     }
 
@@ -46,10 +48,8 @@ export function connect(
     }
 
     public render(): TVirtualDomNode {
-      return Template.createComponent(Component, {
-        ...this.props,
-        key: 'connect',
-      });
+      // render must be implemented in the parent class (Component)
+      return super.render();
     }
   };
 }

@@ -10,6 +10,7 @@ export interface IInputFileProps {
   ref: IRef;
   onChange: (value: string) => void;
   style?: string;
+  accept?: string;
 }
 
 export class InputFile extends Block<IInputFileProps, null> {
@@ -28,6 +29,7 @@ export class InputFile extends Block<IInputFileProps, null> {
         name: this.props.name,
         ref: this.props.ref,
         value: this.props.value,
+        accept: this.props.accept,
         onChange: (e: Event) =>
           this.props.onChange((<HTMLInputElement>e.target).value),
       })

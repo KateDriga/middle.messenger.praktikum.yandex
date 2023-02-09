@@ -1,24 +1,19 @@
 import { Block } from '../base-components/block';
-import { IVirtualDomProps, TVirtualDomNode } from '../template/template-types';
+import { TVirtualDomNode } from '../template/template-types';
 import { Template } from '../template/template';
 import { IRouteInfo, PATH_CHANGE, Router } from './router';
+import { NotFoundPage } from '../../pages/not-found-page/not-found-page';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface IProps extends Record<string, any> {
-  defaultComponent?: { new (): Block<unknown, unknown> };
-  defaultProps?: IVirtualDomProps;
-}
-
-interface IState {
+export interface IRouteState {
   path: string;
 }
 
-export class Route extends Block<IProps, IState> {
+export class Route<P, S extends IRouteState> extends Block<P, S> {
   router: Router;
   routeInfo: IRouteInfo | undefined;
   routeParams: Record<string, string>;
   routeQueryParams: Record<string, string>;
-  state: IState;
+  state: S;
   isMounted: boolean;
 
   constructor() {
@@ -29,7 +24,7 @@ export class Route extends Block<IProps, IState> {
     this.getParams = this.getParams.bind(this);
     this.getParams();
     this.router.on(PATH_CHANGE, this.handlePathChange);
-    this.state = { path: window.location.pathname };
+    this.state = { ...this.state, path: window.location.pathname };
     this.isMounted = false;
   }
 
@@ -38,9 +33,9 @@ export class Route extends Block<IProps, IState> {
       this.routeInfo = this.router.getRouteInfo(window.location.pathname);
       this.getParams();
       if (this.isMounted) {
-        this.setState(() => ({ path: window.location.pathname }));
+        this.setState(s => ({ ...s, path: window.location.pathname }));
       } else {
-        this.state = { path: window.location.pathname };
+        this.state = { ...this.state, path: window.location.pathname };
       }
     }
   }
@@ -79,11 +74,6 @@ export class Route extends Block<IProps, IState> {
         queryParams: this.routeQueryParams,
       });
     }
-    if (this.props.defaultComponent) {
-      return Template.createComponent(this.props.defaultComponent, {
-        ...this.props.defaultProps,
-      });
-    }
-    return Template.createTextElement('');
+    return Template.createComponent(NotFoundPage, { key: 'not-found' });
   }
 }

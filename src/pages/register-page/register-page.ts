@@ -1,10 +1,13 @@
-import { PageForm } from '../../utils/base-components/page-form';
+import {
+  IFormPageState,
+  PageForm,
+} from '../../utils/base-components/page-form';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-inputs/register-page-inputs';
 import { IInputProps } from '../../components/input/input';
 import { Router } from '../../utils/router/router';
 
-export class RegisterPage extends PageForm {
+export class RegisterPage extends PageForm<IFormPageState> {
   constructor() {
     super();
     this.title = 'Sign up';

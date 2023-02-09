@@ -10,6 +10,7 @@ import { IInputFileProps } from '../../components/input-file/input-file';
 import { IPictureProps } from '../../components/picture/picture';
 import { instanceOfIPictureProps } from '../../components/form-input-field/form-input-field';
 import { AuthController } from '../../services/controllers/auth-controller';
+import { UserController } from '../../services/controllers/user-controller';
 
 export interface IPageState extends IFormState {
   errorText: string | null;
@@ -21,11 +22,20 @@ export interface IFormPageState extends IPageState {
   >;
 }
 
-export abstract class PageForm extends Block<null, IFormPageState> {
+export abstract class PageForm<S extends IFormPageState> extends Block<
+  null,
+  S
+> {
   title: string;
-  state: IFormPageState = { isValid: true, errorText: null, inputs: [] };
+  state: S;
   buttons: Array<IButtonProps>;
   authController: AuthController = new AuthController();
+  userController: UserController = new UserController();
+
+  constructor() {
+    super();
+    this.state = { ...this.state, isValid: true, errorText: null, inputs: [] };
+  }
 
   public clearError() {
     if (!this.state.isValid) {

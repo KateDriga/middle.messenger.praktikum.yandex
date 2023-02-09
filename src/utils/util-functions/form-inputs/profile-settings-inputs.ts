@@ -1,6 +1,5 @@
 import { IInputProps, InputNameTypes } from '../../../components/input/input';
 import { IPictureProps } from '../../../components/picture/picture';
-import { TUser } from '../../fake-test-variables/fake-user';
 import {
   addOnChangeCallback,
   generateChatNameInput,
@@ -17,6 +16,8 @@ import {
   TProfileSettingsInput,
 } from '../../base-components/page-form-edit';
 import { IInputFileProps } from '../../../components/input-file/input-file';
+import { TUser } from '../../../components/profile-settings-form/profile-settings-form';
+import { BASE_URL, RESOURCES_API_URL } from '../../const-variables/api';
 
 const ICON_EDIT: Omit<IPictureProps, 'onClick'> = {
   picName: 'edit',
@@ -31,17 +32,17 @@ export function generateProfileSettingsInputs(
   user: TUser
 ): Array<TProfileSettingsInput> {
   const email = generateEmailInput(clearError);
-  email.value = user[InputNameTypes.EMAIL];
+  email.value = user[InputNameTypes.EMAIL] || '';
   const login = generateLoginInput(clearError);
-  login.value = user[InputNameTypes.LOGIN];
+  login.value = user[InputNameTypes.LOGIN] || '';
   const firstName = generateFirstNameInput(clearError);
-  firstName.value = user[InputNameTypes.FIRST_NAME];
+  firstName.value = user[InputNameTypes.FIRST_NAME] || '';
   const lastName = generateLastNameInput(clearError);
-  lastName.value = user[InputNameTypes.SECOND_NAME];
+  lastName.value = user[InputNameTypes.SECOND_NAME] || '';
   const chatName = generateChatNameInput(clearError);
-  chatName.value = user[InputNameTypes.DISPLAY_NAME];
+  chatName.value = user[InputNameTypes.DISPLAY_NAME] || '';
   const phone = generatePhoneNumberInput(clearError);
-  phone.value = user[InputNameTypes.PHONE];
+  phone.value = user[InputNameTypes.PHONE] || '';
 
   return [email, login, firstName, lastName, chatName, phone].map(input => {
     const prop = Object.assign(
@@ -93,9 +94,14 @@ export function generateChangePasswordProfileInputs(
 }
 
 export function generateChangeAvatarProfileInputs(
+  avatarPath: string | null,
   onChangeCallback: (prop: IInputFileProps, value: string) => void
 ): Array<IInputFileProps | IPictureProps> {
-  const avatar: IPictureProps = { picName: 'avatar', type: 'image' };
+  const avatar: IPictureProps = {
+    picPath: avatarPath ? `${BASE_URL}${RESOURCES_API_URL}${avatarPath}` : null,
+    picName: 'avatar',
+    type: 'image',
+  };
   const input: IInputFileProps = {
     label: 'Change Avatar',
     value: '',
@@ -103,6 +109,7 @@ export function generateChangeAvatarProfileInputs(
     ref: Template.createRef(),
     onChange: (value: string) => onChangeCallback(input, value),
     style: 'text-align: center;',
+    accept: 'image/*',
   };
   return [avatar, input];
 }

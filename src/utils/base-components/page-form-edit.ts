@@ -1,7 +1,7 @@
 import { IInputProps } from '../../components/input/input';
 import { IRef } from '../template/template-types';
 import { IPictureProps } from '../../components/picture/picture';
-import { PageForm } from './page-form';
+import { IFormPageState, PageForm } from './page-form';
 
 export type TInputPropsWithRef = IInputProps & { ref: IRef };
 
@@ -9,7 +9,9 @@ export type TProfileSettingsInput =
   | [TInputPropsWithRef, IPictureProps]
   | [TInputPropsWithRef];
 
-export abstract class PageFormEdit extends PageForm {
+export abstract class PageFormEdit<
+  S extends IFormPageState
+> extends PageForm<S> {
   allowInputEdit(prop: TInputPropsWithRef) {
     const updatedInputs = this.state.inputs.map(inputBlock => {
       if (inputBlock[0] === prop) {

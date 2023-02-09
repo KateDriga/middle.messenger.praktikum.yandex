@@ -1,11 +1,13 @@
 import { AuthApi } from '../../utils/api/auth-api';
 import {
   generateFormObject,
+  validateFormInputs,
   validateRegisterFormInputs,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { IInputProps } from '../../components/input/input';
 import { IPageState } from '../../utils/base-components/page-form';
 import { Store } from '../../utils/store/store';
+import { handleFormError } from '../../utils/util-functions/api/handle-form-error';
 
 export class AuthController {
   authApi = new AuthApi();
@@ -22,7 +24,7 @@ export class AuthController {
   }
 
   public async signIn(inputs: Array<IInputProps>): Promise<IPageState> {
-    const formState = validateRegisterFormInputs(inputs);
+    const formState = validateFormInputs(inputs);
     if (!formState.isValid) {
       return formState;
     }
@@ -35,8 +37,7 @@ export class AuthController {
         await this.logOut();
         return await this.signIn(inputs);
       } else {
-        console.error('Sign In error:', e);
-        return { isValid: false, errorText: errorMessage };
+        return handleFormError(e, 'Sign In');
       }
     }
   }
@@ -50,8 +51,7 @@ export class AuthController {
       await this.authApi.signUp(generateFormObject(inputs));
       await this.getUser();
     } catch (e) {
-      console.error('Sign Up error:', e);
-      return { isValid: false, errorText: JSON.parse(e.data).reason };
+      return handleFormError(e, 'Sign Up');
     }
   }
 

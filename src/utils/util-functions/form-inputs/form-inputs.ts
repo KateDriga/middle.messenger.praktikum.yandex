@@ -106,7 +106,10 @@ export function isNewPasswordInput(input: IInputProps) {
 
 export function validateFormInputs(inputs: Array<IInputProps>): IPageState {
   const fieldsValid = inputs.every(
-    input => !input.required || input.validation.rule.test(input.value)
+    input =>
+      !input.required ||
+      input.disabled ||
+      input.validation.rule.test(input.value)
   );
   return {
     isValid: fieldsValid,

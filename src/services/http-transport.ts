@@ -92,7 +92,7 @@ export class HTTPTransport {
 
       xhr.withCredentials = withCredentials;
 
-      if (!('Content-Type' in headers)) {
+      if (!('Content-Type' in headers) && !(data instanceof FormData)) {
         xhr.setRequestHeader('Content-Type', 'application/json');
       }
 
@@ -119,7 +119,7 @@ export class HTTPTransport {
       if (method === HttpTransportMethods.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        xhr.send(data instanceof FormData ? data : JSON.stringify(data));
       }
     });
   }
