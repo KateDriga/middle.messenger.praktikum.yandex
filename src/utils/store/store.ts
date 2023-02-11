@@ -10,7 +10,11 @@ export class Store extends Observable {
   listeners: { [key in StoreEvents as string]: Array<TListener> };
   private state: TIndexed = {
     user: null,
-    isLoading: false,
+    chats: null,
+    loadingState: {
+      userIsLoading: false,
+      chatsAreLoading: false,
+    },
   };
   private static _instance: Store;
 

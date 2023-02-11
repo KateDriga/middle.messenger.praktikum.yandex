@@ -1,21 +1,20 @@
 import { PageFormEdit } from '../../utils/base-components/page-form-edit';
 import { generateProfileSettingsInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import { InputNameTypes } from '../input/input';
-import { TIndexed } from '../../utils/util-functions/set';
-import { connect } from '../../utils/store/connect';
 import { IFormPageState } from '../../utils/base-components/page-form';
 
 export type TUser = {
   [key in InputNameTypes as string]: string;
 };
 
-interface IState extends IFormPageState {
-  stateFromStore: {
-    user: TUser;
-  };
+export interface ISettingsProps {
+  user: TUser;
 }
 
-class ProfileSettingsFormClass extends PageFormEdit<IState> {
+export class ProfileSettingsForm extends PageFormEdit<
+  ISettingsProps,
+  IFormPageState
+> {
   constructor() {
     super();
     this.title = 'Profile Settings';
@@ -34,14 +33,27 @@ class ProfileSettingsFormClass extends PageFormEdit<IState> {
     this.resetForm = this.resetForm.bind(this);
   }
 
-  initProps(props: null): null {
+  initProps(props: ISettingsProps): ISettingsProps {
     this.state.inputs = generateProfileSettingsInputs(
       this.clearError,
       this.updateInput,
       this.allowInputEdit,
-      this.state.stateFromStore.user
+      props.user
     );
     return super.initProps(props);
+  }
+
+  componentWillReceiveProps(
+    props: ISettingsProps,
+    state: IFormPageState
+  ): IFormPageState {
+    this.state.inputs = generateProfileSettingsInputs(
+      this.clearError,
+      this.updateInput,
+      this.allowInputEdit,
+      props.user
+    );
+    return super.componentWillReceiveProps(props, state);
   }
 
   async submitForm(e: Event) {
@@ -67,19 +79,8 @@ class ProfileSettingsFormClass extends PageFormEdit<IState> {
         this.clearError,
         this.updateInput,
         this.allowInputEdit,
-        this.state.stateFromStore.user
+        this.props.user
       ),
     }));
   }
 }
-
-function mapUserState(state: TIndexed): TUser {
-  return {
-    user: state.user,
-  };
-}
-
-export const ProfileSettingsForm = connect<{ user: TUser }, null, IState>(
-  ProfileSettingsFormClass,
-  mapUserState
-);

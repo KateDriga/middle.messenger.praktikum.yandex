@@ -8,7 +8,10 @@ import {
 } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import { IFormPageState } from '../../utils/base-components/page-form';
 
-export class ProfileSettingsFormPassword extends PageFormEdit<IFormPageState> {
+export class ProfileSettingsFormPassword extends PageFormEdit<
+  null,
+  IFormPageState
+> {
   constructor() {
     super();
     this.title = 'Change Password';

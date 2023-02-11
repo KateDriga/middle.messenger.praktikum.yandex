@@ -2,7 +2,7 @@ import * as styles from './chat-text-area.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
-import { ChatContent } from '../chat-content/chat-content';
+import { ChatContentWrapper } from '../chat-content/chat-content-wrapper';
 
 export class ChatsTextArea extends Block<{ id: string | null }, null> {
   render(): TVirtualDomNode {
@@ -15,7 +15,7 @@ export class ChatsTextArea extends Block<{ id: string | null }, null> {
         }`,
       },
       this.props.id
-        ? Template.createComponent(ChatContent, {
+        ? Template.createComponent(ChatContentWrapper, {
             key: this.props.id,
             id: this.props.id,
           })

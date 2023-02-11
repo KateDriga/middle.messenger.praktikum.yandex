@@ -1,13 +1,18 @@
 import * as styles from './chat-content-header.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { Template } from '../../utils/template/template';
-import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Picture } from '../picture/picture';
 import { Router } from '../../utils/router/router';
 import { ROUTES } from '../../utils/const-variables/pages';
+import { IChat } from '../chat-list-item-content/chat-list-item-content';
 
-export class ChatContentHeader extends Block<{ id: string }, null> {
+interface IProps {
+  id: string;
+  chat: Omit<IChat, 'isActive' | 'listRef'> | null;
+}
+
+export class ChatContentHeader extends Block<IProps, null> {
   render(): TVirtualDomNode {
     // TODO: replace with info from server
     return Template.createElement(
@@ -16,15 +21,14 @@ export class ChatContentHeader extends Block<{ id: string }, null> {
       Template.createComponent(Picture, {
         key: 'avatar',
         picName: 'avatar',
+        picPath: this.props.chat?.avatar,
         type: 'image',
         style: 'width: 70px; height: 70px;',
       }),
       Template.createElement(
         'h2',
         { key: 'chat-name' },
-        Template.createTextElement(
-          FAKE_CHATS.find(chat => chat.id.toString() === this.props.id).title
-        )
+        Template.createTextElement(this.props.chat?.title || '')
       ),
       Template.createElement(
         'span',

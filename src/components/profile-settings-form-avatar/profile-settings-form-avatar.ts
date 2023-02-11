@@ -4,22 +4,23 @@ import {
 } from '../../utils/base-components/page-form';
 import { IInputFileProps } from '../input-file/input-file';
 import { generateChangeAvatarProfileInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
-import { TIndexed } from '../../utils/util-functions/set';
-import { connect } from '../../utils/store/connect';
+import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
+import { Template } from '../../utils/template/template';
 
-interface IMapState {
+export interface IChangeAvatarProps {
   avatar: string;
 }
 
-interface IState extends IFormPageState {
-  stateFromStore: IMapState;
-}
+export class ProfileSettingsFormAvatar extends PageForm<
+  IChangeAvatarProps,
+  IFormPageState
+> {
+  ref: IRef = Template.createRef();
 
-class ProfileSettingsFormAvatarClass extends PageForm<IState> {
   constructor() {
     super();
-    this.title = 'Avatar Settings';
     this._bindMethods();
+    this.title = 'Avatar Settings';
     this.buttons = [
       { title: 'Save new Avatar', type: 'primary', htmlType: 'submit' },
       { title: 'Logout', type: 'secondary', htmlType: 'reset' },
@@ -32,14 +33,6 @@ class ProfileSettingsFormAvatarClass extends PageForm<IState> {
     this.resetForm = this.resetForm.bind(this);
   }
 
-  initProps(props: null): null {
-    this.state.inputs = generateChangeAvatarProfileInputs(
-      this.state.stateFromStore.avatar,
-      this.updateInput
-    );
-    return super.initProps(props);
-  }
-
   async submitForm(e: Event) {
     e.preventDefault();
     if ((<IInputFileProps>this.state.inputs[1]).value !== '') {
@@ -49,19 +42,6 @@ class ProfileSettingsFormAvatarClass extends PageForm<IState> {
       );
       if (!response) {
         (<HTMLInputElement>avatar).value = '';
-        const updatedInputs = generateChangeAvatarProfileInputs(
-          this.state.stateFromStore.avatar,
-          this.updateInput
-        );
-        (<IInputFileProps>updatedInputs[1]).ref = (<IInputFileProps>(
-          this.state.inputs[1]
-        )).ref;
-        this.setState(s => ({
-          ...s,
-          isValid: true,
-          errorText: null,
-          inputs: updatedInputs,
-        }));
       } else if (this.state.errorText !== response.errorText) {
         this.setState(s => ({
           ...s,
@@ -75,15 +55,13 @@ class ProfileSettingsFormAvatarClass extends PageForm<IState> {
   async resetForm() {
     await this.authController.logOut();
   }
-}
 
-function mapAvatarState(state: TIndexed): IMapState {
-  return {
-    avatar: state.user?.avatar,
-  };
+  render(): TVirtualDomNode {
+    this.state.inputs = generateChangeAvatarProfileInputs(
+      this.props.avatar,
+      this.updateInput,
+      this.ref
+    );
+    return super.render();
+  }
 }
-
-export const ProfileSettingsFormAvatar = connect<IMapState, null, IState>(
-  ProfileSettingsFormAvatarClass,
-  mapAvatarState
-);

@@ -5,6 +5,8 @@ import {
   DisplayPageTypes,
   getPathWithoutTrailingSlash,
 } from '../const-variables/pages';
+import { Store, StoreEvents } from '../store/store';
+import { getRedirectPath, routeIsAllowed } from '../util-functions/route';
 
 export const PATH_CHANGE = 'path_change';
 
@@ -25,6 +27,7 @@ export class Router extends Observable {
   private static __instance: Router;
 
   private _currentPath: string;
+  private _isLoggedIn: boolean;
 
   fromPathname: string | null;
   routes: Array<IRouteInfo>;
@@ -35,6 +38,7 @@ export class Router extends Observable {
     this.fromPathname = null;
     this.routes = [];
     this.history = window.history;
+    this.handleStateChange = this.handleStateChange.bind(this);
   }
 
   public static getInstance() {
@@ -60,33 +64,65 @@ export class Router extends Observable {
   start() {
     window.onpopstate = event => {
       const path = event.currentTarget.location.pathname;
-      if (this._currentPath !== path) {
-        this._onRoute(path);
-      }
+      const allowedPath = this.getAllowedPath(path);
+      this._onRoute(allowedPath);
     };
+    window.onbeforeunload = () => {
+      Store.getInstance().off(StoreEvents.UPDATED, this.handleStateChange);
+    };
+    Store.getInstance().on(StoreEvents.UPDATED, this.handleStateChange);
     this._currentPath = window.location.pathname;
+    const allowedPath = this.getAllowedPath(this._currentPath);
+    if (this._currentPath !== allowedPath) {
+      this.replace(allowedPath, this._currentPath);
+    }
   }
 
   _onRoute(pathname: string) {
-    if (this._currentPath !== pathname) {
-      this._currentPath = pathname;
-      this.emit(PATH_CHANGE);
+    this._currentPath = pathname;
+    this.emit(PATH_CHANGE, pathname);
+  }
+
+  handleStateChange() {
+    this._isLoggedIn = Store.getInstance().getState().user !== null;
+    const allowedPath = this.getAllowedPath(this._currentPath);
+    if (this._currentPath !== allowedPath) {
+      this.replace(allowedPath, this.fromPathname || this._currentPath);
     }
+  }
+
+  getAllowedPath(pathname: string): string {
+    const fromPathAllowed =
+      this.fromPathname &&
+      routeIsAllowed(this.getRouteInfo(this.fromPathname), this._isLoggedIn);
+    if (fromPathAllowed) {
+      const fromPathname = this.fromPathname;
+      this.fromPathname = null;
+      return fromPathname;
+    }
+
+    const pathnameAllowed = routeIsAllowed(
+      this.getRouteInfo(pathname),
+      this._isLoggedIn
+    );
+    return pathnameAllowed ? pathname : getRedirectPath(this._isLoggedIn);
   }
 
   go(pathname: string, fromPathname: string | null = null) {
     this.fromPathname = fromPathname;
-    if (this._currentPath !== pathname) {
-      this.history.pushState({}, '', pathname);
-      this._onRoute(pathname);
+    const allowedPath = this.getAllowedPath(pathname);
+    if (this._currentPath !== allowedPath) {
+      this.history.pushState({}, '', allowedPath);
+      this._onRoute(allowedPath);
     }
   }
 
   replace(pathname: string, fromPathname: string | null = null) {
     this.fromPathname = fromPathname;
-    if (this._currentPath !== pathname) {
-      this.history.replaceState({}, '', pathname);
-      this._onRoute(pathname);
+    const allowedPath = this.getAllowedPath(pathname);
+    if (this._currentPath !== allowedPath) {
+      this.history.replaceState({}, '', allowedPath);
+      this._onRoute(allowedPath);
     }
   }
 

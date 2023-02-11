@@ -4,6 +4,7 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ROUTES } from '../../utils/const-variables/pages';
 import { Router } from '../../utils/router/router';
+import { ChatItemAdd } from '../chat-item-add/chat-item-add';
 
 interface IProps {
   onInput: () => void;
@@ -36,7 +37,8 @@ export class ChatsListHeader extends Block<IProps, null> {
           placeholder: 'Search',
           onInput: this.props.onInput,
         })
-      )
+      ),
+      Template.createComponent(ChatItemAdd, { key: 'new-chat' })
     );
   }
 }

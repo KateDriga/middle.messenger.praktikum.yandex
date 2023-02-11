@@ -14,25 +14,27 @@ export class Route<P, S extends IRouteState> extends Block<P, S> {
   routeParams: Record<string, string>;
   routeQueryParams: Record<string, string>;
   state: S;
-  isMounted: boolean;
+  private _isMounted: boolean;
 
   constructor() {
     super();
-    this.router = Router.getInstance();
-    this.routeInfo = this.router.getRouteInfo(window.location.pathname);
     this.handlePathChange = this.handlePathChange.bind(this);
     this.getParams = this.getParams.bind(this);
-    this.getParams();
-    this.router.on(PATH_CHANGE, this.handlePathChange);
     this.state = { ...this.state, path: window.location.pathname };
-    this.isMounted = false;
+
+    this.router = Router.getInstance();
+    this.router.on(PATH_CHANGE, this.handlePathChange);
+    this.router.start();
+
+    this.routeInfo = this.router.getRouteInfo(window.location.pathname);
+    this.getParams();
   }
 
   handlePathChange() {
     if (this.state.path !== window.location.pathname) {
       this.routeInfo = this.router.getRouteInfo(window.location.pathname);
       this.getParams();
-      if (this.isMounted) {
+      if (this._isMounted) {
         this.setState(s => ({ ...s, path: window.location.pathname }));
       } else {
         this.state = { ...this.state, path: window.location.pathname };
@@ -57,7 +59,7 @@ export class Route<P, S extends IRouteState> extends Block<P, S> {
   }
 
   componentDidMount() {
-    this.isMounted = true;
+    this._isMounted = true;
     super.componentDidMount();
   }
 
@@ -69,6 +71,7 @@ export class Route<P, S extends IRouteState> extends Block<P, S> {
   render(): TVirtualDomNode {
     if (this.routeInfo) {
       return Template.createComponent(this.routeInfo.component, {
+        key: 'route',
         ...this.routeInfo.props,
         params: this.routeParams,
         queryParams: this.routeQueryParams,

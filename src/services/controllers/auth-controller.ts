@@ -15,11 +15,14 @@ export class AuthController {
 
   public async getUser() {
     try {
+      this.store.set('loadingState.userIsLoading', true);
       const response = await this.authApi.getUser();
       this.store.set('user', JSON.parse(response.data));
     } catch (e) {
       console.error('Get User error:', e);
       throw e;
+    } finally {
+      this.store.set('loadingState.userIsLoading', false);
     }
   }
 

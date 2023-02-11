@@ -21,6 +21,9 @@ function isArrayOrObject(value: unknown): value is [] | PlainObject {
 }
 
 export function isEqual(lhs: PlainObject, rhs: PlainObject) {
+  if (lhs === null || rhs === null) {
+    return lhs === rhs;
+  }
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;
   }

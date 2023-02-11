@@ -8,6 +8,7 @@ import {
   PHONE_NUMBER_INPUT,
 } from '../../const-variables/field-inputs';
 import { IPageState } from '../../base-components/page-form';
+import { FIRST_NAME_VALIDATION } from '../../const-variables/field-validation';
 
 export function generateEmailInput(
   clearError: () => void
@@ -133,6 +134,11 @@ export function validateRegisterFormInputs(
   return inputsValidityState.isValid
     ? checkPasswordsState(inputs)
     : inputsValidityState;
+}
+
+export function validateChatName(name: string): IPageState {
+  const isValid = FIRST_NAME_VALIDATION.rule.test(name);
+  return { isValid, errorText: isValid ? null : 'Please check Chat Name' };
 }
 
 function checkPasswordsEqual(passwordInputs: Array<IInputProps>): IPageState {

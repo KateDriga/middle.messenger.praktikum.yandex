@@ -15,6 +15,7 @@ const PIC_PATHS = {
   edit: require('../../images/icons/edit.svg'),
   insertFile: require('../../images/icons/insert-file.svg'),
   sendMessage: require('../../images/icons/send-message.svg'),
+  add: require('../../images/icons/add.svg'),
   avatar: require('../../images/empty-avatar.webp'),
 };
 

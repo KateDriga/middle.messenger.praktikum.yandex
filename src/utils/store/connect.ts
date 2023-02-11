@@ -3,13 +3,20 @@ import { TVirtualDomNode } from '../template/template-types';
 import { Store, StoreEvents } from './store';
 import { TIndexed } from '../util-functions/set';
 import { isEqual } from '../util-functions/isEqual';
+import { Template } from '../template/template';
 
-export function connect<M, P, S extends { stateFromStore: M }>(
-  Component: { new (): Block<P, S> },
+export interface IMapStateFromStore<T> {
+  stateFromStore: T;
+}
+
+export function connect<M, S extends IMapStateFromStore<M>>(
+  Component: { new (): Block<IMapStateFromStore<M>, S> },
   mapStateFn: (state: TIndexed) => TIndexed
-): { new (): Block<P, S> } {
+): { new (): Block<IMapStateFromStore<M>, S> } {
   return class extends Component {
+    state: S;
     private _isMounted = false;
+
     constructor() {
       super();
       this.state = {
@@ -22,18 +29,16 @@ export function connect<M, P, S extends { stateFromStore: M }>(
 
     handleStateChange() {
       const updatedStateFromStore = mapStateFn(Store.getInstance().getState());
-      if (
-        !this.state?.stateFromStore ||
-        !isEqual(this.state.stateFromStore, updatedStateFromStore)
-      ) {
-        if (this._isMounted) {
-          this.setState(s => ({ ...s, stateFromStore: updatedStateFromStore }));
-        } else {
-          this.state = {
-            ...this.state,
-            stateFromStore: mapStateFn(Store.getInstance().getState()),
-          };
-        }
+      if (!this._isMounted) {
+        this.state = {
+          ...this.state,
+          stateFromStore: mapStateFn(Store.getInstance().getState()),
+        };
+      } else if (!isEqual(this.state.stateFromStore, updatedStateFromStore)) {
+        this.setState(s => ({
+          ...s,
+          stateFromStore: mapStateFn(Store.getInstance().getState()),
+        }));
       }
     }
 
@@ -48,8 +53,11 @@ export function connect<M, P, S extends { stateFromStore: M }>(
     }
 
     public render(): TVirtualDomNode {
-      // render must be implemented in the parent class (Component)
-      return super.render();
+      return Template.createComponent(Component, {
+        key: 'connect',
+        ...this.props,
+        stateFromStore: this.state.stateFromStore,
+      });
     }
   };
 }

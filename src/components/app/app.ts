@@ -2,39 +2,24 @@ import * as styles from './app.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
-import { MainContent } from '../main-content/main-content';
-import { Header } from '../header/header';
 import { ROOT_ID } from '../../index';
+import { Header } from '../header/header';
+import { MainContent } from '../main-content/main-content';
 import { AuthController } from '../../services/controllers/auth-controller';
 import { Store } from '../../utils/store/store';
-import { TIndexed } from '../../utils/util-functions/set';
-import { connect } from '../../utils/store/connect';
 
-interface IMapState {
+export interface IAppProps {
   isLoading: boolean;
+  userDataLoaded: boolean;
 }
 
-interface IState {
-  stateFromStore: IMapState;
-}
-
-class AppClass extends Block<null, IState> {
+export class App extends Block<IAppProps, null> {
   constructor() {
     super();
-    this.handleAppLoad = this.handleAppLoad.bind(this);
-    window.addEventListener('load', this.handleAppLoad);
-  }
-
-  handleAppLoad() {
-    Store.getInstance().set('isLoading', true);
-    new AuthController()
-      .getUser()
-      .finally(() => Store.getInstance().set('isLoading', false));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('load', this.handleAppLoad);
-    super.componentWillUnmount();
+    const store = Store.getInstance().getState();
+    if (store.user === null) {
+      new AuthController().getUser();
+    }
   }
 
   render(): TVirtualDomNode {
@@ -44,16 +29,8 @@ class AppClass extends Block<null, IState> {
       Template.createComponent(Header, { key: 'header' }),
       Template.createComponent(MainContent, {
         key: 'main-content',
-        isLoading: this.state.stateFromStore.isLoading,
+        isLoading: this.props.isLoading,
       })
     );
   }
 }
-
-function mapLoadingState(state: TIndexed): IMapState {
-  return {
-    isLoading: state.isLoading,
-  };
-}
-
-export const App = connect<IMapState, null, IState>(AppClass, mapLoadingState);

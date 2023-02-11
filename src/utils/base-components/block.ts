@@ -60,7 +60,9 @@ export abstract class Block<P, S> {
       throw new Error('Setting state on unmounted component');
     }
     this.state = updater(this.state);
-    Template.applyUpdate(this.mountedElement, this.getUpdateDiff());
+    window.setTimeout(() => {
+      Template.applyUpdate(this.mountedElement, this.getUpdateDiff());
+    });
   }
 
   // called when mounted element receives new props
@@ -76,7 +78,7 @@ export abstract class Block<P, S> {
   // called when the component is mounted in the real DOM
   public dispatchComponentDidMount(element: HTMLElement | Text) {
     this.mountedElement = element;
-    setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDM));
+    window.setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDM));
   }
 
   // called when the component will be unmounted
@@ -91,7 +93,7 @@ export abstract class Block<P, S> {
       diff.callback = elem => (this.mountedElement = elem);
     }
     this.currentRootNode = newRootNode;
-    setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDU));
+    window.setTimeout(() => this.eventBus().emit(EventBusTypes.FLOW_CDU));
     return diff;
   }
 
@@ -117,7 +119,7 @@ export abstract class Block<P, S> {
 
   private _componentWillUnmount() {
     this.componentWillUnmount();
-    setTimeout(() => {
+    window.setTimeout(() => {
       Template.unmountChildNodes(this.currentRootNode);
       this.mountedElement = null;
       this._clearEvents();

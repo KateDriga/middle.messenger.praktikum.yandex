@@ -22,8 +22,8 @@ export interface IFormPageState extends IPageState {
   >;
 }
 
-export abstract class PageForm<S extends IFormPageState> extends Block<
-  null,
+export abstract class PageForm<P, S extends IFormPageState> extends Block<
+  P,
   S
 > {
   title: string;
@@ -32,7 +32,7 @@ export abstract class PageForm<S extends IFormPageState> extends Block<
   authController: AuthController = new AuthController();
   userController: UserController = new UserController();
 
-  constructor() {
+  protected constructor() {
     super();
     this.state = { ...this.state, isValid: true, errorText: null, inputs: [] };
   }

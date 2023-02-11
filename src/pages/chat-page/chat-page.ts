@@ -1,32 +1,29 @@
-import * as styles from './chat-page.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
-import { ChatsList } from '../../components/chats-list/chats-list';
-import { ChatsTextArea } from '../../components/chats-text-area/chats-text-area';
+import { Messenger } from '../../components/messenger/messenger';
+import { ChatsController } from '../../services/controllers/chats-controller';
+import { Store } from '../../utils/store/store';
 
 interface IProps {
-  params: { id?: string };
+  params: {
+    id: string | null;
+  };
 }
 
 export class ChatPage extends Block<IProps, null> {
+  constructor() {
+    super();
+    const store = Store.getInstance().getState();
+    if (store.chats === null) {
+      new ChatsController().getAllChats();
+    }
+  }
+
   render(): TVirtualDomNode {
-    return Template.createElement(
-      'div',
-      {
-        key: 'chat-page',
-        class: styles.chat_page,
-      },
-      Template.createComponent(ChatsList, {
-        key: 'chats-list',
-        class: styles.chats_list,
-        id: this.props.params.id,
-      }),
-      Template.createComponent(ChatsTextArea, {
-        key: 'chats-text-area',
-        class: styles.chats_text_area,
-        id: this.props.params.id,
-      })
-    );
+    return Template.createComponent(Messenger, {
+      key: 'chat-page',
+      id: this.props.params.id || null,
+    });
   }
 }

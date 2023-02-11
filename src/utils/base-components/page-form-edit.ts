@@ -10,8 +10,9 @@ export type TProfileSettingsInput =
   | [TInputPropsWithRef];
 
 export abstract class PageFormEdit<
+  P,
   S extends IFormPageState
-> extends PageForm<S> {
+> extends PageForm<P, S> {
   allowInputEdit(prop: TInputPropsWithRef) {
     const updatedInputs = this.state.inputs.map(inputBlock => {
       if (inputBlock[0] === prop) {
@@ -23,7 +24,7 @@ export abstract class PageFormEdit<
       return inputBlock;
     }) as Array<TProfileSettingsInput>;
     this.setState(s => ({ ...s, inputs: updatedInputs }));
-    this.focusInput(prop);
+    window.setTimeout(() => this.focusInput(prop));
   }
 
   focusInput(prop: TInputPropsWithRef) {

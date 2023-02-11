@@ -7,7 +7,7 @@ import { generateRegisterPageFormInputs } from '../../utils/util-functions/form-
 import { IInputProps } from '../../components/input/input';
 import { Router } from '../../utils/router/router';
 
-export class RegisterPage extends PageForm<IFormPageState> {
+export class RegisterPage extends PageForm<null, IFormPageState> {
   constructor() {
     super();
     this.title = 'Sign up';

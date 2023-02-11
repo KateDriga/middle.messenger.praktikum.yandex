@@ -2,22 +2,24 @@ import * as styles from './chat-content.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { Template } from '../../utils/template/template';
 import { TVirtualDomNode } from '../../utils/template/template-types';
-import {
-  FAKE_MESSAGES_RECEIVED,
-  FAKE_MESSAGES_SENT,
-  IMessage,
-} from '../../utils/fake-test-variables/fake-messages';
+import { IMessage } from '../../utils/fake-test-variables/fake-messages';
 import { ChatMessage } from '../chat-message/chat-message';
 import { ChatContentHeader } from '../chat-content-header/chat-content-header';
 import { ChatContentFooter } from '../chat-content-footer/chat-content-footer';
 import { MESSAGE_VALIDATION } from '../../utils/const-variables/field-validation';
+import { IChat } from '../chat-list-item-content/chat-list-item-content';
 
 interface IState {
   messages: Array<IMessage & { kind: string }>;
   filesToSend: Array<File>;
 }
 
-export class ChatContent extends Block<{ id: string }, IState> {
+interface IProps {
+  chats: Array<Omit<IChat, 'isActive' | 'listRef'>>;
+  id: string | null;
+}
+
+export class ChatContent extends Block<IProps, IState> {
   state: IState = { messages: [], filesToSend: [] };
   testInterval;
   newMessageRef = Template.createRef();
@@ -27,45 +29,24 @@ export class ChatContent extends Block<{ id: string }, IState> {
     super();
     this._bindMethods();
     // TODO replace with data from server
-    this.state.messages = FAKE_MESSAGES_SENT.map(ms => ({
-      ...ms,
-      kind: 'sent',
-    }))
-      .concat(
-        FAKE_MESSAGES_RECEIVED.map(ms => ({
-          ...ms,
-          kind: 'received',
-        }))
-      )
-      .sort((a, b) => a.time.localeCompare(b.time));
-
-    this.testInterval = window.setInterval(
-      () => this.sendAutoTestMessage(),
-      10_000
-    );
+    // this.state.messages = FAKE_MESSAGES_SENT.map(ms => ({
+    //   ...ms,
+    //   kind: 'sent',
+    // }))
+    //   .concat(
+    //     FAKE_MESSAGES_RECEIVED.map(ms => ({
+    //       ...ms,
+    //       kind: 'received',
+    //     }))
+    //   )
+    //   .sort((a, b) => a.time.localeCompare(b.time));
   }
 
   private _bindMethods() {
     this.sendMessage = this.sendMessage.bind(this);
-    this.sendAutoTestMessage = this.sendAutoTestMessage.bind(this);
     this.selectFile = this.selectFile.bind(this);
     this.addFile = this.addFile.bind(this);
     this.removeFile = this.removeFile.bind(this);
-  }
-
-  // TODO: remove fake messages
-  sendAutoTestMessage() {
-    const random = Math.round(Math.random());
-    const newMessage: IMessage & { kind: string } = {
-      kind: random === 0 ? 'sent' : 'received',
-      type: 'message',
-      time: new Date().toISOString(),
-      content: "Hi! I'm test 🚀",
-    };
-    this.setState(s => ({
-      ...s,
-      messages: [...this.state.messages, newMessage],
-    }));
   }
 
   selectFile() {
@@ -134,12 +115,16 @@ export class ChatContent extends Block<{ id: string }, IState> {
   }
 
   render(): TVirtualDomNode {
+    const currentChat = this.props.chats?.find(
+      chat => chat.id.toString() === this.props.id
+    );
     return Template.createElement(
       'div',
       { key: 'messages', class: styles.chat_content },
       Template.createComponent(ChatContentHeader, {
         key: 'chat-content-header',
         id: this.props.id,
+        chat: currentChat,
       }),
       Template.createElement('hr', {
         key: 'separator-header',

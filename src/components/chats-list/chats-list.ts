@@ -3,34 +3,45 @@ import { Block } from '../../utils/base-components/block';
 import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ChatsListHeader } from '../chats-list-header/chats-list-header';
-import { FAKE_CHATS } from '../../utils/fake-test-variables/fake-chats';
-import { IChat } from '../chat-list-item-content/chat-list-item-content';
 import { ChatListItem } from '../chat-list-item/chat-list-item';
+import { IChat } from '../chat-list-item-content/chat-list-item-content';
+
+interface IProps {
+  chats: Array<Omit<IChat, 'isActive' | 'listRef'>>;
+  id: string | null;
+}
 
 interface IState {
   chatsToDisplay: Array<Omit<IChat, 'isActive' | 'listRef'>>;
 }
 
-export class ChatsList extends Block<{ id: string | null }, IState> {
-  chats: Array<Omit<IChat, 'isActive' | 'listRef'>>;
-  state: IState = { chatsToDisplay: [] };
+export class ChatsList extends Block<IProps, IState> {
+  state: IState;
   ref: IRef = Template.createRef();
 
   constructor() {
     super();
-    // TODO: replace fake data
-    this.chats = FAKE_CHATS;
-    this.state.chatsToDisplay = this.chats;
+    this.state = { chatsToDisplay: [] };
     this.handleSearchQueryInput = this.handleSearchQueryInput.bind(this);
+  }
+
+  initProps(props: IProps): IProps {
+    this.state.chatsToDisplay = props.chats || [];
+    return super.initProps(props);
   }
 
   handleSearchQueryInput(e: Event) {
     const searchQuery = (e.target as HTMLInputElement).value;
     this.setState(() => ({
-      chatsToDisplay: this.chats.filter(chat =>
+      chatsToDisplay: this.props.chats.filter(chat =>
         chat.title.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     }));
+  }
+
+  componentWillReceiveProps(props: IProps, state: IState): IState {
+    this.state.chatsToDisplay = props.chats || [];
+    return super.componentWillReceiveProps(props, state);
   }
 
   render(): TVirtualDomNode {

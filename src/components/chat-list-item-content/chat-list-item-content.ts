@@ -75,7 +75,7 @@ export class ChatListItemContent extends Block<IChat, null> {
         Template.createElement(
           'p',
           { key: 'chat-last-message', class: styles.chat_list_last_message },
-          Template.createTextElement(this.props.last_message.content)
+          Template.createTextElement(this.props.last_message?.content || '')
         )
       ),
       Template.createElement(
@@ -85,7 +85,9 @@ export class ChatListItemContent extends Block<IChat, null> {
           'span',
           { key: 'chat-time', class: styles.chat_list_time },
           Template.createTextElement(
-            formatMessageDate(this.props.last_message.time)
+            this.props.last_message?.time
+              ? formatMessageDate(this.props.last_message.time)
+              : ''
           )
         ),
         Template.createElement(

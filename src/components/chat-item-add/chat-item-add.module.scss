@@ -1,0 +1,9 @@
+.add_chat {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.error_text {
+  color: var(--deep-pink);
+}
