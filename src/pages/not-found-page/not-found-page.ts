@@ -4,7 +4,8 @@ import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { Router } from '../../utils/router/router';
-import { HOME_PAGE } from '../../utils/const-variables/pages';
+import { ROUTES } from '../../utils/const-variables/pages';
+import { Store } from '../../utils/store/store';
 
 export class NotFoundPage extends Block<null, null> {
   render(): TVirtualDomNode {
@@ -31,7 +32,12 @@ export class NotFoundPage extends Block<null, null> {
         {
           key: 'redirect',
           class: styles.redirect,
-          onClick: () => Router.getInstance().go(HOME_PAGE),
+          onClick: () =>
+            Router.getInstance().replace(
+              Store.getInstance().getState().user === null
+                ? ROUTES.login.path
+                : ROUTES.chats.path
+            ),
         },
         Template.createTextElement('Go to main')
       )

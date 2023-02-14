@@ -9,6 +9,7 @@ export interface IButtonProps {
   htmlType: 'submit' | 'reset' | 'button';
   disabled?: boolean;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
 export class Button extends Block<IButtonProps, null> {
@@ -22,6 +23,7 @@ export class Button extends Block<IButtonProps, null> {
         } ${this.props.isActive ? styles.active : ''}`,
         type: this.props.htmlType,
         disabled: this.props.disabled ?? false,
+        onClick: this.props.onClick,
       },
       Template.createTextElement(this.props.title)
     );

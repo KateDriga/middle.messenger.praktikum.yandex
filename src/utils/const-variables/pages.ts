@@ -2,7 +2,7 @@ import { Block } from '../base-components/block';
 import { LoginPage } from '../../pages/login-page/login-page';
 import { RegisterPage } from '../../pages/register-page/register-page';
 import { ProfileSettingsPage } from '../../pages/profile-settings-page/profile-settings-page';
-import { ChatPage } from '../../pages/chat-page/chat-page';
+import { ChatPageWrapper } from '../../pages/chat-page/chat-page-wrapper';
 
 export enum DisplayPageTypes {
   LOGGED_IN_ONLY = 'logged_in',
@@ -40,13 +40,13 @@ export const ROUTES: IRoutes = {
     title: 'Start Chatting',
     path: '/messenger',
     display: DisplayPageTypes.LOGGED_IN_ONLY,
-    component: ChatPage,
+    component: ChatPageWrapper,
   },
   chat: {
     title: 'Start Chatting',
     path: '/messenger/:id',
     display: DisplayPageTypes.LOGGED_IN_ONLY,
-    component: ChatPage,
+    component: ChatPageWrapper,
   },
   settings: {
     title: 'Settings',

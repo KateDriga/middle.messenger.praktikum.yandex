@@ -60,9 +60,8 @@ export abstract class Block<P, S> {
       throw new Error('Setting state on unmounted component');
     }
     this.state = updater(this.state);
-    window.setTimeout(() => {
-      Template.applyUpdate(this.mountedElement, this.getUpdateDiff());
-    });
+    const diff = this.getUpdateDiff();
+    Template.applyUpdate(this.mountedElement, diff);
   }
 
   // called when mounted element receives new props

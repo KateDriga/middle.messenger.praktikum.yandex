@@ -28,4 +28,10 @@ export class UserApi extends BaseApi {
       data,
     });
   }
+
+  public async findUsers(login: string): Promise<IResponse> {
+    return await this.httpTransport.post(UserApiPaths.SEARCH, {
+      data: { login },
+    });
+  }
 }

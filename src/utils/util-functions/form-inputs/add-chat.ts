@@ -1,4 +1,4 @@
-import { FIRST_NAME_VALIDATION } from '../../const-variables/field-validation';
+import { CHAT_NAME_VALIDATION } from '../../const-variables/field-validation';
 import { TInputPropsWithRef } from '../../base-components/page-form-edit';
 import { Template } from '../../template/template';
 
@@ -12,7 +12,7 @@ export function generateAddChatInput(
     name: undefined,
     placeholder: 'Add Chat',
     type: 'text',
-    validation: FIRST_NAME_VALIDATION,
+    validation: CHAT_NAME_VALIDATION,
     value: '',
     required: true,
     ref: Template.createRef(),

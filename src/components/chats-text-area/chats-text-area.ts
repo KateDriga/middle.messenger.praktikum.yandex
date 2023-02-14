@@ -4,7 +4,12 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { ChatContentWrapper } from '../chat-content/chat-content-wrapper';
 
-export class ChatsTextArea extends Block<{ id: string | null }, null> {
+interface IProps {
+  id: string | null;
+  unknownId: boolean;
+}
+
+export class ChatsTextArea extends Block<IProps, null> {
   render(): TVirtualDomNode {
     return Template.createElement(
       'div',
@@ -14,7 +19,7 @@ export class ChatsTextArea extends Block<{ id: string | null }, null> {
           !this.props.id ? styles.chat_text_area_hidden_mobile : ''
         }`,
       },
-      this.props.id
+      this.props.id && !this.props.unknownId
         ? Template.createComponent(ChatContentWrapper, {
             key: this.props.id,
             id: this.props.id,
@@ -28,7 +33,11 @@ export class ChatsTextArea extends Block<{ id: string | null }, null> {
               src: require('../../images/chat.png'),
               alt: 'chat image',
             }),
-            Template.createTextElement('Select a chat to send a message')
+            Template.createTextElement(
+              this.props.unknownId
+                ? 'Please select a known chat'
+                : 'Select a chat to send a message'
+            )
           )
     );
   }

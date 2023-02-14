@@ -4,6 +4,7 @@ import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 import { Picture } from '../picture/picture';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
+import { BASE_URL, RESOURCES_API_URL } from '../../utils/const-variables/api';
 
 interface IUserMessage {
   first_name: string;
@@ -56,10 +57,12 @@ export class ChatListItemContent extends Block<IChat, null> {
           this.props.isActive ? styles.chat_list_item_active : ''
         }`,
       },
-      //TODO: replace image name with info from props
       Template.createComponent(Picture, {
         key: 'avatar',
         picName: 'avatar',
+        picPath: this.props.avatar
+          ? `${BASE_URL}${RESOURCES_API_URL}${this.props.avatar}`
+          : null,
         type: 'image',
         style:
           'width: 50px; height: 50px; align-self: center; margin-left: 5px;',

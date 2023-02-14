@@ -22,7 +22,7 @@ export enum InputNameTypes {
 export interface IInputProps extends IFormInput {
   type: string;
   placeholder: string;
-  name: InputNameTypes;
+  name: InputNameTypes | 'query';
   required: boolean;
   validation: IValidation;
   clearError: () => void;

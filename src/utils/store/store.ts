@@ -31,6 +31,6 @@ export class Store extends Observable {
 
   public set(path: string, value: unknown) {
     set(this.state, path, value);
-    this.emit(StoreEvents.UPDATED);
+    window.setTimeout(() => this.emit(StoreEvents.UPDATED));
   }
 }

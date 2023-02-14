@@ -5,10 +5,14 @@ import {
   TVirtualDomNode,
 } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
+import { Button, IButtonProps } from '../button/button';
 
 export interface IModalMessage {
   type: 'success' | 'info' | 'error';
   message: string;
+  buttons?: Array<IButtonProps>;
+  extraContent?: TVirtualDomNode;
+  onCloseCallback?: () => void;
 }
 
 export const MODAL_ID = 'modal';
@@ -30,6 +34,9 @@ export class Modal extends Block<IModalMessage, null> {
   }
 
   close() {
+    if (this.props.onCloseCallback) {
+      this.props.onCloseCallback();
+    }
     document.body.removeEventListener('keydown', this.closeOnEscape);
     Template.applyUpdate(this.ref.current, {
       type: OperationTypes.REPLACE,
@@ -88,7 +95,24 @@ export class Modal extends Block<IModalMessage, null> {
             },
             Template.createTextElement(this.props.message)
           )
-        )
+        ),
+        this.props.extraContent
+          ? this.props.extraContent
+          : Template.createTextElement(''),
+        this.props.buttons
+          ? Template.createElement(
+              'div',
+              { key: 'buttons', class: styles.modal_buttons },
+              ...this.props.buttons.map(button =>
+                Template.createComponent(Button, {
+                  key: button.title,
+                  ...button,
+                  onClick:
+                    button.type === 'secondary' ? this.close : button.onClick,
+                })
+              )
+            )
+          : Template.createTextElement('')
       )
     );
   }

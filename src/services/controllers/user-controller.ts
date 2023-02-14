@@ -8,10 +8,12 @@ import {
   isOldPasswordInput,
   validateChangePasswordFormInputs,
   validateFormInputs,
+  validateSearchByLogin,
 } from '../../utils/util-functions/form-inputs/form-inputs';
 import { AuthController } from './auth-controller';
 import { displayModal } from '../../utils/util-functions/modal';
-import { handleFormError } from '../../utils/util-functions/api/handle-form-error';
+import { handleFormErrors } from '../../utils/util-functions/api/handle-errors';
+import { TUser } from '../../components/profile-settings-form/profile-settings-form';
 
 export class UserController {
   userApi = new UserApi();
@@ -37,7 +39,7 @@ export class UserController {
       await this.authController.getUser();
       displayModal({ type: 'success', message: 'Settings were updated' });
     } catch (e) {
-      return handleFormError(e, 'Change Profile Settings');
+      return handleFormErrors(e, 'Change Profile Settings');
     }
   }
 
@@ -54,7 +56,7 @@ export class UserController {
       );
       displayModal({ type: 'success', message: 'Password was changed' });
     } catch (e) {
-      return handleFormError(e, 'Change Password');
+      return handleFormErrors(e, 'Change Password');
     }
   }
 
@@ -69,7 +71,22 @@ export class UserController {
         message: "You've set a new avatar profile image",
       });
     } catch (e) {
-      return handleFormError(e, 'Change Avatar');
+      return handleFormErrors(e, 'Change Avatar');
+    }
+  }
+
+  public async findUsers(
+    login: string
+  ): Promise<Array<TUser & { id: string }> | IPageState> {
+    const formState = validateSearchByLogin(login);
+    if (!formState.isValid) {
+      return formState;
+    }
+    try {
+      const response = await this.userApi.findUsers(login);
+      return JSON.parse(response.data);
+    } catch (e) {
+      return handleFormErrors(e, 'Find Users');
     }
   }
 }

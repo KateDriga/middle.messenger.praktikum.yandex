@@ -8,7 +8,7 @@ export class ChatsApi extends BaseApi {
   }
 
   public async getAllChats(): Promise<IResponse> {
-    return await this.httpTransport.get(ChatsApiPaths.GET_CHATS);
+    return await this.httpTransport.get(ChatsApiPaths.CHATS);
   }
 
   public async getChatsByQuery(
@@ -21,12 +21,48 @@ export class ChatsApi extends BaseApi {
       ...(limit && { limit }),
       ...(offset && { offset }),
     };
-    return await this.httpTransport.get(ChatsApiPaths.GET_CHATS, { data });
+    return await this.httpTransport.get(ChatsApiPaths.CHATS, { data });
   }
 
   public async createChat(title: string): Promise<IResponse> {
-    return await this.httpTransport.post(ChatsApiPaths.CREATE_CHAT, {
+    return await this.httpTransport.post(ChatsApiPaths.CHATS, {
       data: { title },
+    });
+  }
+
+  public async deleteChat(id: string): Promise<IResponse> {
+    return await this.httpTransport.delete(ChatsApiPaths.CHATS, {
+      data: { chatId: id },
+    });
+  }
+
+  public async changeChatAvatar(data: FormData): Promise<IResponse> {
+    return await this.httpTransport.put(ChatsApiPaths.AVATAR, {
+      data,
+    });
+  }
+
+  public async addUsers(
+    users: Array<string>,
+    chatId: string
+  ): Promise<IResponse> {
+    return await this.httpTransport.put(ChatsApiPaths.USERS, {
+      data: { users, chatId },
+    });
+  }
+
+  public async getChatUsers(id: string): Promise<IResponse> {
+    return await this.httpTransport.get(
+      ChatsApiPaths.GET_USERS.replace(':id', id)
+    );
+  }
+
+  public async removeChatUsers(
+    users: Array<string>,
+    chatId: string
+  ): Promise<IResponse> {
+    return await this.httpTransport.delete(ChatsApiPaths.USERS, {
+      data: { users, chatId },
     });
   }
 }

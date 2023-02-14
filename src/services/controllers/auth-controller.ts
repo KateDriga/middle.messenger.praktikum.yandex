@@ -7,7 +7,7 @@ import {
 import { IInputProps } from '../../components/input/input';
 import { IPageState } from '../../utils/base-components/page-form';
 import { Store } from '../../utils/store/store';
-import { handleFormError } from '../../utils/util-functions/api/handle-form-error';
+import { handleFormErrors } from '../../utils/util-functions/api/handle-errors';
 
 export class AuthController {
   authApi = new AuthApi();
@@ -40,7 +40,7 @@ export class AuthController {
         await this.logOut();
         return await this.signIn(inputs);
       } else {
-        return handleFormError(e, 'Sign In');
+        return handleFormErrors(e, 'Sign In');
       }
     }
   }
@@ -54,7 +54,7 @@ export class AuthController {
       await this.authApi.signUp(generateFormObject(inputs));
       await this.getUser();
     } catch (e) {
-      return handleFormError(e, 'Sign Up');
+      return handleFormErrors(e, 'Sign Up');
     }
   }
 

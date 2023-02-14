@@ -36,6 +36,7 @@ export class Router extends Observable {
   private constructor() {
     super({ PATH_CHANGE: [] });
     this.fromPathname = null;
+    this._isLoggedIn = Store.getInstance().getState().user !== null;
     this.routes = [];
     this.history = window.history;
     this.handleStateChange = this.handleStateChange.bind(this);
@@ -80,14 +81,17 @@ export class Router extends Observable {
 
   _onRoute(pathname: string) {
     this._currentPath = pathname;
-    this.emit(PATH_CHANGE, pathname);
+    window.setTimeout(() => this.emit(PATH_CHANGE, pathname));
   }
 
   handleStateChange() {
-    this._isLoggedIn = Store.getInstance().getState().user !== null;
-    const allowedPath = this.getAllowedPath(this._currentPath);
-    if (this._currentPath !== allowedPath) {
-      this.replace(allowedPath, this.fromPathname || this._currentPath);
+    const isLoggedIn = Store.getInstance().getState().user !== null;
+    if (this._isLoggedIn !== isLoggedIn) {
+      this._isLoggedIn = isLoggedIn;
+      const allowedPath = this.getAllowedPath(this._currentPath);
+      if (this._currentPath !== allowedPath) {
+        this.replace(allowedPath, this.fromPathname || this._currentPath);
+      }
     }
   }
 

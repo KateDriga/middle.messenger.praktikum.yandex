@@ -8,6 +8,9 @@ export function displayModal(info: IModalMessage) {
       key: MODAL_ID,
       message: info.message,
       type: info.type,
+      buttons: info.buttons,
+      extraContent: info.extraContent,
+      onCloseCallback: info.onCloseCallback,
     })
   );
 }

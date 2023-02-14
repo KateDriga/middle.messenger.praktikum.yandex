@@ -16,9 +16,12 @@ export enum UserApiPaths {
   CHANGE_SETTINGS = '/profile',
   CHANGE_AVATAR = '/profile/avatar',
   CHANGE_PASSWORD = '/password',
+  SEARCH = '/search',
 }
 
 export enum ChatsApiPaths {
-  GET_CHATS = '',
-  CREATE_CHAT = '',
+  CHATS = '',
+  AVATAR = '/avatar',
+  USERS = '/users',
+  GET_USERS = '/:id/users',
 }

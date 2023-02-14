@@ -1,0 +1,42 @@
+@import 'src/common-styles/scroll';
+
+.search {
+  background-color: var(--polished-pine);
+  padding: 10px;
+  border-radius: 15px;
+
+  @include custom-scroll(var(--polished-pine));
+}
+
+.search_results {
+  background-color: var(--linen);
+  width: 200px;
+  z-index: 1;
+  margin: 0;
+  padding: 15px;
+  position: absolute;
+  overflow: auto;
+  box-shadow: 0 8px 16px #0003;
+  display: block;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.search_item {
+  color: var(--polished-pine);
+  cursor: pointer;
+  padding: 5px;
+
+  &:hover,
+  &:active {
+    color: var(--deep-pink);
+  }
+}
+
+.selected_users {
+  height: 150px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}

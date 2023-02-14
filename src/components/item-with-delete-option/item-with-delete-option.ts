@@ -1,22 +1,22 @@
-import * as styles from './chat-file-message.module.scss';
+import * as styles from './item-with-delete-option.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
 
 interface IProps {
-  fileName: string;
-  removeFile: (name: string) => void;
+  itemName: string;
+  removeItem: (name: string) => void;
 }
 
-export class ChatFileMessage extends Block<IProps, null> {
+export class ItemWithDeleteOption extends Block<IProps, null> {
   constructor() {
     super();
-    this.removeFile = this.removeFile.bind(this);
+    this.removeItem = this.removeItem.bind(this);
   }
 
-  removeFile(e: KeyboardEvent) {
+  removeItem(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      this.props.removeFile(this.props.fileName);
+      this.props.removeItem(this.props.itemName);
     }
   }
 
@@ -27,7 +27,7 @@ export class ChatFileMessage extends Block<IProps, null> {
       Template.createElement(
         'p',
         { key: 'file-name', class: styles.file_name },
-        Template.createTextElement(this.props.fileName)
+        Template.createTextElement(this.props.itemName)
       ),
       Template.createElement('img', {
         key: 'remove',
@@ -35,8 +35,8 @@ export class ChatFileMessage extends Block<IProps, null> {
         src: require('../../images/icons/close.svg'),
         alt: 'close-icon',
         tabIndex: 0,
-        onClick: () => this.props.removeFile(this.props.fileName),
-        onKeyDown: this.removeFile,
+        onClick: () => this.props.removeItem(this.props.itemName),
+        onKeyDown: this.removeItem,
       })
     );
   }

@@ -8,7 +8,10 @@ import {
   PHONE_NUMBER_INPUT,
 } from '../../const-variables/field-inputs';
 import { IPageState } from '../../base-components/page-form';
-import { FIRST_NAME_VALIDATION } from '../../const-variables/field-validation';
+import {
+  FIRST_NAME_VALIDATION,
+  LOGIN_SEARCH_VALIDATION,
+} from '../../const-variables/field-validation';
 
 export function generateEmailInput(
   clearError: () => void
@@ -139,6 +142,11 @@ export function validateRegisterFormInputs(
 export function validateChatName(name: string): IPageState {
   const isValid = FIRST_NAME_VALIDATION.rule.test(name);
   return { isValid, errorText: isValid ? null : 'Please check Chat Name' };
+}
+
+export function validateSearchByLogin(login: string): IPageState {
+  const isValid = LOGIN_SEARCH_VALIDATION.rule.test(login);
+  return { isValid, errorText: isValid ? null : 'Please check Login' };
 }
 
 function checkPasswordsEqual(passwordInputs: Array<IInputProps>): IPageState {

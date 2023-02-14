@@ -6,7 +6,7 @@ import { InputChatMessage } from '../input-chat-message/input-chat-message';
 import { Picture } from '../picture/picture';
 import { InputNameTypes } from '../input/input';
 import { InputFile } from '../input-file/input-file';
-import { ChatFileMessage } from '../chat-file-message/chat-file-message';
+import { ItemWithDeleteOption } from '../item-with-delete-option/item-with-delete-option';
 
 interface IProps {
   onSendMessage: (e: KeyboardEvent | MouseEvent) => void;
@@ -27,10 +27,10 @@ export class ChatContentFooter extends Block<IProps, null> {
         'div',
         { key: 'chat-content-files', class: styles.chat_content_files },
         ...this.props.fileNames.map(name =>
-          Template.createComponent(ChatFileMessage, {
+          Template.createComponent(ItemWithDeleteOption, {
             key: name,
-            fileName: name,
-            removeFile: this.props.removeFile,
+            itemName: name,
+            removeItem: this.props.removeFile,
           })
         )
       ),

@@ -4,7 +4,7 @@ import { TVirtualDomNode } from '../../utils/template/template-types';
 import { connect, IMapStateFromStore } from '../../utils/store/connect';
 import { ChatContent } from './chat-content';
 import { IChat } from '../chat-list-item-content/chat-list-item-content';
-import { mapChatsState } from '../chats-list/chats-list-wrapper';
+import { mapChatsState } from '../../pages/chat-page/chat-page-wrapper';
 
 interface IMapState {
   chats: Array<Omit<IChat, 'isActive' | 'listRef'>> | null;

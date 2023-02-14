@@ -9,6 +9,11 @@ export const LOGIN_VALIDATION: IValidation = {
     'Incorrect login (must contain minimum 3\u00A0characters, maximum 20\u00A0characters, may contain numbers, -\u00A0or _\u00A0signs, spaces are not allowed)',
 };
 
+export const LOGIN_SEARCH_VALIDATION: IValidation = {
+  rule: /(.*?)/,
+  errorText: '',
+};
+
 export const PASSWORD_VALIDATION: IValidation = {
   rule: /^(?=.{8,40}$)(?=.*[A-Z])(?=.*\d).*$/,
   errorText:
@@ -27,6 +32,8 @@ export const FIRST_NAME_VALIDATION: IValidation = {
 };
 
 export const LAST_NAME_VALIDATION: IValidation = FIRST_NAME_VALIDATION;
+
+export const CHAT_NAME_VALIDATION: IValidation = FIRST_NAME_VALIDATION;
 
 export const PHONE_NUMBER_VALIDATION: IValidation = {
   rule: /^[+]?\d{10,15}$/,
