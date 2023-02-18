@@ -7,13 +7,10 @@ import { Header } from '../header/header';
 import { MainContent } from '../main-content/main-content';
 import { AuthController } from '../../services/controllers/auth-controller';
 import { Store } from '../../utils/store/store';
+import { IMapStateFromStore } from '../../utils/store/connect';
+import { IAppStateFromStore } from './app-wrapper';
 
-export interface IAppProps {
-  isLoading: boolean;
-  userDataLoaded: boolean;
-}
-
-export class App extends Block<IAppProps, null> {
+export class App extends Block<null, IMapStateFromStore<IAppStateFromStore>> {
   constructor() {
     super();
     const store = Store.getInstance().getState();
@@ -29,7 +26,7 @@ export class App extends Block<IAppProps, null> {
       Template.createComponent(Header, { key: 'header' }),
       Template.createComponent(MainContent, {
         key: 'main-content',
-        isLoading: this.props.isLoading,
+        isLoading: this.state.stateFromStore.isLoading,
       })
     );
   }

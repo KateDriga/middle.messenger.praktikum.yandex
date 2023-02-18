@@ -6,16 +6,18 @@ export enum StoreEvents {
   UPDATED = 'updated',
 }
 
+const defaultStoreState = {
+  user: null,
+  chats: null,
+  loadingState: {
+    userIsLoading: false,
+    chatsAreLoading: false,
+  },
+};
+
 export class Store extends Observable {
   listeners: { [key in StoreEvents as string]: Array<TListener> };
-  private state: TIndexed = {
-    user: null,
-    chats: null,
-    loadingState: {
-      userIsLoading: false,
-      chatsAreLoading: false,
-    },
-  };
+  private state: TIndexed = { ...defaultStoreState };
   private static _instance: Store;
 
   private constructor() {
@@ -31,6 +33,11 @@ export class Store extends Observable {
 
   public set(path: string, value: unknown) {
     set(this.state, path, value);
+    window.setTimeout(() => this.emit(StoreEvents.UPDATED));
+  }
+
+  public resetState() {
+    this.state = { ...defaultStoreState };
     window.setTimeout(() => this.emit(StoreEvents.UPDATED));
   }
 }

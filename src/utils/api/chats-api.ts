@@ -65,4 +65,16 @@ export class ChatsApi extends BaseApi {
       data: { users, chatId },
     });
   }
+
+  public async getChatToken(id: string): Promise<IResponse> {
+    return await this.httpTransport.post(
+      ChatsApiPaths.GET_TOKEN.replace(':id', id)
+    );
+  }
+
+  public async getUnreadCount(id: string): Promise<IResponse> {
+    return await this.httpTransport.get(
+      ChatsApiPaths.GET_UNREAD.replace(':id', id)
+    );
+  }
 }

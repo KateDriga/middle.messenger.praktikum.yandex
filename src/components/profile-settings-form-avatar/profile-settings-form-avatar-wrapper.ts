@@ -1,32 +1,18 @@
-import { Block } from '../../utils/base-components/block';
-import { TVirtualDomNode } from '../../utils/template/template-types';
 import { connect, IMapStateFromStore } from '../../utils/store/connect';
-import {
-  IChangeAvatarProps,
-  ProfileSettingsFormAvatar,
-} from './profile-settings-form-avatar';
+import { ProfileSettingsFormAvatar } from './profile-settings-form-avatar';
 import { TIndexed } from '../../utils/util-functions/set';
-import { Template } from '../../utils/template/template';
 
-class ProfileSettingsFormAvatarClass extends Block<
-  IMapStateFromStore<IChangeAvatarProps>,
-  null
-> {
-  render(): TVirtualDomNode {
-    return Template.createComponent(ProfileSettingsFormAvatar, {
-      key: 'change-avatar',
-      avatar: this.props.stateFromStore.avatar,
-    });
-  }
+export interface IUserStateFromStore {
+  avatar: string | null;
 }
 
-function mapAvatarState(state: TIndexed): IChangeAvatarProps {
+function mapAvatarState(state: TIndexed): IUserStateFromStore {
   return {
     avatar: state.user?.avatar,
   };
 }
 
-export const ProfileSettingsFormAvatarWrapper = connect(
-  ProfileSettingsFormAvatarClass,
-  mapAvatarState
-);
+export const ProfileSettingsFormAvatarWrapper = connect<
+  IUserStateFromStore,
+  IMapStateFromStore<IUserStateFromStore>
+>(ProfileSettingsFormAvatar, mapAvatarState);

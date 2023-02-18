@@ -11,7 +11,7 @@ import { BASE_URL, RESOURCES_API_URL } from '../../utils/const-variables/api';
 
 interface IProps {
   id: string;
-  chat: Omit<IChat, 'isActive' | 'listRef'> | null;
+  chat: IChat | null;
 }
 
 export class ChatContentHeader extends Block<IProps, null> {

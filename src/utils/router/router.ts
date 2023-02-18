@@ -73,6 +73,7 @@ export class Router extends Observable {
     };
     Store.getInstance().on(StoreEvents.UPDATED, this.handleStateChange);
     this._currentPath = window.location.pathname;
+    this._isLoggedIn = Store.getInstance().getState().user !== null;
     const allowedPath = this.getAllowedPath(this._currentPath);
     if (this._currentPath !== allowedPath) {
       this.replace(allowedPath, this._currentPath);
@@ -81,7 +82,7 @@ export class Router extends Observable {
 
   _onRoute(pathname: string) {
     this._currentPath = pathname;
-    window.setTimeout(() => this.emit(PATH_CHANGE, pathname));
+    this.emit(PATH_CHANGE, pathname);
   }
 
   handleStateChange() {
@@ -142,5 +143,16 @@ export class Router extends Observable {
     return this.routes.find(route =>
       route.pathRegExp.test(getPathWithoutTrailingSlash(pathname))
     );
+  }
+
+  getCurrentRouteParams() {
+    const params = this._currentPath.split('/');
+    const regexParams = this.getRouteInfo(this._currentPath)?.path.split('/');
+    return regexParams?.reduce((acc, param, idx) => {
+      if (param.startsWith(':')) {
+        return { ...acc, [param.substring(1)]: params[idx] };
+      }
+      return acc;
+    }, {});
   }
 }

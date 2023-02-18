@@ -12,12 +12,15 @@ import { ROUTES } from '../../utils/const-variables/pages';
 import { TUser } from '../../components/profile-settings-form/profile-settings-form';
 
 export class ChatsController {
-  chatsApi = new ChatsApi();
-  store = Store.getInstance();
+  private chatsApi = new ChatsApi();
+  private store = Store.getInstance();
 
   public async getAllChats() {
     try {
-      this.store.set('loadingState.chatsAreLoading', true);
+      // loader should be displayed only once
+      if (!this.store.getState().chats) {
+        this.store.set('loadingState.chatsAreLoading', true);
+      }
       const response = await this.chatsApi.getAllChats();
       this.store.set('chats', JSON.parse(response.data));
     } catch (e) {
@@ -104,8 +107,29 @@ export class ChatsController {
         type: 'success',
         message: 'Users were deleted from this chat.',
       });
+      // await this.getAllChats();
     } catch (e) {
       handleChatErrors(e, 'Remove Chat Users');
+    }
+  }
+
+  public async getChatToken(id: string): Promise<{ token: string }> {
+    try {
+      const response = await this.chatsApi.getChatToken(id);
+      return JSON.parse(response.data);
+    } catch (e) {
+      handleChatErrors(e, 'Get Chat Token');
+    }
+  }
+
+  public async getNewMessagesCount(
+    id: string
+  ): Promise<{ unread_count: number }> {
+    try {
+      const response = await this.chatsApi.getUnreadCount(id);
+      return JSON.parse(response.data);
+    } catch (e) {
+      handleChatErrors(e, 'Get unread Count');
     }
   }
 }

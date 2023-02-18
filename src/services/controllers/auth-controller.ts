@@ -10,8 +10,8 @@ import { Store } from '../../utils/store/store';
 import { handleFormErrors } from '../../utils/util-functions/api/handle-errors';
 
 export class AuthController {
-  authApi = new AuthApi();
-  store = Store.getInstance();
+  private authApi = new AuthApi();
+  private store = Store.getInstance();
 
   public async getUser() {
     try {
@@ -64,7 +64,7 @@ export class AuthController {
     } catch (e) {
       console.error('Logout error:', e);
     } finally {
-      this.store.set('user', null);
+      this.store.resetState();
     }
   }
 }

@@ -13,6 +13,9 @@ import { InputNameTypes } from '../input/input';
 import { TUser } from '../profile-settings-form/profile-settings-form';
 import { ChatsController } from '../../services/controllers/chats-controller';
 import { ItemWithDeleteOption } from '../item-with-delete-option/item-with-delete-option';
+import { Store } from '../../utils/store/store';
+import { Router } from '../../utils/router/router';
+import { ROUTES } from '../../utils/const-variables/pages';
 
 export class DropdownChatOptionsRemoveUsers extends Block<
   { id: string },
@@ -37,11 +40,19 @@ export class DropdownChatOptionsRemoveUsers extends Block<
 
   async removeUsers() {
     if (this.chatUsersToDelete.length > 0) {
-      await this.chatController.removeChatUsers(
-        this.chatUsersToDelete.map(chat => chat.id),
-        this.props.id
-      );
+      let removingSelf = false;
+      const currentUserId = Store.getInstance().getState().user.id;
+      const userIdsToDelete = this.chatUsersToDelete.map(user => {
+        if (user.id === currentUserId) {
+          removingSelf = true;
+        }
+        return user.id;
+      });
+      await this.chatController.removeChatUsers(userIdsToDelete, this.props.id);
       this.resetState();
+      if (removingSelf) {
+        Router.getInstance().replace(ROUTES.chats.path);
+      }
     }
   }
 

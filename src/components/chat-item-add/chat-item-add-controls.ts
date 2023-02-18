@@ -9,7 +9,10 @@ import { ChatsController } from '../../services/controllers/chats-controller';
 import { IPageState } from '../../utils/base-components/page-form';
 import { TInputPropsWithRef } from '../../utils/base-components/page-form-edit';
 
-export class ChatItemAdd extends Block<{ isVisible: boolean }, IPageState> {
+export class ChatItemAddControls extends Block<
+  { isVisible: boolean },
+  IPageState
+> {
   chatController: ChatsController = new ChatsController();
   state: IPageState = { isValid: true, errorText: null };
   input: TInputPropsWithRef;
@@ -48,11 +51,9 @@ export class ChatItemAdd extends Block<{ isVisible: boolean }, IPageState> {
   }
 
   clearInput() {
-    this.setState(() => ({
-      isValid: true,
-      errorText: null,
-      input: generateAddChatInput(this.changeInput, this.clearError),
-    }));
+    this.input.value = '';
+    (this.input.ref.current as HTMLInputElement).value = '';
+    this.setState(s => ({ ...s, isValid: true, errorText: null }));
   }
 
   render(): TVirtualDomNode {
@@ -68,6 +69,12 @@ export class ChatItemAdd extends Block<{ isVisible: boolean }, IPageState> {
           picName: 'add',
           type: 'icon',
           onClick: this.addChat,
+        }),
+        Template.createComponent(Picture, {
+          key: 'add-chat-cancel',
+          picName: 'close',
+          type: 'icon',
+          onClick: this.clearInput,
         })
       ),
       Template.createElement(

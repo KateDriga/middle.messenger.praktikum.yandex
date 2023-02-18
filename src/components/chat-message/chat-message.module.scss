@@ -1,6 +1,9 @@
 @import 'src/common-styles/align';
 
 .chat_message {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
   width: fit-content;
   max-width: 70%;
   border-radius: 20px;
@@ -14,6 +17,10 @@
 .chat_message.chat_message_received {
   background-color: var(--white-smoke);
   color: var(--crystal-blue);
+}
+
+.chat_message.chat_message_received.chat_message_unread {
+  background-color: var(--linen);
 }
 
 .chat_message.chat_message_sent {

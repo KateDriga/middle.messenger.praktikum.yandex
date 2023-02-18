@@ -6,15 +6,14 @@ import { IInputFileProps } from '../input-file/input-file';
 import { generateChangeAvatarProfileInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';
+import { IUserStateFromStore } from './profile-settings-form-avatar-wrapper';
+import { IMapStateFromStore } from '../../utils/store/connect';
 
-export interface IChangeAvatarProps {
-  avatar: string;
-}
+interface IState
+  extends IFormPageState,
+    IMapStateFromStore<IUserStateFromStore> {}
 
-export class ProfileSettingsFormAvatar extends PageForm<
-  IChangeAvatarProps,
-  IFormPageState
-> {
+export class ProfileSettingsFormAvatar extends PageForm<null, IState> {
   ref: IRef = Template.createRef();
 
   constructor() {
@@ -58,7 +57,7 @@ export class ProfileSettingsFormAvatar extends PageForm<
 
   render(): TVirtualDomNode {
     this.state.inputs = generateChangeAvatarProfileInputs(
-      this.props.avatar,
+      this.state.stateFromStore.avatar,
       this.updateInput,
       this.ref
     );

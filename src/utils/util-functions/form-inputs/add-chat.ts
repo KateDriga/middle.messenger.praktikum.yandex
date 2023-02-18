@@ -12,7 +12,7 @@ export function generateAddChatInput(
     name: undefined,
     placeholder: 'Add Chat',
     type: 'text',
-    validation: CHAT_NAME_VALIDATION,
+    validation: { ...CHAT_NAME_VALIDATION, errorText: '' },
     value: '',
     required: true,
     ref: Template.createRef(),

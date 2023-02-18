@@ -16,9 +16,9 @@ import { handleFormErrors } from '../../utils/util-functions/api/handle-errors';
 import { TUser } from '../../components/profile-settings-form/profile-settings-form';
 
 export class UserController {
-  userApi = new UserApi();
-  authController = new AuthController();
-  store = Store.getInstance();
+  private userApi = new UserApi();
+  private authController = new AuthController();
+  private store = Store.getInstance();
 
   public async changeProfileSettings(
     inputs: Array<IInputProps>

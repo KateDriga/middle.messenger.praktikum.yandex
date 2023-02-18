@@ -1,18 +1,16 @@
 import { Block } from '../base-components/block';
-import { TVirtualDomNode } from '../template/template-types';
 import { Store, StoreEvents } from './store';
 import { TIndexed } from '../util-functions/set';
 import { isEqual } from '../util-functions/isEqual';
-import { Template } from '../template/template';
 
 export interface IMapStateFromStore<T> {
   stateFromStore: T;
 }
 
 export function connect<M, S extends IMapStateFromStore<M>>(
-  Component: { new (): Block<IMapStateFromStore<M>, S> },
+  Component: { new (): Block<unknown, S> },
   mapStateFn: (state: TIndexed) => TIndexed
-): { new (): Block<IMapStateFromStore<M>, S> } {
+): { new (): Block<unknown, S> } {
   return class extends Component {
     state: S;
     private _isMounted = false;
@@ -48,16 +46,9 @@ export function connect<M, S extends IMapStateFromStore<M>>(
     }
 
     componentWillUnmount() {
+      this._isMounted = false;
       Store.getInstance().off(StoreEvents.UPDATED, this.handleStateChange);
       super.componentWillUnmount();
-    }
-
-    public render(): TVirtualDomNode {
-      return Template.createComponent(Component, {
-        key: 'connect',
-        ...this.props,
-        stateFromStore: this.state.stateFromStore,
-      });
     }
   };
 }

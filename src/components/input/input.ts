@@ -17,6 +17,7 @@ export enum InputNameTypes {
   NEW_PASSWORD = 'newPassword',
   DISPLAY_NAME = 'display_name',
   MESSAGE = 'message',
+  AVATAR = 'avatar',
 }
 
 export interface IInputProps extends IFormInput {

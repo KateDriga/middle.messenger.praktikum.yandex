@@ -2,19 +2,18 @@ import { PageFormEdit } from '../../utils/base-components/page-form-edit';
 import { generateProfileSettingsInputs } from '../../utils/util-functions/form-inputs/profile-settings-inputs';
 import { InputNameTypes } from '../input/input';
 import { IFormPageState } from '../../utils/base-components/page-form';
+import { IMapStateFromStore } from '../../utils/store/connect';
+import { IUserStateFromStore } from './profile-settings-form-wrapper';
 
 export type TUser = {
   [key in InputNameTypes as string]: string;
 };
 
-export interface ISettingsProps {
-  user: TUser;
-}
+interface IState
+  extends IMapStateFromStore<IUserStateFromStore>,
+    IFormPageState {}
 
-export class ProfileSettingsForm extends PageFormEdit<
-  ISettingsProps,
-  IFormPageState
-> {
+export class ProfileSettingsForm extends PageFormEdit<null, IState> {
   constructor() {
     super();
     this.title = 'Profile Settings';
@@ -33,27 +32,14 @@ export class ProfileSettingsForm extends PageFormEdit<
     this.resetForm = this.resetForm.bind(this);
   }
 
-  initProps(props: ISettingsProps): ISettingsProps {
+  initProps(props: null): null {
     this.state.inputs = generateProfileSettingsInputs(
       this.clearError,
       this.updateInput,
       this.allowInputEdit,
-      props.user
+      this.state.stateFromStore.user
     );
     return super.initProps(props);
-  }
-
-  componentWillReceiveProps(
-    props: ISettingsProps,
-    state: IFormPageState
-  ): IFormPageState {
-    this.state.inputs = generateProfileSettingsInputs(
-      this.clearError,
-      this.updateInput,
-      this.allowInputEdit,
-      props.user
-    );
-    return super.componentWillReceiveProps(props, state);
   }
 
   async submitForm(e: Event) {
@@ -79,7 +65,7 @@ export class ProfileSettingsForm extends PageFormEdit<
         this.clearError,
         this.updateInput,
         this.allowInputEdit,
-        this.props.user
+        this.state.stateFromStore.user
       ),
     }));
   }

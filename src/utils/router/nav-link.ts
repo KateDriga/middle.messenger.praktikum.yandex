@@ -17,6 +17,7 @@ interface IState {
 export class NavLink extends Block<IProps, IState> {
   router = Router.getInstance();
   state: IState = { isActive: false };
+  private _isMounted = true;
 
   constructor() {
     super();
@@ -28,7 +29,7 @@ export class NavLink extends Block<IProps, IState> {
     const isActive =
       getPathWithoutTrailingSlash(this.props.href) ===
       getPathWithoutTrailingSlash(window.location.pathname);
-    if (this.state.isActive !== isActive) {
+    if (this.state.isActive !== isActive && this._isMounted) {
       this.setState(() => ({ isActive }));
     }
   }
@@ -39,12 +40,14 @@ export class NavLink extends Block<IProps, IState> {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     this.router.on(PATH_CHANGE, this.handlePathChange);
     this.handlePathChange();
     super.componentDidMount();
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     this.router.off(PATH_CHANGE, this.handlePathChange);
     super.componentWillUnmount();
   }

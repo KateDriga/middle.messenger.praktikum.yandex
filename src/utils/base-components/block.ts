@@ -1,4 +1,5 @@
 import {
+  ElementTypes,
   OperationTypes,
   TVirtualDomNode,
   TVirtualDomUpdateOperation,
@@ -118,11 +119,14 @@ export abstract class Block<P, S> {
 
   private _componentWillUnmount() {
     this.componentWillUnmount();
-    window.setTimeout(() => {
+    if (this.currentRootNode.type === ElementTypes.ELEMENT) {
       Template.unmountChildNodes(this.currentRootNode);
-      this.mountedElement = null;
-      this._clearEvents();
-    });
+    }
+    if (this.currentRootNode.type === ElementTypes.COMPONENT) {
+      this.currentRootNode.instance?.dispatchUnmount();
+    }
+    this.mountedElement = null;
+    this._clearEvents();
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public componentWillUnmount() {}

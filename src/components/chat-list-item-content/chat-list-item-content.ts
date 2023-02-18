@@ -5,6 +5,7 @@ import { Template } from '../../utils/template/template';
 import { Picture } from '../picture/picture';
 import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 import { BASE_URL, RESOURCES_API_URL } from '../../utils/const-variables/api';
+import { Store } from '../../utils/store/store';
 
 interface IUserMessage {
   first_name: string;
@@ -25,12 +26,16 @@ export interface IChat {
     time: string;
     content: string;
   };
+}
+
+interface IProps extends IChat {
   isActive: boolean;
   listRef: IRef;
 }
 
-export class ChatListItemContent extends Block<IChat, null> {
+export class ChatListItemContent extends Block<IProps, null> {
   ref = Template.createRef();
+  login = Store.getInstance().getState().user.login;
 
   isChatVisible(): boolean {
     const parentRect = this.props.listRef.current.getBoundingClientRect();
@@ -78,7 +83,15 @@ export class ChatListItemContent extends Block<IChat, null> {
         Template.createElement(
           'p',
           { key: 'chat-last-message', class: styles.chat_list_last_message },
-          Template.createTextElement(this.props.last_message?.content || '')
+          Template.createTextElement(
+            this.props.last_message
+              ? `${
+                  this.props.last_message.user.login === this.login
+                    ? 'You: '
+                    : ''
+                }${this.props.last_message.content}`
+              : ''
+          )
         )
       ),
       Template.createElement(

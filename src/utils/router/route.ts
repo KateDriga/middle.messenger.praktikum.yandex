@@ -43,15 +43,7 @@ export class Route<P, S extends IRouteState> extends Block<P, S> {
   }
 
   getParams() {
-    const params = window.location.pathname.split('/');
-    const regexParams = this.routeInfo?.path.split('/');
-    this.routeParams = regexParams?.reduce((acc, param, idx) => {
-      if (param.startsWith(':')) {
-        return { ...acc, [param.substring(1)]: params[idx] };
-      }
-      return acc;
-    }, {});
-
+    this.routeParams = this.router.getCurrentRouteParams();
     const searchParams = window.location.search;
     this.routeQueryParams = searchParams
       ? Object.fromEntries(new URLSearchParams(searchParams.substring(1)))

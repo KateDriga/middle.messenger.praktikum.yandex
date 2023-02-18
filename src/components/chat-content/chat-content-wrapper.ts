@@ -1,29 +1,23 @@
-import { Block } from '../../utils/base-components/block';
-import { Template } from '../../utils/template/template';
-import { TVirtualDomNode } from '../../utils/template/template-types';
 import { connect, IMapStateFromStore } from '../../utils/store/connect';
 import { ChatContent } from './chat-content';
+import { TIndexed } from '../../utils/util-functions/set';
 import { IChat } from '../chat-list-item-content/chat-list-item-content';
-import { mapChatsState } from '../../pages/chat-page/chat-page-wrapper';
+import { Router } from '../../utils/router/router';
 
-interface IMapState {
-  chats: Array<Omit<IChat, 'isActive' | 'listRef'>> | null;
+export interface IChatStateFromStore {
+  currentChat: IChat | null;
 }
 
-interface IProps {
-  id: string | null;
+function mapActiveChatState(state: TIndexed): IChatStateFromStore {
+  const routeParams = Router.getInstance().getCurrentRouteParams();
+  return {
+    currentChat: routeParams['id']
+      ? state.chats?.find(chat => chat.id.toString() === routeParams['id'])
+      : null,
+  };
 }
 
-interface IPropsState extends IProps, IMapStateFromStore<IMapState> {}
-
-class ChatContentClass extends Block<IPropsState, null> {
-  render(): TVirtualDomNode {
-    return Template.createComponent(ChatContent, {
-      key: 'chat-content',
-      id: this.props.id,
-      chats: this.props.stateFromStore.chats,
-    });
-  }
-}
-
-export const ChatContentWrapper = connect(ChatContentClass, mapChatsState);
+export const ChatContentWrapper = connect<
+  IChatStateFromStore,
+  IMapStateFromStore<IChatStateFromStore>
+>(ChatContent, mapActiveChatState);

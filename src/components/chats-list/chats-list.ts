@@ -7,12 +7,12 @@ import { ChatListItem } from '../chat-list-item/chat-list-item';
 import { IChat } from '../chat-list-item-content/chat-list-item-content';
 
 interface IProps {
-  chats: Array<Omit<IChat, 'isActive' | 'listRef'>>;
+  chats: Array<IChat>;
   id: string | null;
 }
 
 interface IState {
-  chatsToDisplay: Array<Omit<IChat, 'isActive' | 'listRef'>>;
+  chatsToDisplay: Array<IChat>;
 }
 
 export class ChatsList extends Block<IProps, IState> {
@@ -65,7 +65,7 @@ export class ChatsList extends Block<IProps, IState> {
         'ul',
         {
           key: 'chat-listing',
-          class: `${styles.chat_listing}`,
+          class: styles.chat_listing,
           ref: this.ref,
         },
         ...this.state.chatsToDisplay.map(chat =>

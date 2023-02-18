@@ -9,6 +9,7 @@ import {
 } from '../../const-variables/field-inputs';
 import { IPageState } from '../../base-components/page-form';
 import {
+  CHAT_NAME_VALIDATION,
   FIRST_NAME_VALIDATION,
   LOGIN_SEARCH_VALIDATION,
 } from '../../const-variables/field-validation';
@@ -141,7 +142,10 @@ export function validateRegisterFormInputs(
 
 export function validateChatName(name: string): IPageState {
   const isValid = FIRST_NAME_VALIDATION.rule.test(name);
-  return { isValid, errorText: isValid ? null : 'Please check Chat Name' };
+  return {
+    isValid,
+    errorText: isValid ? null : CHAT_NAME_VALIDATION.errorText,
+  };
 }
 
 export function validateSearchByLogin(login: string): IPageState {

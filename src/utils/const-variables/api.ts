@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+export const BASE_WS_URL = 'wss://ya-praktikum.tech/ws';
 
 export const AUTH_API_URL = '/auth';
 export const USER_API_URL = '/user';
@@ -24,4 +25,10 @@ export enum ChatsApiPaths {
   AVATAR = '/avatar',
   USERS = '/users',
   GET_USERS = '/:id/users',
+  GET_TOKEN = '/token/:id',
+  GET_UNREAD = '/new/:id',
+}
+
+export enum ChatsWsPaths {
+  CONNECT = '/:userId/:chatId/:token',
 }
