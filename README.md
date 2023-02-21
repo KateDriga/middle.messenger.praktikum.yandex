@@ -57,4 +57,5 @@ Performs code analysis with ESLint (`*.ts` files) and Stylelint (`*.scss` files)
 
 To view Figma Design please click [here](https://www.figma.com/file/UAcp9twOQHH1s8UkIoga2B/Untitled?node-id=0%3A1&t=mvcP96kY8BWzXmEV-0).\
 To view deployed project (Netlify) please click [here](https://euphonious-trifle-ab3480.netlify.app/)
+To view deployed project (Render) please click [here](https://kate-messenger.onrender.com/)
 
