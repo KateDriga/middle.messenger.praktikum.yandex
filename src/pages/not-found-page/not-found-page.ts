@@ -34,7 +34,7 @@ export class NotFoundPage extends Block<null, null> {
           class: styles.redirect,
           onClick: () =>
             Router.getInstance().replace(
-              Store.getInstance().getState().user === null
+              !Store.getInstance().getState().user
                 ? ROUTES.login.path
                 : ROUTES.chats.path
             ),

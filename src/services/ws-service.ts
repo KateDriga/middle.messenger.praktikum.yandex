@@ -72,7 +72,10 @@ export class WsService extends Observable {
       if (Array.isArray(message)) {
         this.emit(WsEvents.OLD_MESSAGES, message);
       }
-      if (message.type === WsContentTypes.MESSAGE) {
+      if (
+        message.type === WsContentTypes.MESSAGE ||
+        message.type === WsContentTypes.FILE
+      ) {
         this.emit(WsEvents.NEW_MESSAGE, message);
       }
     });
@@ -86,7 +89,6 @@ export class WsService extends Observable {
     this.send(WsContentTypes.PING);
   }
 
-  // TODO: add different content types (like messages, files, etc)
   send(type: WsContentTypes, message = '') {
     this._socket.send(
       JSON.stringify({
