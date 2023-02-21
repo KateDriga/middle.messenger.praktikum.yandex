@@ -1,4 +1,4 @@
-import * as styles from './profile-settings-page.module.scss';
+import styles from './profile-settings-page.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';

@@ -4,8 +4,8 @@
   "description": "chat",
   "scripts": {
     "lint": "eslint . --ext .ts && npx stylelint \"**/*.scss\"",
-    "start": "parcel index.html -p 3000 --open --no-cache",
-    "build": "parcel build index.html"
+    "start": "webpack serve",
+    "build": "webpack"
   },
   "author": "Kate Driga",
   "license": "ISC",
@@ -13,20 +13,26 @@
     "node": ">=14.0"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "2.8.2",
     "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.1",
+    "css-loader": "6.7.3",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
     "express": "4.18.2",
-    "parcel": "2.8.2",
+    "html-webpack-plugin": "5.5.0",
+    "mini-css-extract-plugin": "2.7.2",
     "sass": "1.57.1",
+    "sass-loader": "13.2.0",
     "stylelint": "14.16.1",
     "stylelint-config-prettier": "9.0.4",
     "stylelint-config-standard": "29.0.0",
     "stylelint-config-standard-scss": "6.1.0",
-    "typescript": "4.9.5"
+    "ts-loader": "9.4.2",
+    "typescript": "4.9.5",
+    "webpack": "5.75.0",
+    "webpack-cli": "5.0.1",
+    "webpack-dev-server": "4.11.1"
   }
 }

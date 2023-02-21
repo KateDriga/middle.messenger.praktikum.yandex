@@ -1,5 +1,5 @@
-import * as styles from './dropdown-chat-options-remove-users.module.scss';
-import * as dropdownStyles from '../dropdown-chat-options/dropdown-chat-options.module.scss';
+import styles from './dropdown-chat-options-remove-users.module.scss';
+import dropdownStyles from '../dropdown-chat-options/dropdown-chat-options.module.scss';
 import { Block } from '../../utils/base-components/block';
 import {
   IVirtualDomElement,

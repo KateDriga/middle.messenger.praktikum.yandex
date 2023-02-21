@@ -1,4 +1,4 @@
-import * as styles from '../dropdown-chat-options/dropdown-chat-options.module.scss';
+import styles from '../dropdown-chat-options/dropdown-chat-options.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';

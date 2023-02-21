@@ -1,4 +1,4 @@
-import * as styles from './modal.module.scss';
+import styles from './modal.module.scss';
 import { Block } from '../../utils/base-components/block';
 import {
   OperationTypes,

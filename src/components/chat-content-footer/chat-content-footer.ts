@@ -1,4 +1,4 @@
-import * as styles from './chat-content-footer.module.scss';
+import styles from './chat-content-footer.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';

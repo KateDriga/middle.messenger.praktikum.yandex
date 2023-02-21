@@ -1,4 +1,4 @@
-import * as styles from './button.module.scss';
+import styles from './button.module.scss';
 import { Template } from '../../utils/template/template';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';

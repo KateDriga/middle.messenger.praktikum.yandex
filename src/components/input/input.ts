@@ -1,4 +1,4 @@
-import * as styles from './input.module.scss';
+import styles from './input.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { Template } from '../../utils/template/template';
 import { TVirtualDomNode } from '../../utils/template/template-types';

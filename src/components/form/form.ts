@@ -1,4 +1,4 @@
-import * as styles from './form.module.scss';
+import styles from './form.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { TVirtualDomNode } from '../../utils/template/template-types';
 import { FormInputField } from '../form-input-field/form-input-field';

@@ -1,4 +1,4 @@
-import * as styles from './chats-list.module.scss';
+import styles from './chats-list.module.scss';
 import { Block } from '../../utils/base-components/block';
 import { IRef, TVirtualDomNode } from '../../utils/template/template-types';
 import { Template } from '../../utils/template/template';

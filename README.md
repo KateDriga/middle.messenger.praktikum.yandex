@@ -8,7 +8,7 @@ It includes the following pages:
 - chat - `/messenger` and `/messenger/:id` route
 - settings - `/settings` route
 
-This app is written using  **Typescript**, **SCSS**. **Parcel** is used for production build.\
+This app is written using  **Typescript**, **SCSS**. Project is built with the help of **Webpack**.\
 You need to create a personal account to start using this app.
 
 This application was developed as part of the [Middle Frontend Developer](https://practicum.yandex.ru/middle-frontend/) course and is available [here](https://euphonious-trifle-ab3480.netlify.app/).
