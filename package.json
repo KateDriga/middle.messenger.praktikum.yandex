@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts && npx stylelint \"**/*.scss\"",
     "start": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "prepare": "husky install"
   },
   "author": "Kate Driga",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "express": "4.18.2",
     "html-webpack-plugin": "5.5.0",
+    "husky": "8.0.3",
     "mini-css-extract-plugin": "2.7.2",
     "sass": "1.57.1",
     "sass-loader": "13.2.0",
