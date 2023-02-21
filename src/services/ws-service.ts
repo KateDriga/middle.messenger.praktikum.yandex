@@ -24,6 +24,10 @@ export enum WsEvents {
 export class WsService extends Observable {
   private _socket: WebSocket;
   private _interval = 0;
+  private _reconnectAttempts = 0;
+  private readonly _userId: string;
+  private readonly _chatId: string;
+  private readonly _token: string;
   private PING_TIMEOUT = 20_000;
 
   constructor(userId: string, chatId: string, token: string) {
@@ -32,6 +36,9 @@ export class WsService extends Observable {
       [WsEvents.OLD_MESSAGES]: [],
       [WsEvents.CONNECTED]: [],
     });
+    this._userId = userId;
+    this._chatId = chatId;
+    this._token = token;
     this._socket = new WebSocket(
       `${BASE_WS_URL}/${CHATS_API_URL}/${userId}/${chatId}/${token}`
     );
@@ -45,6 +52,7 @@ export class WsService extends Observable {
   private _addEventListeners() {
     this._socket.addEventListener('open', () => {
       console.log(`WS connection established`);
+      this._reconnectAttempts = 0;
       this.emit(WsEvents.CONNECTED);
       this._interval = window.setInterval(
         () => this._ping(),
@@ -55,8 +63,15 @@ export class WsService extends Observable {
     this._socket.addEventListener('close', event => {
       if (event.wasClean) {
         console.log('Connection close was clean');
+      } else if (this._reconnectAttempts < 3) {
+        this._reconnectAttempts++;
+        window.setTimeout(() => {
+          this._socket = new WebSocket(
+            `${BASE_WS_URL}/${CHATS_API_URL}/${this._userId}/${this._chatId}/${this._token}`
+          );
+          this._addEventListeners();
+        }, 3000);
       } else {
-        // TODO: try to reconnect
         console.warn('Connection was lost');
         displayModal({
           type: 'info',
@@ -99,6 +114,7 @@ export class WsService extends Observable {
   }
 
   close(code?: number, reason?: string) {
+    this._reconnectAttempts = 0;
     this._socket.close(code, reason);
   }
 }
