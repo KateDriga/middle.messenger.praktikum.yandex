@@ -11,9 +11,8 @@ export enum DisplayPageTypes {
 }
 
 export interface IRoute {
-  title: string;
   path: string;
-  display: DisplayPageTypes;
+  displayType: DisplayPageTypes;
   component: { new (): Block<unknown, unknown> };
 }
 
@@ -25,33 +24,28 @@ export const HOME_PAGE = '/';
 
 export const ROUTES: IRoutes = {
   login: {
-    title: 'Sign in Page',
     path: '/',
-    display: DisplayPageTypes.LOGGED_OUT_ONLY,
+    displayType: DisplayPageTypes.LOGGED_OUT_ONLY,
     component: LoginPage,
   },
   register: {
-    title: 'Sign up Page',
     path: '/sign-up',
-    display: DisplayPageTypes.LOGGED_OUT_ONLY,
+    displayType: DisplayPageTypes.LOGGED_OUT_ONLY,
     component: RegisterPage,
   },
   chats: {
-    title: 'Start Chatting',
     path: '/messenger',
-    display: DisplayPageTypes.LOGGED_IN_ONLY,
+    displayType: DisplayPageTypes.LOGGED_IN_ONLY,
     component: ChatPageWrapper,
   },
   chat: {
-    title: 'Start Chatting',
     path: '/messenger/:id',
-    display: DisplayPageTypes.LOGGED_IN_ONLY,
+    displayType: DisplayPageTypes.LOGGED_IN_ONLY,
     component: ChatPageWrapper,
   },
   settings: {
-    title: 'Settings',
     path: '/settings',
-    display: DisplayPageTypes.LOGGED_IN_ONLY,
+    displayType: DisplayPageTypes.LOGGED_IN_ONLY,
     component: ProfileSettingsPage,
   },
 };

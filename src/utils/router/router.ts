@@ -1,21 +1,17 @@
 import { Block } from '../base-components/block';
 import { Observable, TListener } from '../../services/observable';
-import { IVirtualDomProps } from '../template/template-types';
 import {
   DisplayPageTypes,
   getPathWithoutTrailingSlash,
+  IRoute,
 } from '../const-variables/pages';
 import { Store, StoreEvents } from '../store/store';
 import { getRedirectPath, routeIsAllowed } from '../util-functions/route';
 
 export const PATH_CHANGE = 'path_change';
 
-export interface IRouteInfo {
-  path: string;
+export interface IRouteInfo extends IRoute {
   pathRegExp: RegExp;
-  displayType: DisplayPageTypes;
-  component: { new (): Block<unknown, unknown> };
-  props: IVirtualDomProps;
 }
 
 const getRegExpForPath = (path: string): RegExp =>
@@ -49,15 +45,13 @@ export class Router extends Observable {
   use(
     pathname: string,
     displayType: DisplayPageTypes,
-    component: { new (): Block<unknown, unknown> },
-    props: IVirtualDomProps
+    component: { new (): Block<unknown, unknown> }
   ): Router {
     this.routes.push({
       path: pathname,
       displayType,
       pathRegExp: getRegExpForPath(pathname),
       component,
-      props,
     });
     return this;
   }

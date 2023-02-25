@@ -11,9 +11,7 @@ const router = Router.getInstance();
 
 Object.keys(ROUTES).forEach(key => {
   const route = ROUTES[key];
-  router.use(route.path, route.display, route.component, {
-    key: 'main-content',
-  });
+  router.use(route.path, route.displayType, route.component);
 });
 
 Template.renderDom(

@@ -2,13 +2,12 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  mode: 'development',
+module.exports = (_, { mode }) => ({
   entry: './src/index.ts',
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle-[hash].js',
+    filename: 'bundle-[contenthash].js',
     publicPath: '/',
     clean: true,
   },
@@ -44,7 +43,9 @@ module.exports = {
           {
             test: /\.module\.s?css$/,
             use: [
-              MiniCssExtractPlugin.loader,
+              mode === 'production'
+                ? MiniCssExtractPlugin.loader
+                : 'style-loader',
               {
                 loader: 'css-loader',
                 options: { importLoaders: 1, modules: true },
@@ -53,7 +54,13 @@ module.exports = {
             ],
           },
           {
-            use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            use: [
+              mode === 'production'
+                ? MiniCssExtractPlugin.loader
+                : 'style-loader',
+              'css-loader',
+              'sass-loader',
+            ],
           },
         ],
       },
@@ -69,7 +76,7 @@ module.exports = {
       favicon: './src/images/favicon.png',
     }),
     new MiniCssExtractPlugin({
-      filename: 'style-[hash].css',
+      filename: 'style-[contenthash].css',
     }),
   ],
-};
+});
