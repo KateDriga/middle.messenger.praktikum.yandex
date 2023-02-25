@@ -17,7 +17,7 @@ This application was developed as part of the [Middle Frontend Developer](https:
 1. `login` and `registration`forms (with validation)
 <img src="https://user-images.githubusercontent.com/114503332/219871349-2c464873-6063-4890-a1a6-cc7965400519.png" width="100" />
 <img src="https://user-images.githubusercontent.com/114503332/219871591-16ea2b52-0de1-458d-8e69-be9c48d8d63e.png" width="100" />
-2. `chat` page with the list of chats, ability to add new ones and window for messaging. Please note that **only text messages** are supported.
+2. `chat` page with the list of chats, ability to add new ones and window for messaging. You can send text messages and files.
 <img src="https://user-images.githubusercontent.com/114503332/219871775-9d52c631-4eee-4b72-854d-e1f704694d1f.png" width="100" />
 <img src="https://user-images.githubusercontent.com/114503332/219871790-efba0eab-a76b-4d56-acee-7566cdd65305.png" width="100" />
 3. `chat settings` include the ability to add/remove users, change chat avatar or delete it.
@@ -52,6 +52,10 @@ Your app is ready to be deployed!
 ### `npm run lint`
 
 Performs code analysis with ESLint (`*.ts` files) and Stylelint (`*.scss` files).
+
+### `npm run test`
+
+Runs Jest tests (`*.test.ts` files).
 
 ## Useful Links
 
