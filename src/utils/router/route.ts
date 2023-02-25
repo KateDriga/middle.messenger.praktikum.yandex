@@ -64,7 +64,6 @@ export class Route<P, S extends IRouteState> extends Block<P, S> {
     if (this.routeInfo) {
       return Template.createComponent(this.routeInfo.component, {
         key: 'route',
-        ...this.routeInfo.props,
         params: this.routeParams,
         queryParams: this.routeQueryParams,
       });

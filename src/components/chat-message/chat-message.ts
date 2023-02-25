@@ -6,6 +6,7 @@ import { formatMessageDate } from '../../utils/util-functions/format-chat-info';
 import { IMessage } from '../chat-content/chat-content';
 import { Picture } from '../picture/picture';
 import { BASE_URL, RESOURCES_API_URL } from '../../utils/const-variables/api';
+import { FileMessage } from '../file-message/file-message';
 
 interface IProps extends IMessage {
   isUnread: boolean;
@@ -35,15 +36,19 @@ export class ChatMessage extends Block<IProps, null> {
             style: 'width: 40px; height: 40px;',
           })
         : Template.createTextElement(''),
-      // TODO: display different elements depending on message type (file/text)
       Template.createElement(
         'div',
         { key: 'ms-content' },
-        Template.createElement(
-          'p',
-          { key: 'message-text', style: 'white-space: pre-wrap;' },
-          Template.createTextElement(this.props.content)
-        ),
+        this.props.type === 'file'
+          ? Template.createComponent(FileMessage, {
+              key: this.props.id,
+              ...this.props.file,
+            })
+          : Template.createElement(
+              'p',
+              { key: 'message-text', style: 'white-space: pre-wrap;' },
+              Template.createTextElement(this.props.content)
+            ),
         Template.createElement(
           'p',
           { key: 'message-date', class: styles.chat_message_date },

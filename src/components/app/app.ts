@@ -14,7 +14,7 @@ export class App extends Block<null, IMapStateFromStore<IAppStateFromStore>> {
   constructor() {
     super();
     const store = Store.getInstance().getState();
-    if (store.user === null) {
+    if (!store.user) {
       new AuthController().getUser();
     }
   }

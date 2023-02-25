@@ -1,6 +1,6 @@
 import { BASE_URL } from '../utils/const-variables/api';
 
-enum HttpTransportMethods {
+export enum HttpTransportMethods {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
@@ -49,7 +49,7 @@ export class HTTPTransport {
     options: IOptions<T> = {}
   ): Promise<IResponse> {
     return this.request(
-      options.data ? queryStringify(options.data) : path,
+      options.data ? path + queryStringify(options.data) : path,
       { ...options, method: HttpTransportMethods.GET },
       options.timeout
     );

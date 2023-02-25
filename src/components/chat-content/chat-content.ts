@@ -13,6 +13,7 @@ import { IMapStateFromStore } from '../../utils/store/connect';
 import { TUser } from '../profile-settings-form/profile-settings-form';
 import { InputNameTypes } from '../input/input';
 import { IChatStateFromStore } from './chat-content-wrapper';
+import { ResourcesController } from '../../services/controllers/resources-controller';
 
 export interface WsMessage {
   id: number;
@@ -20,6 +21,7 @@ export interface WsMessage {
   type: 'message' | 'file';
   content: string;
   user_id: string;
+  file?: IFile;
 }
 
 export interface IMessage extends WsMessage {
@@ -37,6 +39,14 @@ interface IProps {
   id: string | null;
 }
 
+export interface IFile {
+  id: number;
+  user_id: number;
+  path: string;
+  filename: string;
+  content_type: string;
+}
+
 export class ChatContent extends Block<IProps, IState> {
   newMessageRef = Template.createRef();
   newFileRef = Template.createRef();
@@ -46,6 +56,7 @@ export class ChatContent extends Block<IProps, IState> {
 
   wsService: WsService;
   chatsController = new ChatsController();
+  resourcesController = new ResourcesController();
 
   isScrolledToBottom = false;
   userSentLasMessage = false;
@@ -250,7 +261,14 @@ export class ChatContent extends Block<IProps, IState> {
     if (e instanceof MouseEvent || (e.key === 'Enter' && !e.shiftKey)) {
       e.preventDefault();
       if (this.state.filesToSend.length > 0) {
-        // TODO: add send file functionality
+        this.state.filesToSend.forEach(file =>
+          this.resourcesController
+            .uploadFile(file)
+            .then(res =>
+              this.wsService.send(WsContentTypes.FILE, res.id.toString())
+            )
+        );
+        this.setState(s => ({ ...s, filesToSend: [] }));
       }
       const textValue = (<HTMLInputElement>this.newMessageRef.current).value;
       if (MESSAGE_VALIDATION.rule.test(textValue)) {
