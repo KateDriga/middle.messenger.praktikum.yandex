@@ -4,8 +4,8 @@
   "description": "chat",
   "scripts": {
     "lint": "eslint . --ext .ts && npx stylelint \"**/*.scss\"",
-    "start": "webpack serve --mode development",
-    "build": "webpack --mode production",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "prepare": "husky install",
     "test": "jest"
   },
@@ -29,6 +29,7 @@
     "husky": "8.0.3",
     "jest": "29.4.3",
     "jest-environment-jsdom": "29.4.3",
+    "lint-staged": "13.1.2",
     "mini-css-extract-plugin": "2.7.2",
     "sass": "1.57.1",
     "sass-loader": "13.2.0",
@@ -42,6 +43,7 @@
     "typescript": "4.9.5",
     "webpack": "5.75.0",
     "webpack-cli": "5.0.1",
-    "webpack-dev-server": "4.11.1"
+    "webpack-dev-server": "4.11.1",
+    "webpack-merge": "5.8.0"
   }
 }
